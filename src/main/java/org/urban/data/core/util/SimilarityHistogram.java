@@ -87,6 +87,19 @@ public class SimilarityHistogram {
         return _totalSize;
     }
     
+    public void write() {
+        
+        for (int iBucket = 0; iBucket < Math.pow(10, _scale) + 1; iBucket++) {
+            String key = String.format("%0" + _scale + "d", iBucket);
+            if (key.length() == _scale) {
+                key = "0." + key;
+                System.out.println(key + "\t" + _histogram.get(key).value());
+            }
+        }
+	String key = "1." + String.format("%0" + _scale + "d", 0);
+	System.out.println(key + "\t" + _histogram.get(key).value());
+    }
+    
     public void write(PrintWriter out) {
         
         for (int iBucket = 0; iBucket < Math.pow(10, _scale) + 1; iBucket++) {
