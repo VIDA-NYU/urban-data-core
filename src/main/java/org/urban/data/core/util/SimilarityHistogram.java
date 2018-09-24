@@ -18,6 +18,7 @@ package org.urban.data.core.util;
 import org.urban.data.core.util.count.Counter;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,6 +83,14 @@ public class SimilarityHistogram {
         return keys;
     }
     
+    private void print(String key, int count) {
+	
+	BigDecimal frac = new BigDecimal(count)
+		.divide(new BigDecimal(_totalSize), MathContext.DECIMAL64)
+		.setScale(8, RoundingMode.HALF_DOWN);
+	System.out.println(key + "\t" + count + "\t" + frac.toPlainString());
+    }
+    
     public long totalSize() {
         
         return _totalSize;
@@ -93,11 +102,11 @@ public class SimilarityHistogram {
             String key = String.format("%0" + _scale + "d", iBucket);
             if (key.length() == _scale) {
                 key = "0." + key;
-                System.out.println(key + "\t" + _histogram.get(key).value());
+		this.print(key, _histogram.get(key).value());
             }
         }
 	String key = "1." + String.format("%0" + _scale + "d", 0);
-	System.out.println(key + "\t" + _histogram.get(key).value());
+	this.print(key, _histogram.get(key).value());
     }
     
     public void write(PrintWriter out) {
