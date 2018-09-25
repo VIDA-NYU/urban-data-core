@@ -42,6 +42,11 @@ public class ImmutableIdentifiableIDSet extends IdentifiableObjectImpl implement
         
         _values = values;
     }
+    
+    public ImmutableIdentifiableIDSet(IDSet values) {
+        
+        this(-1, values);
+    }
 
     @Override
     public boolean contains(Integer element) {

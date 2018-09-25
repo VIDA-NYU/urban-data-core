@@ -107,6 +107,7 @@ public class SimilarityHistogram {
         }
 	String key = "1." + String.format("%0" + _scale + "d", 0);
 	this.print(key, _histogram.get(key).value());
+        System.out.println("SUM\t" + _totalSize);
     }
     
     public void write(PrintWriter out) {

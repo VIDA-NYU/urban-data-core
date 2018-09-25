@@ -23,6 +23,33 @@ import java.math.BigDecimal;
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
 public abstract class ThresholdConstraint {
+
+    public static final String GEQ = "GEQ";
+    public static final String GT = "GT";
+    
+    public static ThresholdConstraint getConstraint(String spec) {
+    
+        String[] tokens = spec.split(":");
+        if (tokens.length == 2) {
+            String name = tokens[0];
+            if (name.equalsIgnoreCase(GEQ)) {
+                try {
+                    return new GreaterOrEqualConstraint(new BigDecimal(tokens[1]));
+                } catch (java.lang.NumberFormatException ex) {
+                    throw new java.lang.IllegalArgumentException("Invalid constraint specification: " + ex);
+                }
+            } else if (name.equalsIgnoreCase(GT)) {
+                try {
+                    return new GreaterThanConstraint(new BigDecimal(tokens[1]));
+                } catch (java.lang.NumberFormatException ex) {
+                    throw new java.lang.IllegalArgumentException("Invalid constraint specification: " + ex);
+                }
+            } else {
+                throw new java.lang.IllegalArgumentException("Unknown constring type: " + name);
+            }
+        }
+        throw new java.lang.IllegalArgumentException("Invalid constraint specification: " + spec);
+    }
     
     public static ThresholdConstraint getGreaterConstraint(BigDecimal threshold) {
         
