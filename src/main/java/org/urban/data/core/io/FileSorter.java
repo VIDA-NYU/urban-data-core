@@ -16,36 +16,27 @@
 package org.urban.data.core.io;
 
 import java.io.File;
-import java.io.PrintWriter;
-import org.urban.data.core.set.IdentifiableIDSet;
+import java.util.Comparator;
+import java.util.HashMap;
 
 /**
- * Default writer for identifiable ID sets.
- * 
+ *
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class IdentifiableIDSetWriter extends IdentifiableIDSetFile implements AutoCloseable {
+public class FileSorter implements Comparator<File> {
+
+    private final HashMap<String, String[]> _fileMapping;
     
-    private final PrintWriter _out;
-    
-    public IdentifiableIDSetWriter(File file) throws java.io.IOException {
+    public FileSorter(HashMap<String, String[]> fileMapping) {
         
-        this(FileSystem.openPrintWriter(file));
-    }
-    
-    public IdentifiableIDSetWriter(PrintWriter out) {
-        
-        _out = out;
+        _fileMapping = fileMapping;
     }
     
     @Override
-    public void close() {
-
-        _out.close();
-    }
-
-    public void write(IdentifiableIDSet value) {
-        
-        this.write(value, _out);
-    }
+    public int compare(File f1, File f2) {
+        return Integer.compare(
+            Integer.parseInt(_fileMapping.get(f1.getName())[1]),
+            Integer.parseInt(_fileMapping.get(f2.getName())[1])
+        );
+    }    
 }

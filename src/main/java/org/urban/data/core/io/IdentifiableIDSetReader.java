@@ -22,7 +22,6 @@ import org.urban.data.core.object.filter.ObjectFilter;
 import org.urban.data.core.set.HashObjectSet;
 import org.urban.data.core.set.IdentifiableIDSet;
 import org.urban.data.core.set.IdentifiableObjectSet;
-import org.urban.data.io.FileSystem;
 
 /**
  * Read a set of identifiable ID sets from file in default file format.

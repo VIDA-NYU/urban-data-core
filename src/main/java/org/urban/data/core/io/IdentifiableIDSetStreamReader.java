@@ -18,7 +18,6 @@ package org.urban.data.core.io;
 import java.io.BufferedReader;
 import java.io.File;
 import org.urban.data.core.set.IdentifiableIDSet;
-import org.urban.data.io.FileSystem;
 
 /**
  * Read a file containing identifiable ID sets in default format as a stream.

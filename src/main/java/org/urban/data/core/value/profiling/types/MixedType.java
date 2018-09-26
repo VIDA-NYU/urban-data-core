@@ -13,39 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.io;
-
-import java.io.File;
-import java.io.PrintWriter;
-import org.urban.data.core.set.IdentifiableIDSet;
+package org.urban.data.core.value.profiling.types;
 
 /**
- * Default writer for identifiable ID sets.
+ * Mixed (or undefined) data type class label.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class IdentifiableIDSetWriter extends IdentifiableIDSetFile implements AutoCloseable {
-    
-    private final PrintWriter _out;
-    
-    public IdentifiableIDSetWriter(File file) throws java.io.IOException {
+public class MixedType extends DataTypeLabel {
+   
+    public static final int IDENTIFIER = 6;
+
+    public MixedType() {
         
-        this(FileSystem.openPrintWriter(file));
+        super(IDENTIFIER, "Mixed Type");
     }
-    
-    public IdentifiableIDSetWriter(PrintWriter out) {
-        
-        _out = out;
-    }
-    
+
     @Override
-    public void close() {
+    public boolean isDate() {
 
-        _out.close();
+        return false;
     }
 
-    public void write(IdentifiableIDSet value) {
-        
-        this.write(value, _out);
+    @Override
+    public boolean isNumeric() {
+
+        return false;
+    }
+
+    @Override
+    public boolean isText() {
+
+        return false;
     }
 }

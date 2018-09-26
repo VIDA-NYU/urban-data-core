@@ -13,39 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.io;
+package org.urban.data.core.graph;
 
-import java.io.File;
-import java.io.PrintWriter;
+import org.urban.data.core.set.IDSet;
 import org.urban.data.core.set.IdentifiableIDSet;
+import org.urban.data.core.set.IdentifiableObjectSet;
 
 /**
- * Default writer for identifiable ID sets.
+ * Adjacency graph with fixed set of edges.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
+ * @param <T>
  */
-public class IdentifiableIDSetWriter extends IdentifiableIDSetFile implements AutoCloseable {
-    
-    private final PrintWriter _out;
-    
-    public IdentifiableIDSetWriter(File file) throws java.io.IOException {
+public abstract class StaticGraph <T extends IdentifiableIDSet> extends AdjacencyGraph {
+
+    private final IdentifiableObjectSet<T> _edges;
+
+    public StaticGraph(IdentifiableObjectSet<T> edges) {
         
-        this(FileSystem.openPrintWriter(file));
-    }
-    
-    public IdentifiableIDSetWriter(PrintWriter out) {
+        super(edges.keys());
         
-        _out = out;
+        _edges = edges;
     }
-    
+
     @Override
-    public void close() {
+    public IDSet adjacent(int nodeId) {
 
-        _out.close();
-    }
-
-    public void write(IdentifiableIDSet value) {
-        
-        this.write(value, _out);
+        return _edges.get(nodeId);
     }
 }

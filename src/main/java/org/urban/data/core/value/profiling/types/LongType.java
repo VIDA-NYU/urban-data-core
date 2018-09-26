@@ -13,39 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.io;
-
-import java.io.File;
-import java.io.PrintWriter;
-import org.urban.data.core.set.IdentifiableIDSet;
+package org.urban.data.core.value.profiling.types;
 
 /**
- * Default writer for identifiable ID sets.
+ * Long data type class label.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class IdentifiableIDSetWriter extends IdentifiableIDSetFile implements AutoCloseable {
+public class LongType extends DataTypeLabel {
     
-    private final PrintWriter _out;
-    
-    public IdentifiableIDSetWriter(File file) throws java.io.IOException {
+    public static final int IDENTIFIER = 3;
+
+    public LongType() {
         
-        this(FileSystem.openPrintWriter(file));
+        super(IDENTIFIER, "Long");
     }
-    
-    public IdentifiableIDSetWriter(PrintWriter out) {
-        
-        _out = out;
-    }
-    
+
     @Override
-    public void close() {
+    public boolean isDate() {
 
-        _out.close();
+        return false;
+   }
+
+    @Override
+    public boolean isNumeric() {
+
+        return true;
     }
 
-    public void write(IdentifiableIDSet value) {
-        
-        this.write(value, _out);
+    @Override
+    public boolean isText() {
+
+        return false;
     }
 }

@@ -13,39 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.io;
+package org.urban.data.core.graph;
 
-import java.io.File;
-import java.io.PrintWriter;
 import org.urban.data.core.set.IdentifiableIDSet;
+import org.urban.data.core.set.IdentifiableObjectSet;
 
 /**
- * Default writer for identifiable ID sets.
+ * Small static graph.
+ * 
+ * Returns a dynamic graph as its reverse graph. For larger graphs this is more
+ * likely to cause an out-of-memory exception.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
+ * @param <T>
  */
-public class IdentifiableIDSetWriter extends IdentifiableIDSetFile implements AutoCloseable {
-    
-    private final PrintWriter _out;
-    
-    public IdentifiableIDSetWriter(File file) throws java.io.IOException {
+public class SmallStaticGraph <T extends IdentifiableIDSet> extends StaticGraph {
+
+    public SmallStaticGraph(IdentifiableObjectSet<T> edges) {
         
-        this(FileSystem.openPrintWriter(file));
+        super(edges);
     }
-    
-    public IdentifiableIDSetWriter(PrintWriter out) {
-        
-        _out = out;
-    }
-    
+
     @Override
-    public void close() {
+    public AdjacencyGraph reverse() {
 
-        _out.close();
-    }
-
-    public void write(IdentifiableIDSet value) {
-        
-        this.write(value, _out);
-    }
+	DynamicGraph g = new DynamicGraph(this.nodes());
+	for (int target : this.nodes()) {
+	    for (int source : this.adjacent(target)) {
+		g.add(source, target);
+	    }
+	}
+	return g;
+    }    
 }

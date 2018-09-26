@@ -13,39 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.io;
+package org.urban.data.core.graph.build;
 
-import java.io.File;
-import java.io.PrintWriter;
-import org.urban.data.core.set.IdentifiableIDSet;
+import org.urban.data.core.object.filter.ObjectFilter;
 
 /**
- * Default writer for identifiable ID sets.
+ * Evaluates whether a pair of domains can be merged based on whether both are
+ * contained in a list of valid domains.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class IdentifiableIDSetWriter extends IdentifiableIDSetFile implements AutoCloseable {
+public class NodePairFilter implements GraphBuilderEdgeCondition {
+
+    public final ObjectFilter<Integer> _filter;
     
-    private final PrintWriter _out;
-    
-    public IdentifiableIDSetWriter(File file) throws java.io.IOException {
+    public NodePairFilter(ObjectFilter<Integer> filter) {
         
-        this(FileSystem.openPrintWriter(file));
-    }
-    
-    public IdentifiableIDSetWriter(PrintWriter out) {
-        
-        _out = out;
+        _filter = filter;
     }
     
     @Override
-    public void close() {
+    public boolean hasEdge(int sourceId, int targetId) {
 
-        _out.close();
+        return (_filter.contains(sourceId) && _filter.contains(targetId));
     }
 
-    public void write(IdentifiableIDSet value) {
-        
-        this.write(value, _out);
+    @Override
+    public boolean isSymmetric() {
+
+        return true;
     }
 }

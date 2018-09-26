@@ -13,39 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.io;
+package org.urban.data.core.graph.build;
 
-import java.io.File;
-import java.io.PrintWriter;
 import org.urban.data.core.set.IdentifiableIDSet;
+import org.urban.data.core.set.IdentifiableObjectSet;
 
 /**
- * Default writer for identifiable ID sets.
+ * Graph edge condition for duplicate merging.
+ * 
+ * Generates edges between identical sets if id's.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
+ * @param <T>
  */
-public class IdentifiableIDSetWriter extends IdentifiableIDSetFile implements AutoCloseable {
+public class IdenticalSetCondition <T extends IdentifiableIDSet> implements GraphBuilderEdgeCondition {
+
+    public final IdentifiableObjectSet<T> _nodes;
     
-    private final PrintWriter _out;
-    
-    public IdentifiableIDSetWriter(File file) throws java.io.IOException {
+    public IdenticalSetCondition(IdentifiableObjectSet<T> nodes) {
         
-        this(FileSystem.openPrintWriter(file));
-    }
-    
-    public IdentifiableIDSetWriter(PrintWriter out) {
-        
-        _out = out;
+        _nodes = nodes;
     }
     
     @Override
-    public void close() {
+    public boolean hasEdge(int sourceId, int targetId) {
 
-        _out.close();
+        return _nodes.get(sourceId).sameSetAs(_nodes.get(targetId));
     }
 
-    public void write(IdentifiableIDSet value) {
-        
-        this.write(value, _out);
+    @Override
+    public boolean isSymmetric() {
+
+        return true;
     }
 }

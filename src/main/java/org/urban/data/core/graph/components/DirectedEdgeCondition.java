@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 New York University.
+ * Copyright 2018 Heiko Mueller <heiko.mueller@nyu.edu>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,39 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.io;
+package org.urban.data.core.graph.components;
 
-import java.io.File;
-import java.io.PrintWriter;
 import org.urban.data.core.set.IdentifiableIDSet;
+import org.urban.data.core.graph.build.GraphBuilderEdgeCondition;
 
 /**
- * Default writer for identifiable ID sets.
+ * Draw an edge between two nodes if the source node contains the target node id
+ * in its id set.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
+ * @param <T>
  */
-public class IdentifiableIDSetWriter extends IdentifiableIDSetFile implements AutoCloseable {
+public class DirectedEdgeCondition <T extends IdentifiableIDSet> implements GraphBuilderEdgeCondition {
+
+    private final GraphBuilderEdgeCondition _condition;
     
-    private final PrintWriter _out;
+    public DirectedEdgeCondition(GraphBuilderEdgeCondition condition) {
     
-    public IdentifiableIDSetWriter(File file) throws java.io.IOException {
-        
-        this(FileSystem.openPrintWriter(file));
-    }
-    
-    public IdentifiableIDSetWriter(PrintWriter out) {
-        
-        _out = out;
+        _condition = condition;
     }
     
     @Override
-    public void close() {
+    public boolean hasEdge(int sourceId, int targetId) {
 
-        _out.close();
+	return _condition.hasEdge(sourceId, targetId);
     }
 
-    public void write(IdentifiableIDSet value) {
-        
-        this.write(value, _out);
+    @Override
+    public boolean isSymmetric() {
+
+        return false;
     }
 }

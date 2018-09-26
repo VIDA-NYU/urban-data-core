@@ -22,7 +22,6 @@ import org.urban.data.core.object.filter.AnyObjectFilter;
 import org.urban.data.core.object.filter.ObjectFilter;
 import org.urban.data.core.set.HashObjectSet;
 import org.urban.data.core.set.IdentifiableObjectSet;
-import org.urban.data.io.FileSystem;
 
 /**
  * Read a named object file as a stream. Assumes that every line contains at

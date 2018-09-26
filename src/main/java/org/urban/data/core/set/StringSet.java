@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import org.urban.data.io.FileSystem;
+import org.urban.data.core.io.FileSystem;
 
 /**
  * Set of strings.

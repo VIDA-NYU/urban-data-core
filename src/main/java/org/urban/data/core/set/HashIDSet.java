@@ -24,7 +24,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import org.urban.data.io.FileSystem;
+import org.urban.data.core.io.FileSystem;
 
 /**
  * Implementation of mutable identifier set using hash set.

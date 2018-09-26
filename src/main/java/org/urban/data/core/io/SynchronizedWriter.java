@@ -15,37 +15,30 @@
  */
 package org.urban.data.core.io;
 
-import java.io.File;
 import java.io.PrintWriter;
-import org.urban.data.core.set.IdentifiableIDSet;
 
 /**
- * Default writer for identifiable ID sets.
+ * Implements a thread safe writer that allows to output lines.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class IdentifiableIDSetWriter extends IdentifiableIDSetFile implements AutoCloseable {
+public class SynchronizedWriter implements AutoCloseable {
     
     private final PrintWriter _out;
     
-    public IdentifiableIDSetWriter(File file) throws java.io.IOException {
-        
-        this(FileSystem.openPrintWriter(file));
-    }
-    
-    public IdentifiableIDSetWriter(PrintWriter out) {
-        
-        _out = out;
+    public SynchronizedWriter(PrintWriter out) {
+	
+	_out = out;
     }
     
     @Override
     public void close() {
-
+        
         _out.close();
     }
-
-    public void write(IdentifiableIDSet value) {
-        
-        this.write(value, _out);
+    
+    public synchronized void write(String line) {
+	
+	_out.println(line);
     }
 }

@@ -21,7 +21,7 @@ import java.math.RoundingMode;
 import org.urban.data.core.set.IDSet;
 import org.urban.data.core.set.IdentifiableIDSet;
 import org.urban.data.core.set.IdentifiableObjectSet;
-import org.urban.data.io.SynchronizedWriter;
+import org.urban.data.core.io.SynchronizedWriter;
 
 /**
  *
