@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import org.urban.data.core.object.IdentifiableObject;
+import org.urban.data.core.sort.IdentifiableObjectSort;
 
 /**
  * Implements an immutable list of identifiable objects.
@@ -35,7 +36,7 @@ public class ImmutableObjectSet <T extends IdentifiableObject> extends Identifia
         
        _elements = elements;
         if (!sorted) {
-            Arrays.sort(_elements);
+            Arrays.sort(_elements, new IdentifiableObjectSort<>());
         }
         if (_elements.length > 1) {
             for (int iPos = 1; iPos < _elements.length; iPos++) {
