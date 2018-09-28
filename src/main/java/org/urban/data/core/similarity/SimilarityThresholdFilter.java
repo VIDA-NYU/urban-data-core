@@ -16,6 +16,7 @@
 package org.urban.data.core.similarity;
 
 import java.math.BigDecimal;
+import org.urban.data.core.object.IdentifiableObject;
 
 /**
  * Ignore pairs with similarity below given threshold.
@@ -36,10 +37,10 @@ public class SimilarityThresholdFilter implements ObjectSimilarityConsumer {
     }
     
     @Override
-    public void consume(int eq1, int eq2, BigDecimal sim) {
+    public void consume(IdentifiableObject obj1, IdentifiableObject obj2, BigDecimal sim) {
 
         if (sim.compareTo(_threshold) >= 0) {
-            _consumer.consume(eq1, eq2, sim);
+            _consumer.consume(obj1, obj2, sim);
         }
     }
 }

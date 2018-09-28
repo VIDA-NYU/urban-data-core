@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.similarity;
+package org.urban.data.core.set.similarity;
 
 import java.math.BigDecimal;
-import org.urban.data.core.object.IdentifiableObject;
+import org.urban.data.core.set.IdentifiableIDSet;
 
 /**
- * Abstract consumer interface when computing pairwise similarity for
- * identifiable objects.
+ * Compute similarity between a pair of identifiable identifier sets.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
+ * @param <T>
  */
-public interface ObjectSimilarityConsumer {
-    
-    public void consume(IdentifiableObject obj1, IdentifiableObject id2, BigDecimal sim);
+public interface SetSimilarityComputer <T extends IdentifiableIDSet> {
+   
+    public BigDecimal getSimilarity(T set1, T set2);
 }

@@ -22,6 +22,7 @@ import org.urban.data.core.set.IDSet;
 import org.urban.data.core.set.IdentifiableIDSet;
 import org.urban.data.core.set.IdentifiableObjectSet;
 import org.urban.data.core.io.SynchronizedWriter;
+import org.urban.data.core.object.IdentifiableObject;
 
 /**
  *
@@ -61,14 +62,14 @@ public class SimilarityAndOverlapWriter implements ObjectSimilarityConsumer {
     }
     
     @Override
-    public void consume(int id1, int id2, BigDecimal sim) {
+    public void consume(IdentifiableObject obj1, IdentifiableObject obj2, BigDecimal sim) {
 
-        IDSet nodes1 = _set1.get(id1);
-        IDSet nodes2 = _set2.get(id2);
+        IDSet nodes1 = _set1.get(obj1.id());
+        IDSet nodes2 = _set2.get(obj2.id());
         
         _out.write(
-            id1 + "\t" +
-            id2 + "\t" +
+            obj1.id() + "\t" +
+            obj2.id() + "\t" +
             nodes1.length() + "\t" +
             nodes2.length() + "\t" +
             nodes1.overlap(nodes2) + "\t" +
