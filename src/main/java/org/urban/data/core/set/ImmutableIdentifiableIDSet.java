@@ -121,6 +121,12 @@ public class ImmutableIdentifiableIDSet extends IdentifiableObjectImpl implement
     }
 
     @Override
+    public int minId() {
+
+        return _values.minId();
+    }
+
+    @Override
     public int overlap(ObjectSet<Integer> list) {
 
         return _values.overlap(list);

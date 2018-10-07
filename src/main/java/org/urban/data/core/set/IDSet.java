@@ -30,6 +30,7 @@ public interface IDSet extends ObjectSet<Integer>, ObjectFilter<Integer>, SetObj
     public ImmutableIDSet intersect(IDSet list);
     public boolean isTrueSubsetOf(IDSet list);
     public int maxId();
+    public int minId();
     public int[] toArray();
     public String toIntString();
     public List<Integer> toSortedList();

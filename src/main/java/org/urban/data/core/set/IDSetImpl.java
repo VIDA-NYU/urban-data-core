@@ -61,6 +61,23 @@ public abstract class IDSetImpl extends ObjectSetImpl<Integer> implements IDSet 
     }
 
     @Override
+    public int minId() {
+
+	// For an empty set the minimum is 0 by default
+	if (this.isEmpty()) {
+	    return 0;
+	}
+	
+        int minId = Integer.MAX_VALUE;
+        for (int id : this) {
+            if (id < minId) {
+		minId = id;
+	    }
+        }
+        return minId;
+    }
+
+    @Override
     public ImmutableIDSet intersect(IDSet list) {
 
 	IDSet innerList;
