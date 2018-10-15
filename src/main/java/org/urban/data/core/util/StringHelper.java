@@ -106,17 +106,22 @@ public final class StringHelper {
         return buf.toString();
     }
     
-    public static String joinStrings(String[] tokens, int start, String delim) {
+    public static String joinStrings(String[] tokens, int start, int end, String delim) {
         
         if (tokens.length > start) {
             StringBuilder buf = new StringBuilder(tokens[start]);
-            for (int iToken = start + 1; iToken < tokens.length; iToken++) {
+            for (int iToken = start + 1; iToken < end; iToken++) {
                 buf.append(delim).append(tokens[iToken]);
             }
             return buf.toString();
         } else {
             return null;
         }
+    }
+    
+    public static String joinStrings(String[] tokens, int start, String delim) {
+        
+	return joinStrings(tokens, start, tokens.length, delim);
     }
     
     public static int[] splitIntegers(String text) {

@@ -88,7 +88,7 @@ public final class FileSystem {
         }
     }
 
-    public static void createParentFolder(File file) {
+    public synchronized static void createParentFolder(File file) {
 
 	if (file.getParentFile() != null) {
 	    if (!file.getParentFile().exists()) {

@@ -29,9 +29,9 @@ import org.urban.data.core.set.IdentifiableObjectSet;
  */
 public class LargeStaticGraph <T extends IdentifiableIDSet> extends StaticGraph {
 
-    public LargeStaticGraph(IdentifiableObjectSet<T> edges) {
+    public LargeStaticGraph(IdentifiableObjectSet<T> edges, boolean constraint) {
         
-        super(edges);
+        super(edges, constraint);
     }
 
     @Override

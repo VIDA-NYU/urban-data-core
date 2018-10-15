@@ -29,9 +29,9 @@ import org.urban.data.core.set.IdentifiableObjectSet;
  */
 public class SmallStaticGraph <T extends IdentifiableIDSet> extends StaticGraph {
 
-    public SmallStaticGraph(IdentifiableObjectSet<T> edges) {
+    public SmallStaticGraph(IdentifiableObjectSet<T> edges, boolean constraint) {
         
-        super(edges);
+        super(edges, constraint);
     }
 
     @Override

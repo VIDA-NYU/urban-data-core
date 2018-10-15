@@ -27,18 +27,24 @@ import org.urban.data.core.set.IdentifiableObjectSet;
  */
 public abstract class StaticGraph <T extends IdentifiableIDSet> extends AdjacencyGraph {
 
+    private final boolean _constraint;
     private final IdentifiableObjectSet<T> _edges;
 
-    public StaticGraph(IdentifiableObjectSet<T> edges) {
+    public StaticGraph(IdentifiableObjectSet<T> edges, boolean constraint) {
         
         super(edges.keys());
         
         _edges = edges;
+	_constraint = constraint;
     }
 
     @Override
     public IDSet adjacent(int nodeId) {
 
-        return _edges.get(nodeId);
+	if (_constraint) {
+	    return _edges.get(nodeId).intersect(this.nodes());
+	} else {
+	    return _edges.get(nodeId);
+	}
     }
 }
