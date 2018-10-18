@@ -123,6 +123,18 @@ public final class FileSystem {
     }
     
     /**
+     * Create new file in the given directory with filename.
+     * 
+     * @param dir
+     * @param filename
+     * @return 
+     */
+    public static File joinPath(File dir, String filename) {
+	
+	return new File(dir.getAbsolutePath() + File.separator + filename);
+    }
+    
+    /**
      * Returns an input stream for the given file.
      * 
      * @param file
