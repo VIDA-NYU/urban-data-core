@@ -24,19 +24,21 @@ import org.urban.data.core.set.IdentifiableObjectSet;
  * Returns a reverse graph instead of a dynamic graph as its reverse graph. For
  * larger graphs this is less likely to cause an out-of-memory exception.
  * 
+ * The reverse graph will cache only a fraction of the edges.
+ * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  * @param <T>
  */
 public class LargeStaticGraph <T extends IdentifiableIDSet> extends StaticGraph {
 
-    public LargeStaticGraph(IdentifiableObjectSet<T> edges, boolean constraint) {
+    public LargeStaticGraph(IdentifiableObjectSet<T> edges) {
         
-        super(edges, constraint);
+        super(edges);
     }
 
     @Override
     public AdjacencyGraph reverse() {
 
-	return new ReverseGraph(this);
+	return new CachedReverseGraph(this);
     }    
 }

@@ -19,17 +19,18 @@ import org.urban.data.core.set.IdentifiableIDSet;
 import org.urban.data.core.set.IdentifiableObjectSet;
 
 /**
- * Small static graph.
+ * Medium static graph.
  * 
- * Returns a dynamic graph as its reverse graph. For larger graphs this is more
- * likely to cause an out-of-memory exception.
+ * Returns a reverse graph instead of a dynamic graph as its reverse graph. For
+ * larger graphs this is less likely to cause an out-of-memory exception. The
+ * reversed graph will cache all nodes.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  * @param <T>
  */
-public class SmallStaticGraph <T extends IdentifiableIDSet> extends StaticGraph {
+public class MediumStaticGraph <T extends IdentifiableIDSet> extends StaticGraph {
 
-    public SmallStaticGraph(IdentifiableObjectSet<T> edges) {
+    public MediumStaticGraph(IdentifiableObjectSet<T> edges) {
         
         super(edges);
     }
@@ -37,12 +38,6 @@ public class SmallStaticGraph <T extends IdentifiableIDSet> extends StaticGraph 
     @Override
     public AdjacencyGraph reverse() {
 
-	DynamicGraph g = new DynamicGraph(this.nodes());
-	for (int target : this.nodes()) {
-	    for (int source : this.adjacent(target)) {
-		g.add(source, target);
-	    }
-	}
-	return g;
+	return new ReverseGraph(this);
     }    
 }

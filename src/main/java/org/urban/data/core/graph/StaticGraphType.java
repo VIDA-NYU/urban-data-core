@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 New York University.
+ * Copyright 2018 Heiko Mueller <heiko.mueller@nyu.edu>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,30 +15,13 @@
  */
 package org.urban.data.core.graph;
 
-import org.urban.data.core.set.IDSet;
-import org.urban.data.core.set.IdentifiableIDSet;
-import org.urban.data.core.set.IdentifiableObjectSet;
-
 /**
- * Adjacency graph with fixed set of edges.
+ * Enumeration of static graph types.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
- * @param <T>
  */
-public abstract class StaticGraph <T extends IdentifiableIDSet> extends AdjacencyGraph {
-
-    private final IdentifiableObjectSet<T> _edges;
-
-    public StaticGraph(IdentifiableObjectSet<T> edges) {
-        
-        super(edges.keys());
-        
-        _edges = edges;
-    }
-
-    @Override
-    public IDSet adjacent(int nodeId) {
-
-	return _edges.get(nodeId);
-    }
+public enum StaticGraphType {
+   SMALL,
+   MEDUIM,
+   LARGE
 }

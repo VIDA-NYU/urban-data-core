@@ -15,10 +15,11 @@
  */
 package org.urban.data.core.graph;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
-import org.urban.data.core.set.HashIDSet;
-import org.urban.data.core.set.HashObjectSet;
+import org.urban.data.core.cache.LeastRecentlyUsedCache;
 import org.urban.data.core.set.IDSet;
 import org.urban.data.core.set.IdentifiableIDSet;
 import org.urban.data.core.set.ImmutableIDSet;
@@ -29,18 +30,23 @@ import org.urban.data.core.set.ImmutableIdentifiableIDSet;
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class ReverseGraph extends AdjacencyGraph {
+public class CachedReverseGraph extends AdjacencyGraph {
 
-    private final HashObjectSet<IdentifiableIDSet> _edges;
+    private final LeastRecentlyUsedCache<IdentifiableIDSet> _edges;
     private final AdjacencyGraph _g;
     
-    public ReverseGraph(AdjacencyGraph g) {
+    public CachedReverseGraph(AdjacencyGraph g) {
     
         super(g.nodes());
         
         _g = g;
 	
-	_edges = new HashObjectSet<>();
+	// By default the cache size is 10% of the nodes in the graph
+	_edges = new LeastRecentlyUsedCache<>(
+		new BigDecimal(g.nodes().length())
+			.divide(new BigDecimal(10), MathContext.DECIMAL64)
+			.intValue()
+	);
     }
     
     @Override

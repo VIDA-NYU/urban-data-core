@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 New York University.
+ * Copyright 2018 Heiko Mueller <heiko.mueller@nyu.edu>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,30 +19,25 @@ import org.urban.data.core.set.IdentifiableIDSet;
 import org.urban.data.core.set.IdentifiableObjectSet;
 
 /**
- * Small static graph.
- * 
- * Returns a dynamic graph as its reverse graph. For larger graphs this is more
- * likely to cause an out-of-memory exception.
+ * Factory for static graphs based on graph type.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
- * @param <T>
  */
-public class SmallStaticGraph <T extends IdentifiableIDSet> extends StaticGraph {
-
-    public SmallStaticGraph(IdentifiableObjectSet<T> edges) {
-        
-        super(edges);
-    }
-
-    @Override
-    public AdjacencyGraph reverse() {
-
-	DynamicGraph g = new DynamicGraph(this.nodes());
-	for (int target : this.nodes()) {
-	    for (int source : this.adjacent(target)) {
-		g.add(source, target);
-	    }
+public final class GraphFactory {
+    
+    public static <T extends IdentifiableIDSet> StaticGraph<T> getGraph(
+	    StaticGraphType type,
+	    IdentifiableObjectSet<T> edges
+    ) {
+	switch (type) {
+	    case SMALL:
+		return new SmallStaticGraph(edges);
+	    case MEDUIM:
+		return new MediumStaticGraph(edges);
+	    case LARGE:
+		return new LargeStaticGraph(edges);
+	    default:
+		throw new java.lang.IllegalArgumentException("Unknown graph type: " + type.toString());
 	}
-	return g;
-    }    
+    }
 }
