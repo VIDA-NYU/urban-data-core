@@ -15,6 +15,7 @@
  */
 package org.urban.data.core.util;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -149,6 +150,16 @@ public final class ArrayHelper {
             }
 	}
         return overlap;
+    }
+    
+    public static BigDecimal[] parseArray(String values) {
+
+	String[] tokens = values.split(",");
+	BigDecimal[] result = new BigDecimal[tokens.length];
+	for (int iValue = 0; iValue < values.length(); iValue++) {
+	    result[iValue] = new BigDecimal(tokens[iValue]);
+	}
+	return result;
     }
     
     public static int[] toArray(List<Integer> values) {
