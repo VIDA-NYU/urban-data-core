@@ -32,7 +32,7 @@ public final class GraphFactory {
 	switch (type) {
 	    case SMALL:
 		return new SmallStaticGraph(edges);
-	    case MEDUIM:
+	    case MEDIUM:
 		return new MediumStaticGraph(edges);
 	    case LARGE:
 		return new LargeStaticGraph(edges);

@@ -22,6 +22,6 @@ package org.urban.data.core.graph;
  */
 public enum StaticGraphType {
    SMALL,
-   MEDUIM,
+   MEDIUM,
    LARGE
 }
