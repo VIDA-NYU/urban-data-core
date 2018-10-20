@@ -15,9 +15,10 @@
  */
 package org.urban.data.core.cache;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import org.urban.data.core.object.IdentifiableObject;
-import org.urban.data.core.set.HashIDSet;
 
 /**
  * Least-recently used cache for identifiable objects.
@@ -27,45 +28,81 @@ import org.urban.data.core.set.HashIDSet;
  */
 public class LeastRecentlyUsedCache <T extends IdentifiableObject> {
     
-    private final LinkedList<T> _cacheElements;
-    private final HashIDSet _cacheIndex;
+    private class CacheEntry <T extends IdentifiableObject> {
+
+	private final T _element;
+	private final int _index;
+	private Date _lastUsed;
+	
+	public CacheEntry(T element, int index) {
+	    
+	    _element = element;
+	    _index = index;
+	    _lastUsed = new Date();
+	}
+	
+	public T element() {
+	    
+	    return _element;
+	}
+	
+	public int index() {
+	    
+	    return _index;
+	}
+	
+	public Date lastUsed() {
+	    
+	    return _lastUsed;
+	}
+	
+	public void touch() {
+	    
+	    _lastUsed = new Date();
+	}
+    }
+    
+    private final ArrayList<CacheEntry<T>> _cacheElements;
+    private final HashMap<Integer, Integer> _cacheIndex;
     private final int _cacheSize;
     
     public LeastRecentlyUsedCache(int cacheSize) {
 	
+	_cacheElements = new ArrayList<>();
+	_cacheIndex = new HashMap<>();
 	_cacheSize = cacheSize;
-	
-	_cacheElements = new LinkedList<>();
-	_cacheIndex = new HashIDSet();
     }
     
     public void add(T element) {
 
-	_cacheElements.addFirst(element);
-	if (_cacheElements.size() > _cacheSize) {
-	    T el = _cacheElements.removeLast();
-	    _cacheIndex.remove(el.id());
+	if (_cacheElements.size() >= _cacheSize) {
+	    CacheEntry<T> lruEntry = _cacheElements.get(0);
+	    for (int iEntry = 1; iEntry < _cacheElements.size(); iEntry++) {
+		CacheEntry<T> entry = _cacheElements.get(iEntry);
+		if (entry.lastUsed().before(lruEntry.lastUsed())) {
+		    lruEntry = entry;
+		}
+	    }
+	    CacheEntry<T> el = new CacheEntry<>(element, lruEntry.index());
+	    _cacheElements.set(el.index(), el);
+	    _cacheIndex.remove(lruEntry.element().id());
+	    _cacheIndex.put(element.id(), el.index());
+	} else {
+	    CacheEntry<T> el = new CacheEntry<>(element, _cacheElements.size());
+	    _cacheElements.add(el);
+	    _cacheIndex.put(element.id(), el.index());
 	}
-	_cacheIndex.add(element.id());
-    }
-    
-    public boolean contains(T element) {
-	
-	return this.contains(element.id());
     }
     
     public boolean contains(int id) {
 	
-	return _cacheIndex.contains(id);
+	return _cacheIndex.containsKey(id);
     }
     
     public T get(int id) {
 	
-	for (T element : _cacheElements) {
-	    if (element.id() == id) {
-		return element;
-	    }
-	}
-	return null;
+	CacheEntry<T> entry = _cacheElements.get(_cacheIndex.get(id));
+	entry.touch();
+	return entry.element();
     }
 }

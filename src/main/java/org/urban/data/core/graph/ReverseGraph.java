@@ -31,7 +31,6 @@ import org.urban.data.core.set.ImmutableIdentifiableIDSet;
  */
 public class ReverseGraph extends AdjacencyGraph {
 
-    private final HashObjectSet<IdentifiableIDSet> _edges;
     private final AdjacencyGraph _g;
     
     public ReverseGraph(AdjacencyGraph g) {
@@ -39,28 +38,18 @@ public class ReverseGraph extends AdjacencyGraph {
         super(g.nodes());
         
         _g = g;
-	
-	_edges = new HashObjectSet<>();
     }
     
     @Override
     public IDSet adjacent(int nodeId) {
 
-	if (!_edges.contains(nodeId)) {
-	    List<Integer> edges = new ArrayList<>();
-	    for (int target : this.nodes()) {
-		if (_g.adjacent(target).contains(nodeId)) {
-		    edges.add(target);
-		}
+	HashIDSet edges = new HashIDSet();
+	for (int target : this.nodes()) {
+	    if (_g.adjacent(target).contains(nodeId)) {
+		edges.add(target);
 	    }
-	    _edges.add(
-		    new ImmutableIdentifiableIDSet(
-			    nodeId,
-			    new ImmutableIDSet(edges)
-		    )
-	    );
 	}
-	return _edges.get(nodeId);
+	return edges;
     }
 
     @Override

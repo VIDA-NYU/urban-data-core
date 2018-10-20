@@ -25,7 +25,7 @@ import org.urban.data.core.set.IdentifiableObjectSet;
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  * @param <T>
  */
-public abstract class StaticGraph <T extends IdentifiableIDSet> extends AdjacencyGraph {
+public class StaticGraph <T extends IdentifiableIDSet> extends AdjacencyGraph {
 
     private final IdentifiableObjectSet<T> _edges;
 
@@ -41,4 +41,10 @@ public abstract class StaticGraph <T extends IdentifiableIDSet> extends Adjacenc
 
 	return _edges.get(nodeId);
     }
+
+    @Override
+    public AdjacencyGraph reverse() {
+
+	return new ReverseGraph(this);
+    }    
 }
