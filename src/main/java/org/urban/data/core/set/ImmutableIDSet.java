@@ -24,7 +24,7 @@ import java.util.List;
  * Implements the IDSet interface.
  * 
  * This is an immutable IDSet using an integer array to represent the list of
- * identifier.
+ * identifier. The elements in the array are sorted in ascending order.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
@@ -136,12 +136,67 @@ public class ImmutableIDSet extends IDSetImpl implements IDSet {
         return Arrays.asList(_values).iterator();
     }
 
+    public int get(int index) {
+	
+	return _values[index];
+    }
+    
     @Override
     public int length() {
 
         return _values.length;
     }
 
+    public int sortedOverlap(ImmutableIDSet nodes) {
+
+	int indexI = 0;
+	int indexJ = 0;
+	
+	final int nodesSize = nodes.length();
+	
+	int ovp = 0;
+	while ((indexI < _values.length) && (indexJ < nodesSize)) {
+	    final int comp = Integer.compare(_values[indexI], nodes.get(indexJ));
+	    if (comp < 0) {
+		indexI++;
+	    } else if (comp > 0) {
+		indexJ++;
+	    } else {
+		indexI++;
+		indexJ++;
+		ovp++;
+	    }
+	}
+	return ovp;
+    }
+    
+    public ImmutableIDSet trim(ImmutableIDSet nodes) {
+
+	final int ovp = this.sortedOverlap(nodes);
+	if (ovp == 0) {
+	    return new ImmutableIDSet();
+	} else {
+	    Integer[] values = new Integer[ovp];
+	    int indexI = 0;
+	    int indexJ = 0;
+	    int index = 0;
+	    while (index < ovp) {
+		final int val = _values[indexI];
+		final int comp = Integer.compare(val, nodes.get(indexJ));
+		if (comp < 0) {
+		    indexI++;
+		} else if (comp > 0) {
+		    indexJ++;
+		} else {
+		    indexI++;
+		    indexJ++;
+		    values[index++] = val;
+		}
+	    }
+	    return new ImmutableIDSet(values, true);
+	}
+    }
+    
     @Override
     public int[] toArray() {
         

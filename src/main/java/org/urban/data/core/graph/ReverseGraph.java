@@ -15,14 +15,8 @@
  */
 package org.urban.data.core.graph;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.urban.data.core.set.HashIDSet;
-import org.urban.data.core.set.HashObjectSet;
 import org.urban.data.core.set.IDSet;
-import org.urban.data.core.set.IdentifiableIDSet;
-import org.urban.data.core.set.ImmutableIDSet;
-import org.urban.data.core.set.ImmutableIdentifiableIDSet;
 
 /**
  * Reversed adjacency graph.

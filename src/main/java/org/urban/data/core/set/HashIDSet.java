@@ -19,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -182,5 +183,14 @@ public class HashIDSet extends IDSetImpl implements MutableIDSet {
     public List<Integer> toList() {
     
         return new ArrayList<>(_values);
+    }
+    
+    public void write(File file) throws java.io.IOException {
+
+	try (PrintWriter out = FileSystem.openPrintWriter(file)) {
+	    for (int nodeId : this.toSortedList()) {
+		out.println(nodeId);
+	    }
+	}
     }
 }

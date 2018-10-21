@@ -156,7 +156,7 @@ public final class ArrayHelper {
 
 	String[] tokens = values.split(",");
 	BigDecimal[] result = new BigDecimal[tokens.length];
-	for (int iValue = 0; iValue < values.length(); iValue++) {
+	for (int iValue = 0; iValue < tokens.length; iValue++) {
 	    result[iValue] = new BigDecimal(tokens[iValue]);
 	}
 	return result;

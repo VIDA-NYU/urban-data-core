@@ -69,4 +69,35 @@ public class ImmutableIDSetTest {
         
         assertTrue(set2.contains(set1));
     }
+    
+    @Test
+    public void testTrim() {
+	
+        ImmutableIDSet set1 = new ImmutableIDSet(new Integer[]{1,2,3,5,7,10});
+        ImmutableIDSet set2 = new ImmutableIDSet(new Integer[]{3,4,5,6,7});
+	 
+	assertEquals(3, set1.sortedOverlap(set2));
+	ImmutableIDSet trim = set1.trim(set2);
+	assertEquals(3, trim.length());
+	for (int val : new int[]{3,5,7}) {
+	    assertTrue(trim.contains(val));
+	}
+	
+	assertEquals(1, trim.sortedOverlap(new ImmutableIDSet(new Integer[]{1,2,3})));
+	assertEquals(1, trim.sortedOverlap(new ImmutableIDSet(new Integer[]{7,8,9})));
+	assertEquals(1, trim.sortedOverlap(new ImmutableIDSet(new Integer[]{3})));
+	assertEquals(1, trim.sortedOverlap(new ImmutableIDSet(new Integer[]{5})));
+	assertEquals(1, trim.sortedOverlap(new ImmutableIDSet(new Integer[]{7})));
+
+    	assertEquals(0, trim.sortedOverlap(new ImmutableIDSet(new Integer[]{1,2})));
+    	assertEquals(0, trim.sortedOverlap(new ImmutableIDSet(new Integer[]{2,4,6})));
+    	assertEquals(0, trim.sortedOverlap(new ImmutableIDSet(new Integer[]{4,6})));
+    	assertEquals(0, trim.sortedOverlap(new ImmutableIDSet(new Integer[]{4,6,8})));
+    	assertEquals(0, trim.sortedOverlap(new ImmutableIDSet(new Integer[]{1})));	
+    	assertEquals(0, trim.sortedOverlap(new ImmutableIDSet(new Integer[]{2})));	
+    	assertEquals(0, trim.sortedOverlap(new ImmutableIDSet(new Integer[]{4})));	
+    	assertEquals(0, trim.sortedOverlap(new ImmutableIDSet(new Integer[]{6})));	
+    	assertEquals(0, trim.sortedOverlap(new ImmutableIDSet(new Integer[]{8})));	
+    	assertEquals(0, trim.sortedOverlap(new ImmutableIDSet(new Integer[]{9,10})));
+    }
 }
