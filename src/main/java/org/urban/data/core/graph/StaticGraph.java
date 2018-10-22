@@ -18,18 +18,19 @@ package org.urban.data.core.graph;
 import org.urban.data.core.set.IDSet;
 import org.urban.data.core.set.IdentifiableIDSet;
 import org.urban.data.core.set.IdentifiableObjectSet;
+import org.urban.data.core.set.ObjectSet;
+import org.urban.data.core.set.Signature;
 
 /**
  * Adjacency graph with fixed set of edges.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
- * @param <T>
  */
-public class StaticGraph <T extends IdentifiableIDSet> extends AdjacencyGraph {
+public class StaticGraph extends AdjacencyGraph {
 
-    private final IdentifiableObjectSet<T> _edges;
+    private final IdentifiableObjectSet<Signature> _edges;
 
-    public StaticGraph(IdentifiableObjectSet<T> edges) {
+    public StaticGraph(IdentifiableObjectSet<Signature> edges) {
         
         super(edges.keys());
         
@@ -37,7 +38,7 @@ public class StaticGraph <T extends IdentifiableIDSet> extends AdjacencyGraph {
     }
 
     @Override
-    public IDSet adjacent(int nodeId) {
+    public ObjectSet<Integer> adjacent(int nodeId) {
 
 	return _edges.get(nodeId);
     }
@@ -47,4 +48,10 @@ public class StaticGraph <T extends IdentifiableIDSet> extends AdjacencyGraph {
 
 	return new ReverseGraph(this);
     }    
+
+    @Override
+    public boolean hasEdge(int sourceId, int targetId) {
+
+        return _edges.get(sourceId).contains(targetId);
+    }
 }

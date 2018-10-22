@@ -15,13 +15,11 @@
  */
 package org.urban.data.core.set;
 
-import org.urban.data.core.object.IdentifiableObject;
-
 /**
  * ID set that is an identifiable object.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public interface IdentifiableIDSet extends IDSet, IdentifiableObject {
+public interface IdentifiableIDSet extends IDSet, Signature {
 
 }

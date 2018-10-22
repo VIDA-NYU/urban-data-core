@@ -15,20 +15,19 @@
  */
 package org.urban.data.core.graph.build;
 
-import org.urban.data.core.set.IdentifiableIDSet;
 import org.urban.data.core.set.IdentifiableObjectSet;
+import org.urban.data.core.set.Signature;
 
 /**
  * Test if a node's ID set contains the target node id.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
- * @param <T>
  */
-public class ContainmentCondition <T extends IdentifiableIDSet> implements GraphBuilderEdgeCondition {
+public class ContainmentCondition implements GraphBuilderEdgeCondition {
 
-    private final IdentifiableObjectSet<T> _nodes;
+    private final IdentifiableObjectSet<Signature> _nodes;
     
-    public ContainmentCondition(IdentifiableObjectSet<T> nodes) {
+    public ContainmentCondition(IdentifiableObjectSet<Signature> nodes) {
         
         _nodes = nodes;
     }

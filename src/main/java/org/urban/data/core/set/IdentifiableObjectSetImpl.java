@@ -39,12 +39,6 @@ public abstract class IdentifiableObjectSetImpl <T extends IdentifiableObject> i
         }
         return maxId;
     }
-
-    @Override
-    public int getSize() {
-
-        return this.length();
-    }
     
     @Override
     public int overlap(IdentifiableObjectSet<T> list) {

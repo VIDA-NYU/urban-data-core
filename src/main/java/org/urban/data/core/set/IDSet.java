@@ -23,7 +23,7 @@ import org.urban.data.core.object.filter.ObjectFilter;
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public interface IDSet extends ObjectSet<Integer>, ObjectFilter<Integer>, SetObject {
+public interface IDSet extends ObjectSet<Integer>, ObjectFilter<Integer> {
     
     public ImmutableIDSet difference(IDSet list);
     public int first();

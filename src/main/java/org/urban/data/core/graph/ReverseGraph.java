@@ -30,7 +30,7 @@ public class ReverseGraph extends AdjacencyGraph {
     public ReverseGraph(AdjacencyGraph g) {
     
         super(g.nodes());
-        
+	
         _g = g;
     }
     
@@ -39,11 +39,17 @@ public class ReverseGraph extends AdjacencyGraph {
 
 	HashIDSet edges = new HashIDSet();
 	for (int target : this.nodes()) {
-	    if (_g.adjacent(target).contains(nodeId)) {
+	    if (_g.hasEdge(target, nodeId)) {
 		edges.add(target);
 	    }
 	}
 	return edges;
+    }
+
+    @Override
+    public boolean hasEdge(int sourceId, int targetId) {
+
+	return _g.hasEdge(targetId, sourceId);
     }
 
     @Override

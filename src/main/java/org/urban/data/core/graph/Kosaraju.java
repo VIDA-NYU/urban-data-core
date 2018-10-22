@@ -43,7 +43,7 @@ public class Kosaraju {
 
         // Nodes are visited in depth-first order
         Deque<Integer> visitOrder = g.reverse().dfs();
-
+	
         /* Now we can start listing connected components.  To do this, we'll
          * create the result map, as well as a counter keeping track of which
          * DFS iteration this is.

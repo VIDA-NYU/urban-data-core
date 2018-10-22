@@ -24,7 +24,7 @@ import org.urban.data.core.object.filter.ObjectFilter;
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  * @param <T>
  */
-public interface ObjectSet <T> extends Iterable<T>, ObjectFilter<T>, SetObject {
+public interface ObjectSet <T> extends Iterable<T>, ObjectFilter<T> {
     
     public boolean contains(ObjectSet<T> values);
     public boolean isEmpty();

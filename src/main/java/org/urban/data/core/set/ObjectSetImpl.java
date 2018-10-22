@@ -36,13 +36,6 @@ public abstract class ObjectSetImpl <T> implements ObjectSet<T> {
         }
         return false;
     }
-
-    @Override
-    public int getSize() {
-
-        return this.length();
-    }
-
     
     @Override
     public boolean isTrueSubsetOf(ObjectSet<T> list) {

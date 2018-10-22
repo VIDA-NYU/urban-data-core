@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 New York University.
+ * Copyright 2018 Heiko Mueller <heiko.mueller@nyu.edu>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,13 @@
  */
 package org.urban.data.core.set;
 
+import org.urban.data.core.object.IdentifiableObject;
+
 /**
- *
+ * Minimal definition of signature functionality.
+ * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public interface SetObject {
-    
-    public int getSize();
+public interface Signature extends IdentifiableObject, ObjectSet<Integer> {
+
 }

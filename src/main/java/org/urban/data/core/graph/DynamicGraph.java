@@ -71,6 +71,12 @@ public class DynamicGraph extends AdjacencyGraph {
     }
 
     @Override
+    public boolean hasEdge(int sourceId, int targetId) {
+
+        return _edges.get(sourceId).contains(targetId);
+    }
+
+    @Override
     public AdjacencyGraph reverse() {
 
         DynamicGraph g = new DynamicGraph(this.nodes());

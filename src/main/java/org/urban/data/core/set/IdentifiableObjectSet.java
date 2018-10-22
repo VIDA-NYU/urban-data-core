@@ -25,7 +25,7 @@ import org.urban.data.core.object.filter.ObjectFilter;
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  * @param <T>
  */
-public interface IdentifiableObjectSet <T extends IdentifiableObject> extends Iterable<T>, SetObject, ObjectFilter<Integer> {
+public interface IdentifiableObjectSet <T extends IdentifiableObject> extends Iterable<T>, ObjectFilter<Integer> {
     
     public T get(int objectId);
     public T get(IdentifiableObject obj);

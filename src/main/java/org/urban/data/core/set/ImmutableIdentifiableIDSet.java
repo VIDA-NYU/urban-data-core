@@ -73,12 +73,6 @@ public class ImmutableIdentifiableIDSet extends IdentifiableObjectImpl implement
     }
 
     @Override
-    public int getSize() {
-
-        return _values.getSize();
-    }
-
-    @Override
     public ImmutableIDSet intersect(IDSet list) {
 
         return _values.intersect(list);
