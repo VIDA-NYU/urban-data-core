@@ -51,6 +51,15 @@ public class StringSet extends ObjectSetImpl<String> implements ObjectSet<String
         }
     }
 
+    public StringSet(String[] values) {
+	
+	this();
+	
+	for (String value : values) {
+	    _elements.add(value);
+	}
+    }
+    
     public void add(String value) {
         
         _elements.add(value);
