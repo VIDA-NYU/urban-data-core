@@ -152,12 +152,22 @@ public final class ArrayHelper {
         return overlap;
     }
     
-    public static BigDecimal[] parseArray(String values) {
+    public static BigDecimal[] parseBigDecimalArray(String values) {
 
 	String[] tokens = values.split(",");
 	BigDecimal[] result = new BigDecimal[tokens.length];
 	for (int iValue = 0; iValue < tokens.length; iValue++) {
 	    result[iValue] = new BigDecimal(tokens[iValue]);
+	}
+	return result;
+    }
+    
+    public static int[] parseIntArray(String values) {
+
+	String[] tokens = values.split(",");
+	int[] result = new int[tokens.length];
+	for (int iValue = 0; iValue < tokens.length; iValue++) {
+	    result[iValue] = Integer.parseInt(tokens[iValue]);
 	}
 	return result;
     }

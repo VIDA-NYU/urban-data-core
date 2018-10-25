@@ -56,15 +56,26 @@ public class SimilarityHistogram {
         this(2);
     }
     
-    public synchronized void add(BigDecimal val) {
+    public void add(BigDecimal val) {
         
-        String key = val.setScale(8, RoundingMode.CEILING).toPlainString().substring(0, _scale + 2);
-	try {
-	    _histogram.get(key).inc();
-	} catch (java.lang.NullPointerException ex) {
-	    _histogram.put(key, new Counter(1));
-	}
+        String key = val
+                .setScale(8, RoundingMode.CEILING)
+                .toPlainString()
+                .substring(0, _scale + 2);
+        
+        synchronized(this) {
+            try {
+                _histogram.get(key).inc();
+            } catch (java.lang.NullPointerException ex) {
+                _histogram.put(key, new Counter(1));
+            }
 	_totalSize++;
+        }
+    }
+    
+    public void add(double val) {
+        
+        this.add(new BigDecimal(val));
     }
     
     public HashMap<String, Counter> buckets() {
