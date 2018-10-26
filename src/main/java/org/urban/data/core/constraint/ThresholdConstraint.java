@@ -30,7 +30,9 @@ public abstract class ThresholdConstraint {
     public static ThresholdConstraint getConstraint(String spec) {
     
         String[] tokens = spec.split(":");
-        if (tokens.length == 2) {
+        if (tokens.length == 1) {
+            return new GreaterThanConstraint(new BigDecimal(tokens[0]));
+        } else if (tokens.length == 2) {
             String name = tokens[0];
             if (name.equalsIgnoreCase(GEQ)) {
                 try {
@@ -71,4 +73,40 @@ public abstract class ThresholdConstraint {
     }
     
     public abstract boolean isSatisfied(BigDecimal value);
+    
+    public static String validateCommand(String spec, String commandLine) {
+        
+        String[] tokens = spec.split(":");
+        if (tokens.length == 1) {
+            try {
+                new BigDecimal(tokens[0]);
+            } catch (java.lang.NumberFormatException ex) {
+                System.out.println("Invalid constraint threshold: " + spec);
+                System.out.println(commandLine);
+                System.exit(-1);
+            }
+            return spec;
+        } else if (tokens.length == 2) {
+            String name = tokens[0];
+            if (name.equalsIgnoreCase(GEQ)) {
+            } else if (name.equalsIgnoreCase(GT)) {
+            } else {
+                System.out.println("Unknown comprator: " + name);
+                System.out.println(commandLine);
+                System.exit(-1);
+            }
+            try {
+                new BigDecimal(tokens[1]);
+            } catch (java.lang.NumberFormatException ex) {
+                System.out.println("Invalid constraint threshold: " + spec);
+                System.out.println(commandLine);
+                System.exit(-1);
+            }
+            return spec;
+        }
+        System.out.println("Invalid constraint threshold: " + spec);
+        System.out.println(commandLine);
+        System.exit(-1);
+        return null;
+    }
 }
