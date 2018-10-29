@@ -29,28 +29,21 @@ public abstract class ThresholdConstraint {
     
     public static ThresholdConstraint getConstraint(String spec) {
     
-        String[] tokens = spec.split(":");
-        if (tokens.length == 1) {
-            return new GreaterThanConstraint(new BigDecimal(tokens[0]));
-        } else if (tokens.length == 2) {
-            String name = tokens[0];
-            if (name.equalsIgnoreCase(GEQ)) {
-                try {
-                    return new GreaterOrEqualConstraint(new BigDecimal(tokens[1]));
-                } catch (java.lang.NumberFormatException ex) {
-                    throw new java.lang.IllegalArgumentException("Invalid constraint specification: " + ex);
-                }
-            } else if (name.equalsIgnoreCase(GT)) {
-                try {
-                    return new GreaterThanConstraint(new BigDecimal(tokens[1]));
-                } catch (java.lang.NumberFormatException ex) {
-                    throw new java.lang.IllegalArgumentException("Invalid constraint specification: " + ex);
-                }
+        try {
+            if (spec.toUpperCase().startsWith(GEQ)) {
+                return new GreaterOrEqualConstraint(
+                        new BigDecimal(spec.substring(GEQ.length()))
+                );
+            } else if (spec.toUpperCase().startsWith(GT)) {
+                return new GreaterThanConstraint(
+                        new BigDecimal(spec.substring(GT.length()))
+                );
             } else {
-                throw new java.lang.IllegalArgumentException("Unknown constring type: " + name);
+                return new GreaterThanConstraint(new BigDecimal(spec));
             }
+        } catch (java.lang.NumberFormatException ex) {
+            throw new java.lang.IllegalArgumentException("Invalid constraint specification: " + ex);
         }
-        throw new java.lang.IllegalArgumentException("Invalid constraint specification: " + spec);
     }
     
     public static ThresholdConstraint getGreaterConstraint(BigDecimal threshold) {
@@ -74,39 +67,29 @@ public abstract class ThresholdConstraint {
     
     public abstract boolean isSatisfied(BigDecimal value);
     
-    public static String validateCommand(String spec, String commandLine) {
+    /**
+     * Validate the given specification.
+     * 
+     * Returns the specification if valid. Raises IllegalArgumentException if
+     * the specification is not valid.
+     * 
+     * @param spec
+     * @return 
+     */
+    public static String validateSpecification(String spec) {
         
-        String[] tokens = spec.split(":");
-        if (tokens.length == 1) {
-            try {
-                new BigDecimal(tokens[0]);
-            } catch (java.lang.NumberFormatException ex) {
-                System.out.println("Invalid constraint threshold: " + spec);
-                System.out.println(commandLine);
-                System.exit(-1);
-            }
-            return spec;
-        } else if (tokens.length == 2) {
-            String name = tokens[0];
-            if (name.equalsIgnoreCase(GEQ)) {
-            } else if (name.equalsIgnoreCase(GT)) {
+        try {
+            BigDecimal threshold;
+            if (spec.toUpperCase().startsWith(GEQ)) {
+                threshold = new BigDecimal(spec.substring(GEQ.length()));
+            } else if (spec.toUpperCase().startsWith(GT)) {
+                threshold = new BigDecimal(spec.substring(GT.length()));
             } else {
-                System.out.println("Unknown comprator: " + name);
-                System.out.println(commandLine);
-                System.exit(-1);
+                threshold = new BigDecimal(spec);
             }
-            try {
-                new BigDecimal(tokens[1]);
-            } catch (java.lang.NumberFormatException ex) {
-                System.out.println("Invalid constraint threshold: " + spec);
-                System.out.println(commandLine);
-                System.exit(-1);
-            }
-            return spec;
+        } catch (java.lang.NumberFormatException ex) {
+            throw new java.lang.IllegalArgumentException("Invalid constraint specification: " + ex);
         }
-        System.out.println("Invalid constraint threshold: " + spec);
-        System.out.println(commandLine);
-        System.exit(-1);
-        return null;
+        return spec;
     }
 }

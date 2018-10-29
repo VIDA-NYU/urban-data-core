@@ -23,16 +23,19 @@ import org.urban.data.core.object.IdentifiableDouble;
 /**
  * Find steepest drop in list of identifiable double values.
  * 
+ * Include all element that satisfy the threshold constraint or occur before the
+ * steepest drop.
+ * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  * @param <T>
  */
-public class MaxDropFinder <T extends IdentifiableDouble> extends CandidateSetFinder<T> {
+public class MaxDropThresholdFinder <T extends IdentifiableDouble> extends CandidateSetFinder<T> {
         
     private final ThresholdConstraint _nonEmptySignatureThreshold;
     private final boolean _ignoreLastDrop;
     private final boolean _fullSignatureConstraint;
     
-    public MaxDropFinder(
+    public MaxDropThresholdFinder(
             ThresholdConstraint nonEmptySignatureThreshold,
             boolean fullSignatureConstraint,
             boolean ignoreLastDrop
@@ -42,7 +45,7 @@ public class MaxDropFinder <T extends IdentifiableDouble> extends CandidateSetFi
         _ignoreLastDrop = ignoreLastDrop;
     }
     
-    public MaxDropFinder(
+    public MaxDropThresholdFinder(
             double nonEmptySignatureThreshold,
             boolean fullSignatureConstraint,
             boolean ignoreLastDrop
@@ -114,15 +117,19 @@ public class MaxDropFinder <T extends IdentifiableDouble> extends CandidateSetFi
 	}
         
         int maxIndex = elements.size();
-        
+        int maxThresholdIndex = 0;
         for (int iIndex = start; iIndex < size - 1; iIndex++) {
-            double diff = elements.get(iIndex).value() - elements.get(iIndex + 1).value();
+            final double val = elements.get(iIndex).value();
+            final double diff = val - elements.get(iIndex + 1).value();
             if (diff > maxDiff) {
                 maxIndex = iIndex + 1;
                 maxDiff = diff;
             }
+            if (_nonEmptySignatureThreshold.isSatisfied(val)) {
+                maxThresholdIndex = start;
+            }
         }
-        
-        return maxIndex;
+
+        return Math.max(maxIndex, maxThresholdIndex);
     }
 }

@@ -15,7 +15,6 @@
  */
 package org.urban.data.core.prune;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.urban.data.core.constraint.ThresholdConstraint;
@@ -35,12 +34,18 @@ public abstract class CandidateSetFinder <T extends IdentifiableDouble> {
    
     // Drop finder names
     public static final String MAX_DIFF = "MAX-DIFF";
+    public static final String MAX_DIFF_THRESHOLD = "MAX-DIFF-THRESHOLD";
     public static final String THRESHOLD = "THRESHOLD";
     
     // Drop finder specification syntax
     public static final String MAXDIFFFINDER =
             MAX_DIFF +
-                ":<empty-threshold>" +
+                ":<threshold-constraint>" +
+                ":<full-set-constraint>[true | false]" +
+                ":<ignore-last-drop>[true | false]";
+    public static final String MAXDIFFTHRESHOLDFINDER =
+            MAX_DIFF_THRESHOLD +
+                ":<threshold-constraint>" +
                 ":<full-set-constraint>[true | false]" +
                 ":<ignore-last-drop>[true | false]";
     public final static String THRESHOLDFINDER =
@@ -56,6 +61,7 @@ public abstract class CandidateSetFinder <T extends IdentifiableDouble> {
      
         return indent + "<drop-finder> [\n" +
                 indent + "  " + MAXDIFFFINDER + " |\n" +
+                indent + "  " + MAX_DIFF_THRESHOLD + " |\n" +
                 indent + "  " + THRESHOLDFINDER + "\n" +
                 indent + "]";
     }
@@ -75,7 +81,15 @@ public abstract class CandidateSetFinder <T extends IdentifiableDouble> {
             if (name.equalsIgnoreCase(MAX_DIFF)) {
                 if (tokens.length == 4) {
                     return new MaxDropFinder(
-                            Double.parseDouble(tokens[1]),
+                            ThresholdConstraint.getConstraint(tokens[1]),
+                            Boolean.parseBoolean(tokens[2]),
+                            Boolean.parseBoolean(tokens[3])
+                    );
+                }
+            } else if (name.equalsIgnoreCase(MAX_DIFF_THRESHOLD)) {
+                if (tokens.length == 4) {
+                    return new MaxDropThresholdFinder(
+                            ThresholdConstraint.getConstraint(tokens[1]),
                             Boolean.parseBoolean(tokens[2]),
                             Boolean.parseBoolean(tokens[3])
                     );
@@ -134,53 +148,43 @@ public abstract class CandidateSetFinder <T extends IdentifiableDouble> {
         } else {
             return new ImmutableIDSet();
         }
-    }
+    }    
     
     /**
      * Validate a given drop finder specification.
      * 
-     * Will exit program if invalid specification is given. Intended for use
-     * at the start of of main routines to validate command line arguments.
+     * Return the given specification if valid. Will raise
+     * IllegalArgumentException if specification is not valid.
      * 
      * @param spec
-     * @param commandLine
      * @return 
      */
-    public static String validateCommand(String spec, String commandLine) {
+    public static String validateSpecification(String spec) {
         
         String[] tokens = spec.split(":");
         
-        try {
-            String name = tokens[0];
-            if (name.equalsIgnoreCase(MAX_DIFF)) {
-                if (tokens.length == 4) {
-                    try {
-                        new BigDecimal(tokens[1]);
-                    } catch (java.lang.NumberFormatException ex) {
-                        System.out.println("Invalid candidate set finder specification: " + spec);
-                        System.out.println(commandLine);
-                        System.exit(-1);
-                    }
-                    return spec;
-                }
-            } else if (name.equalsIgnoreCase(THRESHOLD)) {
-                if ((tokens.length == 3) || (tokens.length == 4)) {
-                    ThresholdConstraint.validateCommand(
-                            StringHelper.joinStrings(tokens, 2, ":"),
-                            commandLine
-                    );
-                    return spec;
-                }
+        String message = "Invalid candidate set finder specification: " + spec;
+        
+        String name = tokens[0];
+        if (name.equalsIgnoreCase(MAX_DIFF)) {
+            if (tokens.length == 4) {
+                ThresholdConstraint.validateSpecification(tokens[1]);
             } else {
-                System.out.println("Unknown drop finder name: " + name);
-                System.out.println(commandLine);
-                System.exit(-1);
+                throw new java.lang.IllegalArgumentException(message);
             }
-        } catch (java.lang.NumberFormatException ex) {
+        } else if (name.equalsIgnoreCase(MAX_DIFF_THRESHOLD)) {
+            if (tokens.length == 4) {
+                ThresholdConstraint.validateSpecification(tokens[1]);
+            } else {
+                throw new java.lang.IllegalArgumentException(message);
+            }
+        } else if (name.equalsIgnoreCase(THRESHOLD)) {
+            ThresholdConstraint
+                    .validateSpecification(StringHelper.joinStrings(tokens, 1, ":"));
+        } else {
+            throw new java.lang.IllegalArgumentException("Unknown drop finder name: " + name);
         }
-        System.out.println("Invalid drop finder specification: " + spec);
-        System.out.println(commandLine);
-        System.exit(-1);
-        return null;
+        
+        return spec;
     }
 }
