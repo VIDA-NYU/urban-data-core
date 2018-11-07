@@ -15,26 +15,12 @@
  */
 package org.urban.data.core.set;
 
-import java.util.List;
-import org.urban.data.core.object.filter.ObjectFilter;
-
 /**
- * List of unique identifier.
+ * Consumer interface for IDSet's.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public interface IDSet extends ObjectSet<Integer>, ObjectFilter<Integer> {
-    
-    public ImmutableIDSet difference(IDSet list);
-    public ImmutableIDSet difference(int id);
-    public int first();
-    public ImmutableIDSet intersect(IDSet list);
-    public boolean isTrueSubsetOf(IDSet list);
-    public int maxId();
-    public int minId();
-    public int[] toArray();
-    public String toIntString();
-    public List<Integer> toSortedList();
-    public ImmutableIDSet union(IDSet list);
-    public ImmutableIDSet union(int id);
+public interface IDSetConsumer {
+   
+    public void consume(IDSet values);
 }

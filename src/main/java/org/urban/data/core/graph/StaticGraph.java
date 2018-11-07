@@ -15,8 +15,6 @@
  */
 package org.urban.data.core.graph;
 
-import org.urban.data.core.set.IDSet;
-import org.urban.data.core.set.IdentifiableIDSet;
 import org.urban.data.core.set.IdentifiableObjectSet;
 import org.urban.data.core.set.ObjectSet;
 import org.urban.data.core.set.Signature;

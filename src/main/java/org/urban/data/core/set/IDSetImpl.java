@@ -47,6 +47,18 @@ public abstract class IDSetImpl extends ObjectSetImpl<Integer> implements IDSet 
         }
         return this.create(values);
     }
+    
+    @Override
+    public ImmutableIDSet difference(int value) {
+
+        HashSet<Integer> values = new HashSet<>();
+        for (int id : this) {
+            if (id != value) {
+                values.add(id);
+            }
+        }
+        return this.create(values);
+    }
 
     @Override
     public int maxId() {

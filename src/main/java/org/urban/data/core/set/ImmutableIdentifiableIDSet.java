@@ -67,6 +67,12 @@ public class ImmutableIdentifiableIDSet extends IdentifiableObjectImpl implement
     }
 
     @Override
+    public ImmutableIDSet difference(int id) {
+
+        return _values.difference(id);
+    }
+
+    @Override
     public int first() {
 
         return _values.first();
