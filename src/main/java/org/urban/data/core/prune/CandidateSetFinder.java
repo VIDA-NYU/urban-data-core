@@ -59,11 +59,9 @@ public abstract class CandidateSetFinder <T extends IdentifiableDouble> {
      */
     public static String getCommand(String indent) {
      
-        return indent + "<drop-finder> [\n" +
-                indent + "  " + MAXDIFFFINDER + " |\n" +
-                indent + "  " + MAX_DIFF_THRESHOLD + " |\n" +
-                indent + "  " + THRESHOLDFINDER + "\n" +
-                indent + "]";
+        return indent + MAXDIFFFINDER + " |\n" +
+                indent + MAXDIFFTHRESHOLDFINDER + " |\n" +
+                indent + THRESHOLDFINDER;
     }
 
     /**
