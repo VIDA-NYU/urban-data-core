@@ -126,10 +126,10 @@ public class MaxDropThresholdFinder <T extends IdentifiableDouble> extends Candi
                 maxDiff = diff;
             }
             if (_nonEmptySignatureThreshold.isSatisfied(val)) {
-                maxThresholdIndex = start;
+                maxThresholdIndex = iIndex + 1;
             }
         }
 
-        return Math.max(maxIndex, maxThresholdIndex);
+	return Math.max(maxIndex, maxThresholdIndex);
     }
 }
