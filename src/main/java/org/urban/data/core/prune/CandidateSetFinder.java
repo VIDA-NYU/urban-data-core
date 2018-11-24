@@ -93,11 +93,9 @@ public abstract class CandidateSetFinder <T extends IdentifiableDouble> {
                     );
                 }
             } else if (name.equalsIgnoreCase(THRESHOLD)) {
-                if ((tokens.length == 3) || (tokens.length == 4)) {
+                if (tokens.length == 2) {
                     return new ThresholdFinder(
-                            ThresholdConstraint.getConstraint(
-                                    StringHelper.joinStrings(tokens, 2, ":")
-                            )
+                            ThresholdConstraint.getConstraint(tokens[1])
                     );
                 }
             } else {
