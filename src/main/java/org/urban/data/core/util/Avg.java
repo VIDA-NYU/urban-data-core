@@ -16,7 +16,8 @@
 package org.urban.data.core.util;
 
 /**
- *
+ * Formated average.
+ * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
 public class Avg extends FormatedBigDecimal {
