@@ -124,6 +124,18 @@ public final class StringHelper {
 	return joinStrings(tokens, start, tokens.length, delim);
     }
     
+    public static String repeat(String c, int count) {
+    
+        String result = "";
+        if (count > 0) {
+            result = c;
+            for (int i = 1; i < count; i++) {
+                result += c;
+            }
+        }
+        return result;
+    }
+    
     public static int[] splitIntegers(String text) {
         
         String[] tokens = text.split(",");
