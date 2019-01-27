@@ -72,4 +72,14 @@ public abstract class IdentifiableObjectSetImpl <T extends IdentifiableObject> i
         }
         return count;
     }
+    @Override
+    public IdentifiableObjectSet<T> subset(IDSet elements) {
+
+	HashObjectSet<T> result = new HashObjectSet<>();
+	for (int id : elements) {
+	    result.add(this.get(id));
+	}
+	return result;
+    }
+
 }

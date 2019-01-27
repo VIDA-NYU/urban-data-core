@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 New York University.
+ * Copyright 2019 Heiko Mueller <heiko.mueller@nyu.edu>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,25 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.constraint;
+package org.urban.data.core.io;
 
-import java.math.BigDecimal;
+import org.urban.data.core.object.Entity;
 
 /**
- * The constraint is satisfied if the given value equals one.
+ * Callback handler for entity set reader.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class EqualsOneConstraint extends ThresholdConstraint {
+public interface EntityConsumer {
+    
+    public void close();
+    
+    public void consume(Entity entity);
 
-    @Override
-    public boolean isSatisfied(BigDecimal value) {
-
-        return (value.compareTo(BigDecimal.ONE) == 0);
-    }
-
-    @Override
-    public int getMinOverlap(int size1, int size2) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void open();
 }

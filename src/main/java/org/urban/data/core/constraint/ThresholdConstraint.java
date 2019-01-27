@@ -60,6 +60,8 @@ public abstract class ThresholdConstraint {
         return getGreaterConstraint(new BigDecimal(threshold));
     }
     
+    public abstract int getMinOverlap(int size1, int size2);
+    
     public boolean isSatisfied(double value) {
         
         return this.isSatisfied(new BigDecimal(value));

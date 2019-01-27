@@ -16,6 +16,7 @@
 package org.urban.data.core.constraint;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * The constraint is satisfied if the given value is greater or equal than a
@@ -36,5 +37,15 @@ public class GreaterOrEqualConstraint extends ThresholdConstraint {
     public boolean isSatisfied(BigDecimal value) {
 
         return (value.compareTo(_threshold) >= 0);
+    }
+
+    @Override
+    public int getMinOverlap(int size1, int size2) {
+	
+	return _threshold
+		.multiply(new BigDecimal(size1 + size2))
+		.divide(_threshold.add(BigDecimal.ONE), BigDecimal.ROUND_HALF_DOWN)
+		.setScale(0, RoundingMode.HALF_DOWN)
+		.intValue();
     }
 }

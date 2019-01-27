@@ -35,5 +35,6 @@ public interface IdentifiableObjectSet <T extends IdentifiableObject> extends It
     public int length();
     public int overlap(IdentifiableObjectSet<T> list);
     public int overlap(IDSet list);
+    public IdentifiableObjectSet<T> subset(IDSet elements);
     public List<T> toList();
 }

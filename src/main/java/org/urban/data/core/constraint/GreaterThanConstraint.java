@@ -16,6 +16,7 @@
 package org.urban.data.core.constraint;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * The constraint is satisfied if the given value is greater than a defined
@@ -41,5 +42,21 @@ public class GreaterThanConstraint extends ThresholdConstraint {
     public boolean isSatisfied(BigDecimal value) {
 
         return (value.compareTo(_threshold) > 0);
+    }
+
+    @Override
+    public int getMinOverlap(int size1, int size2) {
+
+	BigDecimal count = _threshold
+		.multiply(new BigDecimal(size1 + size2))
+		.divide(_threshold.add(BigDecimal.ONE), BigDecimal.ROUND_HALF_DOWN);
+	int floor = count.setScale(0, RoundingMode.FLOOR).intValueExact();
+	int ceiling = count.setScale(0, RoundingMode.CEILING).intValueExact();
+	
+	if (floor == ceiling) {
+	    return ceiling + 1;
+	} else {
+	    return ceiling;
+	}
     }
 }
