@@ -22,6 +22,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -191,6 +192,19 @@ public class HashIDSet extends IDSetImpl implements MutableIDSet {
     public List<Integer> toList() {
     
         return new ArrayList<>(_values);
+    }
+    
+    public static HashIDSet union(List<IDSet> sets) {
+        
+        if (sets.isEmpty()) {
+            return new HashIDSet();
+        }
+        
+        HashIDSet result = new HashIDSet(sets.get(0));
+        for (int iSet = 1; iSet < sets.size(); iSet++) {
+            result.add(sets.get(iSet));
+        }
+        return result;
     }
     
     public void write(File file) throws java.io.IOException {
