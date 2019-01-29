@@ -147,6 +147,19 @@ public class ImmutableIDSet extends IDSetImpl implements IDSet {
         return _values.length;
     }
 
+    @Override
+    public boolean replace(int sourceId, int targetId) {
+
+        for (int iValue = 0; iValue < _values.length; iValue++) {
+            if (_values[iValue] == sourceId) {
+                _values[iValue] = targetId;
+                Arrays.sort(_values);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int sortedOverlap(ImmutableIDSet nodes) {
 
 	int indexI = 0;

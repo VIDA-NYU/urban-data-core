@@ -139,6 +139,12 @@ public class ImmutableIdentifiableIDSet extends IdentifiableObjectImpl implement
     }
 
     @Override
+    public boolean replace(int sourceId, int targetId) {
+
+        return _values.replace(sourceId, targetId);
+    }
+
+    @Override
     public boolean sameSetAs(ObjectSet<Integer> list) {
 
         return _values.sameSetAs(list);

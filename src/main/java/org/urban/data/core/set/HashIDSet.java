@@ -22,7 +22,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -175,6 +174,18 @@ public class HashIDSet extends IDSetImpl implements MutableIDSet {
     public void remove(int nodeId) {
 
         _values.remove(nodeId);
+    }
+
+    @Override
+    public boolean replace(int sourceId, int targetId) {
+
+        if (this.contains(sourceId)) {
+            _values.remove(sourceId);
+            _values.add(targetId);
+            return true;
+        } else {
+            return false;
+        }
     }
     
     @Override
