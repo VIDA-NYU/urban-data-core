@@ -65,14 +65,14 @@ public class IdentifiableIDSetReader extends IdentifiableIDSetFile {
     
     public IdentifiableObjectSet<IdentifiableIDSet> read(File file, int listColumnIndex) throws java.io.IOException {
         
-        return this.read(file, new AnyObjectFilter<Integer>(), listColumnIndex);
+        return this.read(file, new AnyObjectFilter<>(), listColumnIndex);
     }
 
     public IdentifiableObjectSet<IdentifiableIDSet> read(File file) throws java.io.IOException {
         
         return this.read(
                 file,
-                new AnyObjectFilter<Integer>(),
+                new AnyObjectFilter<>(),
                 IdentifiableIDSetFile.DEFAULT_LIST_COLUMN_INDEX
         );
     }
