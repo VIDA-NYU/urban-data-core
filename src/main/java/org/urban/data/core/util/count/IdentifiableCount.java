@@ -23,7 +23,7 @@ import org.urban.data.core.object.IdentifiableObjectImpl;
  */
 public class IdentifiableCount extends IdentifiableObjectImpl implements Comparable<IdentifiableCount> {
     
-    private final int _count;
+    private int _count;
     
     public IdentifiableCount(int id, int count) {
         
@@ -42,6 +42,11 @@ public class IdentifiableCount extends IdentifiableObjectImpl implements Compara
 	this(pairString.split(":"));
     }
 
+    public void clear() {
+    
+        _count = 0;
+    }
+    
     @Override
     public int compareTo(IdentifiableCount c) {
 
@@ -51,6 +56,11 @@ public class IdentifiableCount extends IdentifiableObjectImpl implements Compara
     public int count() {
         
         return _count;
+    }
+    
+    public int inc(int value) {
+        
+        return _count + value;
     }
     
     public String toPairString() {

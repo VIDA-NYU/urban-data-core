@@ -136,6 +136,15 @@ public final class StringHelper {
         return result;
     }
     
+    public static String replace(String value, String query, String substitute) {
+        
+        if (value.equals(query)) {
+            return substitute;
+        } else {
+            return value;
+        }
+    }
+    
     public static int[] splitIntegers(String text) {
         
         String[] tokens = text.split(",");

@@ -85,13 +85,17 @@ public class ImmutableIDSet extends IDSetImpl implements IDSet {
 
     public ImmutableIDSet(String values) {
 
-        String[] tokens = values.split(",");
-        _values = new Integer[tokens.length];
-        _values[0] = Integer.parseInt(tokens[0]);
-        for (int iPos = 1; iPos < _values.length; iPos++) {
-            _values[iPos] = Integer.parseInt(tokens[iPos]);
-            if (_values[iPos - 1].compareTo(_values[iPos]) >= 0) {
-                throw new IllegalArgumentException("Not a unique ID list: " + values);
+        if (values.equals("")) {
+            _values = new Integer[0];
+        } else {
+            String[] tokens = values.split(",");
+            _values = new Integer[tokens.length];
+            _values[0] = Integer.parseInt(tokens[0]);
+            for (int iPos = 1; iPos < _values.length; iPos++) {
+                _values[iPos] = Integer.parseInt(tokens[iPos]);
+                if (_values[iPos - 1].compareTo(_values[iPos]) >= 0) {
+                    throw new IllegalArgumentException("Not a unique ID list: " + values);
+                }
             }
         }
     }
