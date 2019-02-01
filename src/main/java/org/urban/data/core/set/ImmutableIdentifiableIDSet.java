@@ -137,6 +137,12 @@ public class ImmutableIdentifiableIDSet extends IdentifiableObjectImpl implement
 
         return _values.overlaps(list);
     }
+    
+    @Override
+    public boolean overlaps(IDSet set, int threshold) {
+        
+        return _values.overlaps(set, threshold);
+    }
 
     @Override
     public boolean replace(int sourceId, int targetId) {

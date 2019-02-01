@@ -19,6 +19,7 @@ import java.io.File;
 import org.urban.data.core.io.EntityConsumer;
 import org.urban.data.core.io.EntitySetReader;
 import org.urban.data.core.object.Entity;
+import org.urban.data.core.object.filter.ObjectFilter;
 
 /**
  * Set of identifiable entities.
@@ -56,5 +57,10 @@ public class EntitySet extends HashObjectSet<Entity> {
     public EntitySet(File file) throws java.io.IOException {
 	
 	new EntitySetReader().read(file, new EntityBuffer(this));
+    }
+    
+    public EntitySet(File file, ObjectFilter<Integer> filter) throws java.io.IOException {
+	
+	new EntitySetReader().read(file, filter, new EntityBuffer(this));
     }
 }

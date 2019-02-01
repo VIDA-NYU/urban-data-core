@@ -16,6 +16,7 @@
 package org.urban.data.core.constraint;
 
 import java.math.BigDecimal;
+import org.urban.data.core.set.IDSet;
 
 /**
  * Threshold constraints check whether a given value satisfies a threshold.
@@ -60,7 +61,19 @@ public abstract class ThresholdConstraint {
         return getGreaterConstraint(new BigDecimal(threshold));
     }
     
-    public abstract int getMinOverlap(int size1, int size2);
+    public abstract int getJIOverlap(int size1, int size2);
+    
+    public abstract int getMinJIOverlap(int size1, int size2);
+    
+    public int getJIOverlap(IDSet set1, IDSet set2) {
+        
+        return this.getJIOverlap(set1.length(), set2.length());
+    }
+    
+    public int getMinJIOverlap(IDSet set1, IDSet set2) {
+        
+        return this.getMinJIOverlap(set1.length(), set2.length());
+    }
     
     public boolean isSatisfied(double value) {
         

@@ -31,7 +31,12 @@ public class EqualsOneConstraint extends ThresholdConstraint {
     }
 
     @Override
-    public int getMinOverlap(int size1, int size2) {
+    public int getJIOverlap(int size1, int size2) {
+	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getMinJIOverlap(int size1, int size2) {
 	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

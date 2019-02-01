@@ -32,6 +32,7 @@ public interface IDSet extends ObjectSet<Integer>, ObjectFilter<Integer> {
     public boolean isTrueSubsetOf(IDSet list);
     public int maxId();
     public int minId();
+    public boolean overlaps(IDSet set, int threshold);
     public boolean replace(int sourceId, int targetId);
     public int[] toArray();
     public String toIntString();

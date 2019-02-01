@@ -40,10 +40,28 @@ public class GreaterOrEqualConstraint extends ThresholdConstraint {
     }
 
     @Override
-    public int getMinOverlap(int size1, int size2) {
+    public int getJIOverlap(int size1, int size2) {
 	
-	return _threshold
+        if (_threshold.compareTo(BigDecimal.ZERO) == 0) {
+            return 0;
+        }
+
+        return _threshold
 		.multiply(new BigDecimal(size1 + size2))
+		.divide(_threshold.add(BigDecimal.ONE), BigDecimal.ROUND_HALF_DOWN)
+		.setScale(0, RoundingMode.HALF_DOWN)
+		.intValue();
+    }
+
+    @Override
+    public int getMinJIOverlap(int size1, int size2) {
+	
+        if (_threshold.compareTo(BigDecimal.ZERO) == 0) {
+            return 0;
+        }
+
+        return _threshold
+		.multiply(new BigDecimal(2 * Math.min(size1, size2)))
 		.divide(_threshold.add(BigDecimal.ONE), BigDecimal.ROUND_HALF_DOWN)
 		.setScale(0, RoundingMode.HALF_DOWN)
 		.intValue();

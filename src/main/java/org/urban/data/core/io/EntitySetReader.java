@@ -18,6 +18,8 @@ package org.urban.data.core.io;
 import java.io.BufferedReader;
 import java.io.File;
 import org.urban.data.core.object.Entity;
+import org.urban.data.core.object.filter.AnyObjectFilter;
+import org.urban.data.core.object.filter.ObjectFilter;
 
 /**
  * Read an entity set file. Assumes a test file where each row has at least two
@@ -28,7 +30,11 @@ import org.urban.data.core.object.Entity;
  */
 public class EntitySetReader {
     
-    public void read(File file, EntityConsumer consumer) throws java.io.IOException {
+    public void read(
+            File file,
+            ObjectFilter<Integer> filter,
+            EntityConsumer consumer
+    ) throws java.io.IOException {
         
         consumer.open();
         
@@ -36,12 +42,18 @@ public class EntitySetReader {
 	    String line;
 	    while ((line = in.readLine()) != null) {
 		String[] tokens = line.split("\t");
-                consumer.consume(
-                        new Entity(Integer.parseInt(tokens[0]), tokens[1])
-                );
+                int id = Integer.parseInt(tokens[0]);
+                if (filter.contains(id)) {
+                    consumer.consume(new Entity(id, tokens[1]));
+                }
             }
         }
         
         consumer.close();
+    }
+    
+    public void read(File file, EntityConsumer consumer) throws java.io.IOException {
+        
+        this.read(file, new AnyObjectFilter(), consumer);
     }
 }

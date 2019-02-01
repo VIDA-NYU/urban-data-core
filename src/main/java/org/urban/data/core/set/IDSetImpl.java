@@ -128,6 +128,37 @@ public abstract class IDSetImpl extends ObjectSetImpl<Integer> implements IDSet 
     }
     
     @Override
+    public boolean overlaps(IDSet set, int threshold) {
+        
+        IDSet inner;
+        IDSet outer;
+
+        if (this.length() < threshold) {
+            return false;
+        } else if (set.length() < threshold) {
+            return false;
+        } else if (this.length() < set.length()) {
+            inner = this;
+            outer = set;
+        } else {
+            inner = set;
+            outer = this;
+        }
+
+        int overlap = 0;
+        for (int termId : outer) {
+            if (inner.contains(termId)) {
+                overlap++;
+                if (overlap == threshold) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+    
+    @Override
     public String toIntString() {
 	
 	List<Integer> values = this.toList();

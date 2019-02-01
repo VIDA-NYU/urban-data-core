@@ -58,6 +58,11 @@ public class HashObjectSet <T extends IdentifiableObject> extends IdentifiableOb
         return element;
     }
 
+    public void clear() {
+    
+        _elements.clear();
+    }
+    
     @Override
     public boolean contains(Integer id) {
     
