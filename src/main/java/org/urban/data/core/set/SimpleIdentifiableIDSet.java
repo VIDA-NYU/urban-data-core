@@ -25,34 +25,22 @@ import org.urban.data.core.object.IdentifiableObjectImpl;
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class ImmutableIdentifiableIDSet extends IdentifiableObjectImpl implements IdentifiableIDSet {
+public class SimpleIdentifiableIDSet extends IdentifiableObjectImpl implements IdentifiableIDSet {
     
-    private final ImmutableIDSet _values;
+    private final IDSet _values;
     
-    public ImmutableIdentifiableIDSet(int id) {
+    public SimpleIdentifiableIDSet(int id) {
     
         super(id);
         
         _values = new ImmutableIDSet();
     }
     
-    public ImmutableIdentifiableIDSet(int id, ImmutableIDSet values) {
+    public SimpleIdentifiableIDSet(int id, IDSet values) {
         
         super(id);
         
         _values = values;
-    }
-    
-    public ImmutableIdentifiableIDSet(ImmutableIDSet values) {
-        
-        this(-1, values);
-    }
-
-    public ImmutableIdentifiableIDSet(int id, List<ImmutableIDSet> elements) {
-        
-        super(id);
-        
-        _values = new IDSetMerger().merge(elements);
     }
 
     @Override
@@ -197,10 +185,5 @@ public class ImmutableIdentifiableIDSet extends IdentifiableObjectImpl implement
     public ImmutableIDSet union(int id) {
 
         return _values.union(id);
-    }
-    
-    public ImmutableIDSet values() {
-        
-        return _values;
     }
 }

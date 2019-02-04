@@ -15,6 +15,7 @@
  */
 package org.urban.data.test.set;
 
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -22,7 +23,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.urban.data.core.set.IDSet;
+import org.urban.data.core.set.IDSetMerger;
 import org.urban.data.core.set.ImmutableIDSet;
+import org.urban.data.core.set.MultiSetIterator;
 
 /**
  *
@@ -68,6 +71,50 @@ public class ImmutableIDSetTest {
         IDSet set2 = new ImmutableIDSet(new Integer[]{13439, 14179});
         
         assertTrue(set2.contains(set1));
+    }
+    
+    @Test
+    public void testMerge() {
+        
+        ArrayList<ImmutableIDSet> elements = new ArrayList<>();
+        elements.add(new ImmutableIDSet(new Integer[]{1,2,3,5,7,10}));
+        elements.add(new ImmutableIDSet(new Integer[]{3,4,5,6,7}));
+        
+        assertEquals(8, new IDSetMerger().length(elements));
+        ImmutableIDSet merge = new IDSetMerger().merge(elements);
+        assertEquals(8, merge.length());
+        
+        for (int val : new int[]{1,2,3,4,5,6,7,10}) {
+            assertTrue(merge.contains(val));
+        }
+        
+        elements = new ArrayList<>();
+        elements.add(new ImmutableIDSet(new Integer[]{1,2,3,5,7,10,11}));
+        elements.add(new ImmutableIDSet(new Integer[]{3,4,5,6,7,11}));
+        elements.add(new ImmutableIDSet(new Integer[]{3,4,5,6,8,11}));
+        elements.add(new ImmutableIDSet(new Integer[]{3,4,5,6,7,11}));
+        elements.add(new ImmutableIDSet(new Integer[]{3,4,9,11}));
+
+        assertEquals(11, new IDSetMerger().length(elements));
+        merge = new IDSetMerger().merge(elements);
+        assertEquals(11, merge.length());
+        
+        for (int val = 1; val <= 11; val++) {
+            assertTrue(merge.contains(val));
+        }
+        
+        elements = new ArrayList<>();
+        elements.add(new ImmutableIDSet(new Integer[]{1,2,3,5,7,10,11}));
+        elements.add(new ImmutableIDSet(new Integer[]{3,4,5,6,7,11}));
+        elements.add(new ImmutableIDSet(new Integer[]{3,4,5,6,8,11}));
+        elements.add(new ImmutableIDSet(new Integer[]{2,4,5,6,7,8,12}));
+        elements.add(new ImmutableIDSet(new Integer[]{1,9,10,11}));
+
+        MultiSetIterator iter = new MultiSetIterator(elements);
+        for (int val = 1; val <=12; val++) {
+            assertEquals(val, (int)iter.next());
+        }
+        assertFalse(iter.hasNext());
     }
     
     @Test

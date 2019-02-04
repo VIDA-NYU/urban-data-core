@@ -130,6 +130,10 @@ public abstract class IDSetImpl extends ObjectSetImpl<Integer> implements IDSet 
     @Override
     public boolean overlaps(IDSet set, int threshold) {
         
+        if (threshold <= 0) {
+            return true;
+        }
+        
         IDSet inner;
         IDSet outer;
 

@@ -21,6 +21,7 @@ import org.urban.data.core.set.HashObjectSet;
 import org.urban.data.core.set.IDSet;
 import org.urban.data.core.set.IdentifiableIDSet;
 import org.urban.data.core.set.IdentifiableObjectSet;
+import org.urban.data.core.set.ImmutableIDSet;
 import org.urban.data.core.set.ImmutableIdentifiableIDSet;
 import org.urban.data.core.set.MutableIDSet;
 import org.urban.data.core.util.count.Counter;
@@ -65,7 +66,12 @@ public class UndirectedConnectedComponents implements ConnectedComponentGenerato
 	for (int compId : _components.keySet()) {
             IDSet comp = _components.get(compId);
             if (comp.length() >= size) {
-                result.add(new ImmutableIdentifiableIDSet(compId, comp));
+                result.add(
+                        new ImmutableIdentifiableIDSet(
+                                compId,
+                                new ImmutableIDSet(comp.toSortedList(), true)
+                        )
+                );
             }
 	}
 	
@@ -115,15 +121,6 @@ public class UndirectedConnectedComponents implements ConnectedComponentGenerato
 	}
     }
     
-    public IdentifiableIDSet getComponentFor(int nodeId) {
-        
-        int compId = this.getComponentForNode(nodeId);
-        return new ImmutableIdentifiableIDSet(
-                compId,
-                _components.get(compId)
-        );
-    }
-
     @Override
     public synchronized IdentifiableObjectSet<IdentifiableIDSet> getComponents() {
 
@@ -133,7 +130,10 @@ public class UndirectedConnectedComponents implements ConnectedComponentGenerato
 	    result.add(
                     new ImmutableIdentifiableIDSet(
                             compId,
-                            _components.get(compId)
+                            new ImmutableIDSet(
+                                    _components.get(compId).toSortedList(),
+                                    true
+                            )
                     )
             );
 	}

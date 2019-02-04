@@ -1,0 +1,50 @@
+/*
+ * Copyright 2019 New York University.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.urban.data.core.set;
+
+/**
+ * Collection of helper methods for ID sets.
+ * 
+ * @author Heiko Mueller <heiko.mueller@nyu.edu>
+ */
+public class IDSetHelper {
+    
+    public static boolean overlaps(ImmutableIDSet set1, ImmutableIDSet set2, int threshold) {
+
+        int overlap = 0;
+
+        int index1 = 0;
+        int index2 = 0;
+
+        while ((index1 < set1.length()) && (index2 < set2.length())) {
+            int comp = Integer.compare(set1.get(index1), set2.get(index2));
+            if (comp < 0) {
+                index1++;
+            } else if (comp > 0) {
+                index2++;
+            } else {
+                overlap++;
+                if (overlap >= threshold) {
+                    return true;
+                }
+                index1++;
+                index2++;
+            }
+        }
+
+        return false;
+    }
+}
