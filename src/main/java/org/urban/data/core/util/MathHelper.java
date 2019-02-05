@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 New York University.
+ * Copyright 2018 New York University.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,34 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.set;
+package org.urban.data.core.util;
 
-import java.util.HashSet;
-import org.urban.data.core.object.NamedObject;
+import java.math.BigDecimal;
+import java.math.MathContext;
 
 /**
- *
+ * Helper methods for math operations.
+ * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class NamedIDSet extends HashIDSet implements NamedObject {
-
-    private final String _name;
+public final class MathHelper {
     
-    public NamedIDSet(String name, HashSet<Integer> values) {
-    
-        super(values);
+    public static BigDecimal div(int dividend, int divisor) {
         
-        _name = name;
+        return new BigDecimal(dividend)
+                .divide(new BigDecimal(divisor), MathContext.DECIMAL64);
     }
     
-    public NamedIDSet(String name) {
-    
-        _name = name;
-    }
-    
-    @Override
-    public String name() {
-
-        return _name;
+    public static BigDecimal f1(BigDecimal precision, BigDecimal recall) {
+        
+        return new BigDecimal(2)
+                .multiply(precision)
+                .multiply(recall)
+                .divide(precision.add(recall), MathContext.DECIMAL64);
     }
 }
