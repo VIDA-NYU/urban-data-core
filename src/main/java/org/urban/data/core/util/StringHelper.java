@@ -124,6 +124,15 @@ public final class StringHelper {
 	return joinStrings(tokens, start, tokens.length, delim);
     }
     
+    public static String minMaxKey(int id1, int id2) {
+
+	if (id1 < id2) {
+	    return id1 + "#" + id2;
+	} else {
+	    return id2 + "#" + id1;
+	}
+    }
+    
     public static String repeat(String c, int count) {
     
         String result = "";

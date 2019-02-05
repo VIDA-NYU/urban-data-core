@@ -29,12 +29,21 @@ public class IDSetHelper {
         int index1 = 0;
         int index2 = 0;
 
-        while ((index1 < set1.length()) && (index2 < set2.length())) {
+	final int len1 = set1.length();
+	final int len2 = set2.length();
+	
+        while ((index1 < len1) && (index2 < len2)) {
             int comp = Integer.compare(set1.get(index1), set2.get(index2));
             if (comp < 0) {
                 index1++;
+		if ((overlap + (len1 - index1)) < threshold) {
+		    return false;
+		}
             } else if (comp > 0) {
                 index2++;
+		if ((overlap + (len2 - index2)) < threshold) {
+		    return false;
+		}
             } else {
                 overlap++;
                 if (overlap >= threshold) {
