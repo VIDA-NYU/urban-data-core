@@ -25,7 +25,6 @@ import static org.junit.Assert.*;
 import org.urban.data.core.object.IdentifiableDouble;
 import org.urban.data.core.prune.MaxDropFinder;
 import org.urban.data.core.prune.MaxDropThresholdFinder;
-import org.urban.data.core.set.IDSet;
 
 /**
  *
@@ -70,7 +69,25 @@ public class MaxDropThresholdFinderTest {
 
 	assertEquals(2, new MaxDropFinder<>(0.5, true, true).getPruneIndex(elements));
 	assertEquals(elements.size(), new MaxDropFinder<>(0.5, true, false).getPruneIndex(elements));
-	assertEquals(5, new MaxDropThresholdFinder<>(0.5, true, true).getPruneIndex(elements));
+	assertEquals(2, new MaxDropThresholdFinder<>(0.5, true, true).getPruneIndex(elements));
 	assertEquals(elements.size(), new MaxDropFinder<>(0.5, true, false).getPruneIndex(elements));
-   }
+	
+	elements = new ArrayList<>();
+	elements.add(new IdentifiableDouble(10, 0.75));
+	elements.add(new IdentifiableDouble(1, 0.7));
+	elements.add(new IdentifiableDouble(1, 0.77));
+	elements.add(new IdentifiableDouble(1, 0.73));
+	elements.add(new IdentifiableDouble(2, 0.6));
+	elements.add(new IdentifiableDouble(3, 0.57));
+	elements.add(new IdentifiableDouble(7, 0.55));
+	elements.add(new IdentifiableDouble(8, 0.5));
+	elements.add(new IdentifiableDouble(4, 0.48));
+	elements.add(new IdentifiableDouble(5, 0.45));
+	elements.add(new IdentifiableDouble(6, 0.3));
+	elements.add(new IdentifiableDouble(11, 0.35));
+	elements.add(new IdentifiableDouble(12, 0.28));
+
+    	assertEquals(10, new MaxDropFinder<>(0.5, true, true).getPruneIndex(elements));
+	assertEquals(7, new MaxDropThresholdFinder<>(0.5, true, true).getPruneIndex(elements));
+}
 }
