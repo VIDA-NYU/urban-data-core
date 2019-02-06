@@ -15,7 +15,6 @@
  */
 package org.urban.data.core.util;
 
-import org.urban.data.core.util.count.Counter;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -23,6 +22,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import org.urban.data.core.util.count.LongCounter;
 
 /**
  * Create a histogram from a stream of similarity values.
@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class SimilarityHistogram {
     
-    private final HashMap<String, Counter> _histogram;
+    private final HashMap<String, LongCounter> _histogram;
     private final int _scale;
     private long _totalSize = 0;
     
@@ -44,11 +44,11 @@ public class SimilarityHistogram {
             String key = String.format("%0" + _scale + "d", iBucket);
             if (key.length() == _scale) {
                 key = "0." + key;
-                _histogram.put(key, new Counter(0));
+                _histogram.put(key, new LongCounter(0));
             }
         }
 	String key = "1." + String.format("%0" + _scale + "d", 0);
-	_histogram.put(key, new Counter(0));
+	_histogram.put(key, new LongCounter(0));
     }
     
     public SimilarityHistogram() {
@@ -67,9 +67,9 @@ public class SimilarityHistogram {
             try {
                 _histogram.get(key).inc();
             } catch (java.lang.NullPointerException ex) {
-                _histogram.put(key, new Counter(1));
+                _histogram.put(key, new LongCounter(1));
             }
-	_totalSize++;
+            _totalSize++;
         }
     }
     
@@ -78,9 +78,18 @@ public class SimilarityHistogram {
         this.add(new BigDecimal(val));
     }
     
-    public HashMap<String, Counter> buckets() {
+    public HashMap<String, LongCounter> buckets() {
         
         return _histogram;
+    }
+    
+    public long get(String key) {
+        
+        if (_histogram.containsKey(key)) {
+            return _histogram.get(key).value();
+        } else {
+            return 0;
+        }
     }
     
     public List<String> keys() {
@@ -94,7 +103,7 @@ public class SimilarityHistogram {
         return keys;
     }
     
-    private void print(String key, int count) {
+    private void print(String key, long count) {
 	
 	BigDecimal frac = new BigDecimal(count)
 		.divide(new BigDecimal(_totalSize), MathContext.DECIMAL64)

@@ -31,6 +31,12 @@ public final class MathHelper {
                 .divide(new BigDecimal(divisor), MathContext.DECIMAL64);
     }
     
+    public static BigDecimal div(long dividend, long divisor) {
+        
+        return new BigDecimal(dividend)
+                .divide(new BigDecimal(divisor), MathContext.DECIMAL64);
+    }
+    
     public static BigDecimal f1(BigDecimal precision, BigDecimal recall) {
         
         return new BigDecimal(2)
