@@ -56,11 +56,11 @@ public class EntitySet extends HashObjectSet<Entity> {
     
     public EntitySet(File file) throws java.io.IOException {
 	
-	new EntitySetReader().read(file, new EntityBuffer(this));
+	new EntitySetReader(file).read(new EntityBuffer(this));
     }
     
     public EntitySet(File file, ObjectFilter<Integer> filter) throws java.io.IOException {
 	
-	new EntitySetReader().read(file, filter, new EntityBuffer(this));
+	new EntitySetReader(file).read(filter, new EntityBuffer(this));
     }
 }

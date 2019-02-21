@@ -39,18 +39,28 @@ public class StringSet extends ObjectSetImpl<String> implements ObjectSet<String
         _elements = new HashSet<>();
     }
     
-    public StringSet(File file) throws java.io.IOException {
+    public StringSet(File file, boolean toTerm) throws java.io.IOException {
     
         this();
         
         try (BufferedReader in = FileSystem.openReader(file)) {
             String line;
             while ((line = in.readLine()) != null) {
-                _elements.add(line);
+                if (toTerm) {
+                    line = line.trim().toUpperCase();
+                }
+                if (!line.equals("")) {
+                    _elements.add(line);
+                }
             }
         }
     }
 
+    public StringSet(File file) throws java.io.IOException {
+        
+        this(file, false);
+    }
+    
     public StringSet(String[] values) {
 	
 	this();

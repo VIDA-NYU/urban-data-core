@@ -36,13 +36,15 @@ public class Kosaraju {
     /**
      * Get all strongly connected components in a directed graph.
      * 
-     * @param g
+     * @param graph
      * @return 
      */
-    public IdentifiableObjectSet<IdentifiableIDSet> stronglyConnectedComponents(AdjacencyGraph g) {
+    public IdentifiableObjectSet<IdentifiableIDSet> stronglyConnectedComponents(
+            AdjacencyGraph graph
+    ) {
 
         // Nodes are visited in depth-first order
-        Deque<Integer> visitOrder = g.reverse().dfs();
+        Deque<Integer> visitOrder = graph.reverse().dfs();
 	
         /* Now we can start listing connected components.  To do this, we'll
          * create the result map, as well as a counter keeping track of which
@@ -64,7 +66,7 @@ public class Kosaraju {
                 /* Run a DFS from this node, recording everything we visit as being
                  * at the current level.
                  */
-                this.markReachableNodes(startPoint, g, mapping, iteration);
+                this.markReachableNodes(startPoint, graph, mapping, iteration);
 
                 /* Bump up the number of the next SCC to label. */
                 ++iteration;

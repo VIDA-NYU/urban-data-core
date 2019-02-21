@@ -22,23 +22,29 @@ import org.urban.data.core.object.filter.AnyObjectFilter;
 import org.urban.data.core.object.filter.ObjectFilter;
 
 /**
- * Read an entity set file. Assumes a test file where each row has at least two
- * tab-delimited column containing the unique entity identifier and the entity
- * name. Additional column sin each row are ignored.
+ * Read an entity set file. Assumes a text file where each row has at least two
+ * tab-delimited columns containing the unique entity identifier and the entity
+ * name. Additional columns in each row are ignored.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
 public class EntitySetReader {
     
+    private final File _file;
+    
+    public EntitySetReader(File file) {
+        
+        _file = file;
+    }
+    
     public void read(
-            File file,
             ObjectFilter<Integer> filter,
             EntityConsumer consumer
     ) throws java.io.IOException {
         
         consumer.open();
         
-        try (BufferedReader in = FileSystem.openReader(file)) {
+        try (BufferedReader in = FileSystem.openReader(_file)) {
 	    String line;
 	    while ((line = in.readLine()) != null) {
 		String[] tokens = line.split("\t");
@@ -52,8 +58,8 @@ public class EntitySetReader {
         consumer.close();
     }
     
-    public void read(File file, EntityConsumer consumer) throws java.io.IOException {
+    public void read(EntityConsumer consumer) throws java.io.IOException {
         
-        this.read(file, new AnyObjectFilter(), consumer);
+        this.read(new AnyObjectFilter(), consumer);
     }
 }

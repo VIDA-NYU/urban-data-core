@@ -106,6 +106,15 @@ public final class StringHelper {
         return buf.toString();
     }
     
+    public static String joinStrings(List<String> tokens, String delim) {
+        
+        StringBuilder buf = new StringBuilder(tokens.get(0));
+        for (int iToken = 1; iToken < tokens.size(); iToken++) {
+            buf.append(delim).append(tokens.get(iToken));
+        }
+        return buf.toString();
+    }
+    
     public static String joinStrings(String[] tokens, int start, int end, String delim) {
         
         if (tokens.length > start) {

@@ -17,6 +17,7 @@ package org.urban.data.core.graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import org.urban.data.core.set.IDSet;
 
 /**
@@ -27,7 +28,7 @@ public class SignatureGraph extends AdjacencyGraph {
 
     private final boolean[][] _edges;
     private final HashMap<Integer, Integer> _nodeToIndexMap;
-    private final HashMap<Integer, Integer> _indexToNodeMap;
+    private final List<Integer> _indexToNodeMap;
     private final boolean _reversed;
     
     public SignatureGraph(IDSet nodes) {
@@ -37,17 +38,15 @@ public class SignatureGraph extends AdjacencyGraph {
 	_edges = new boolean[nodes.length()][nodes.length()];
 	_reversed = false;
 	
-	_indexToNodeMap = new HashMap<>();
+	_indexToNodeMap = nodes.toSortedList();
 	_nodeToIndexMap = new HashMap<>();
 	int index = 0;
-	for (int nodeId : nodes.toSortedList()) {
-	    _indexToNodeMap.put(index, nodeId);
-	    _nodeToIndexMap.put(nodeId, index);
-	    index++;
+	for (int nodeId : _indexToNodeMap) {
+	    _nodeToIndexMap.put(nodeId, index++);
 	}
     }
     
-    public SignatureGraph(IDSet nodes, boolean[][] edges, HashMap<Integer, Integer> nodeToIndexMap, HashMap<Integer, Integer> indexToNodeMap) {
+    public SignatureGraph(IDSet nodes, boolean[][] edges, HashMap<Integer, Integer> nodeToIndexMap, List<Integer> indexToNodeMap) {
 	
 	super(nodes);
 	
