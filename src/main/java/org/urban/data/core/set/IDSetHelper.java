@@ -56,4 +56,15 @@ public class IDSetHelper {
 
         return false;
     }
+
+    public static <T extends IDSet> IDSet union(Iterable<T> sets) {
+        
+        HashIDSet terms = new HashIDSet();
+        
+        for (T elements : sets) {
+            terms.add(elements);
+        }
+        
+        return terms;
+    }
 }
