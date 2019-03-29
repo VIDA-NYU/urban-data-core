@@ -17,6 +17,7 @@ package org.urban.data.core.object;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import org.urban.data.core.util.FormatedBigDecimal;
 
 /**
  *
@@ -33,10 +34,25 @@ public class IdentifiableDouble extends IdentifiableObjectImpl implements Compar
         _value = value;
     }
     
+    public IdentifiableDouble(int id, BigDecimal value) {
+        
+        this(id, value.doubleValue());
+    }
+    
     @Override
     public int compareTo(IdentifiableDouble obj) {
 
         return Integer.compare(this.id(), obj.id());
+    }
+    
+    public BigDecimal toBigDecimal() {
+    
+        return new BigDecimal(_value);
+    }
+    
+    public FormatedBigDecimal toFormatedDecimal() {
+    
+        return new FormatedBigDecimal(_value);
     }
     
     public String toPlainString() {
