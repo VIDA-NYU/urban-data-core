@@ -16,17 +16,18 @@
 package org.urban.data.core.sort;
 
 import java.util.Comparator;
-import org.urban.data.core.object.Entity;
+import org.urban.data.core.object.NamedObject;
 
 /**
  * Sort entities in ascending order of their names.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
+ * @param <T>
  */
-public class EntityNameSort implements Comparator<Entity>{
+public class EntityNameSort<T extends NamedObject> implements Comparator<NamedObject>{
 
     @Override
-    public int compare(Entity e1, Entity e2) {
+    public int compare(NamedObject e1, NamedObject e2) {
 
         return e1.name().compareTo(e2.name());
     }

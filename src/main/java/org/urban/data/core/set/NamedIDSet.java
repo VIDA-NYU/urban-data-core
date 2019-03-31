@@ -33,6 +33,13 @@ public class NamedIDSet extends HashIDSet implements NamedObject {
         _name = name;
     }
     
+    public NamedIDSet(String name, IDSet values) {
+    
+        super(values);
+        
+        _name = name;
+    }
+    
     public NamedIDSet(String name) {
     
         _name = name;

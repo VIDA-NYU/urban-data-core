@@ -23,7 +23,7 @@ import org.urban.data.core.util.MathHelper;
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class F1 extends FormatedBigDecimal {
+public class F1 extends FormatedBigDecimal implements Comparable<F1> {
     
     public F1(Precision precision, Recall recall, int scale) {
         
@@ -33,5 +33,11 @@ public class F1 extends FormatedBigDecimal {
     public F1(Precision precision, Recall recall) {
         
         super(MathHelper.f1(precision.value(), recall.value()));
+    }
+
+    @Override
+    public int compareTo(F1 f) {
+
+        return this.value().compareTo(f.value());
     }
 }
