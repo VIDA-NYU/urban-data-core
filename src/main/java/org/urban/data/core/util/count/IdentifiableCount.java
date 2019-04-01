@@ -41,6 +41,11 @@ public class IdentifiableCount extends IdentifiableObjectImpl implements Compara
 	
 	this(pairString.split(":"));
     }
+    
+    public IdentifiableCount add(int value) {
+        
+        return new IdentifiableCount(this.id(), _count + value);
+    }
 
     @Override
     public int compareTo(IdentifiableCount c) {
