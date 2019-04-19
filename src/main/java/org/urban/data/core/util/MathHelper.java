@@ -39,9 +39,14 @@ public final class MathHelper {
     
     public static BigDecimal f1(BigDecimal precision, BigDecimal recall) {
         
+        BigDecimal divisor = precision.add(recall);
+        if (divisor.compareTo(BigDecimal.ZERO) == 0) {
+            return BigDecimal.ZERO;
+        }
+    
         return new BigDecimal(2)
                 .multiply(precision)
                 .multiply(recall)
-                .divide(precision.add(recall), MathContext.DECIMAL64);
+                .divide(divisor, MathContext.DECIMAL64);
     }
 }
