@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import org.urban.data.core.util.StringHelper;
 
 /**
@@ -160,6 +161,27 @@ public abstract class IDSetImpl extends ObjectSetImpl<Integer> implements IDSet 
         }
 
         return false;
+    }
+    
+    @Override
+    public IDSet sample(int size) {
+    
+        if (size >= this.length()) {
+            return this;
+        }
+        
+        Random rand = new Random();
+        
+        HashSet<Integer> result = new HashSet<>();
+        
+        List<Integer> valueList = this.toList();
+        while (result.size() < size) {
+            int val = valueList.get(rand.nextInt(this.length()));
+            if (!result.contains(val)) {
+                result.add(val);
+            }
+        }
+        return this.create(result);
     }
     
     @Override

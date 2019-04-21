@@ -152,6 +152,12 @@ public class SimpleIdentifiableIDSet extends IdentifiableObjectImpl implements I
     }
 
     @Override
+    public IDSet sample(int size) {
+
+        return _values.sample(size);
+    }
+
+    @Override
     public int[] toArray() {
 
         return _values.toArray();

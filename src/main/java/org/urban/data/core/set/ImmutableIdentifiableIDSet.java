@@ -164,6 +164,12 @@ public class ImmutableIdentifiableIDSet extends IdentifiableObjectImpl implement
     }
 
     @Override
+    public IDSet sample(int size) {
+
+        return _values.sample(size);
+    }
+
+    @Override
     public int[] toArray() {
 
         return _values.toArray();

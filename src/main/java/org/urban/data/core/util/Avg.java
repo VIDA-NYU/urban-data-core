@@ -15,6 +15,9 @@
  */
 package org.urban.data.core.util;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+
 /**
  * Formated average.
  * 
@@ -30,5 +33,10 @@ public class Avg extends FormatedBigDecimal {
     public Avg(long sum, long count) {
         
         super((double)sum / (double)count, 6);
+    }
+    
+    public Avg(BigDecimal sum, int count) {
+        
+        super(sum.divide(new BigDecimal(count), MathContext.DECIMAL64), 6);
     }
 }

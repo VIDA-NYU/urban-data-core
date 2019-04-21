@@ -15,6 +15,7 @@
  */
 package org.urban.data.core.similarity;
 
+import java.math.BigDecimal;
 import org.urban.data.core.util.FormatedBigDecimal;
 import org.urban.data.core.util.MathHelper;
 
@@ -33,6 +34,11 @@ public class F1 extends FormatedBigDecimal implements Comparable<F1> {
     public F1(Precision precision, Recall recall) {
         
         super(MathHelper.f1(precision.value(), recall.value()));
+    }
+    
+    public F1() {
+        
+        super(BigDecimal.ZERO);
     }
 
     @Override

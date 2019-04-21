@@ -34,6 +34,7 @@ public interface IDSet extends ObjectSet<Integer>, ObjectFilter<Integer> {
     public int minId();
     public boolean overlaps(IDSet set, int threshold);
     public boolean replace(int sourceId, int targetId);
+    public IDSet sample(int size);
     public int[] toArray();
     public String toIntString();
     public List<Integer> toSortedList();
