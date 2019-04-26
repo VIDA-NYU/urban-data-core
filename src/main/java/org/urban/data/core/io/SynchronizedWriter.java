@@ -36,6 +36,11 @@ public class SynchronizedWriter implements AutoCloseable {
         
         _out.close();
     }
+
+    public synchronized void flush() {
+        
+        _out.flush();
+    }
     
     public synchronized void write(String line) {
 	
