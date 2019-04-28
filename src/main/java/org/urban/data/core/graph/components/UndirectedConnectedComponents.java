@@ -87,38 +87,38 @@ public class UndirectedConnectedComponents implements ConnectedComponentGenerato
      */
     private int getComponentForNode(int nodeId) {
 	
-	if (_componentMap.containsKey(nodeId)) {
-	    return _componentMap.get(nodeId);
-	} else {
-	    HashIDSet component = new HashIDSet();
-	    component.add(nodeId);
-	    int componentId = _componentCounter.inc();
-	    _components.put(componentId, component);
-	    _componentMap.put(nodeId, componentId);
-	    return componentId;
-	}
+        if (_componentMap.containsKey(nodeId)) {
+            return _componentMap.get(nodeId);
+        } else {
+            HashIDSet component = new HashIDSet();
+            component.add(nodeId);
+            int componentId = _componentCounter.inc();
+            _components.put(componentId, component);
+            _componentMap.put(nodeId, componentId);
+            return componentId;
+        }
     }
     
     @Override
     public synchronized void edge(int sourceId, int targetId) {	
         
-	int targetComponent = this.getComponentForNode(sourceId);
-	int sourceComponent = this.getComponentForNode(targetId);
-	
-	if (targetComponent != sourceComponent) {
-	    MutableIDSet target = _components.get(targetComponent);
-	    MutableIDSet source = _components.get(sourceComponent);
-	    if (source.length() > target.length()) {
-		target = source;
-		int c = targetComponent;
-		targetComponent = sourceComponent;
-		sourceComponent = c;
-	    }
-	    for (int nodeId : _components.remove(sourceComponent)) {
-		target.add(nodeId);
-		_componentMap.put(nodeId, targetComponent);
-	    }
-	}
+        int targetComponent = this.getComponentForNode(sourceId);
+        int sourceComponent = this.getComponentForNode(targetId);
+
+        if (targetComponent != sourceComponent) {
+            MutableIDSet target = _components.get(targetComponent);
+            MutableIDSet source = _components.get(sourceComponent);
+            if (source.length() > target.length()) {
+                target = source;
+                int c = targetComponent;
+                targetComponent = sourceComponent;
+                sourceComponent = c;
+            }
+            for (int nodeId : _components.remove(sourceComponent)) {
+                target.add(nodeId);
+            _componentMap.put(nodeId, targetComponent);
+            }
+        }
     }
     
     @Override

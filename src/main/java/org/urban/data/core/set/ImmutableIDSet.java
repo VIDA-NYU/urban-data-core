@@ -64,6 +64,11 @@ public class ImmutableIDSet extends IDSetImpl implements IDSet {
         this(values, false);
     }
     
+    public ImmutableIDSet(IDSet values) {
+
+        this(values.toList(), false);
+    }
+    
     public ImmutableIDSet(Integer[] values, boolean sorted) {
         
         _values = values;

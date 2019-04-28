@@ -33,76 +33,76 @@ public class SignatureGraph extends AdjacencyGraph {
     
     public SignatureGraph(IDSet nodes) {
 	
-	super(nodes);
-	
-	_edges = new boolean[nodes.length()][nodes.length()];
-	_reversed = false;
-	
-	_indexToNodeMap = nodes.toSortedList();
-	_nodeToIndexMap = new HashMap<>();
-	int index = 0;
-	for (int nodeId : _indexToNodeMap) {
-	    _nodeToIndexMap.put(nodeId, index++);
-	}
+        super(nodes);
+
+        _edges = new boolean[nodes.length()][nodes.length()];
+        _reversed = false;
+
+        _indexToNodeMap = nodes.toSortedList();
+        _nodeToIndexMap = new HashMap<>();
+        int index = 0;
+        for (int nodeId : _indexToNodeMap) {
+            _nodeToIndexMap.put(nodeId, index++);
+        }
     }
     
     public SignatureGraph(IDSet nodes, boolean[][] edges, HashMap<Integer, Integer> nodeToIndexMap, List<Integer> indexToNodeMap) {
 	
-	super(nodes);
-	
-	_edges = edges;
-	_reversed = true;
-	_nodeToIndexMap = nodeToIndexMap;
-	_indexToNodeMap = indexToNodeMap;
+        super(nodes);
+
+        _edges = edges;
+        _reversed = true;
+        _nodeToIndexMap = nodeToIndexMap;
+        _indexToNodeMap = indexToNodeMap;
     }
     
     @Override
     public Iterable<Integer> adjacent(int nodeId) {
 
-	ArrayList<Integer> edges = new ArrayList<>();
-	
-	int nodeIndex = _nodeToIndexMap.get(nodeId);
-	if (_reversed) {
-	    for (int iNode = 0; iNode < _edges.length; iNode++) {
-		if (_edges[iNode][nodeIndex]) {
-		    edges.add(_indexToNodeMap.get(iNode));
-		}
-	    }
-	} else {
-	    for (int iNode = 0; iNode < _edges.length; iNode++) {
-		if (_edges[nodeIndex][iNode]) {
-		    edges.add(_indexToNodeMap.get(iNode));
-		}
-	    }
-	}
-	return edges;
+        ArrayList<Integer> edges = new ArrayList<>();
+
+        int nodeIndex = _nodeToIndexMap.get(nodeId);
+        if (_reversed) {
+            for (int iNode = 0; iNode < _edges.length; iNode++) {
+                if (_edges[iNode][nodeIndex]) {
+                    edges.add(_indexToNodeMap.get(iNode));
+                }
+            }
+        } else {
+            for (int iNode = 0; iNode < _edges.length; iNode++) {
+                if (_edges[nodeIndex][iNode]) {
+                    edges.add(_indexToNodeMap.get(iNode));
+                }
+            }
+        }
+        return edges;
     }
     
     public void edge(int sourceId, int targetId) {
 	
-	_edges[_nodeToIndexMap.get(sourceId)][_nodeToIndexMap.get(targetId)] = true;
+        _edges[_nodeToIndexMap.get(sourceId)][_nodeToIndexMap.get(targetId)] = true;
     }
 
     @Override
     public boolean hasEdge(int sourceId, int targetId) {
 	
-	int sourceIndex = _nodeToIndexMap.get(sourceId);
-	int targetIndex = _nodeToIndexMap.get(targetId);
-	if (_reversed) {
-	    return _edges[targetIndex][sourceIndex];
-	} else {
-	    return _edges[sourceIndex][targetIndex];
-	}
+        int sourceIndex = _nodeToIndexMap.get(sourceId);
+        int targetIndex = _nodeToIndexMap.get(targetId);
+        if (_reversed) {
+            return _edges[targetIndex][sourceIndex];
+        } else {
+            return _edges[sourceIndex][targetIndex];
+        }
     }
 
     @Override
     public AdjacencyGraph reverse() {
 
-	return new SignatureGraph(
-		this.nodes(),
-		_edges,
-		_nodeToIndexMap,
-		_indexToNodeMap
-	);
+        return new SignatureGraph(
+            this.nodes(),
+            _edges,
+            _nodeToIndexMap,
+            _indexToNodeMap
+        );
     }    
 }

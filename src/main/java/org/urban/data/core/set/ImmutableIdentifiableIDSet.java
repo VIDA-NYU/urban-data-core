@@ -55,6 +55,13 @@ public class ImmutableIdentifiableIDSet extends IdentifiableObjectImpl implement
         _values = new IDSetMerger().merge(elements);
     }
 
+    public ImmutableIdentifiableIDSet(int id, IDSet elements) {
+        
+        super(id);
+        
+        _values = new ImmutableIDSet(elements);
+    }
+
     @Override
     public boolean contains(Integer element) {
 
