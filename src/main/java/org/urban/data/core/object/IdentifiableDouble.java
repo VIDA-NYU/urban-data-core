@@ -25,7 +25,7 @@ import org.urban.data.core.util.FormatedBigDecimal;
  */
 public class IdentifiableDouble extends IdentifiableObjectImpl implements Comparable<IdentifiableDouble> {
     
-    private final double _value;
+    private double _value;
     
     public IdentifiableDouble(int id, double value) {
         
@@ -37,6 +37,11 @@ public class IdentifiableDouble extends IdentifiableObjectImpl implements Compar
     public IdentifiableDouble(int id, BigDecimal value) {
         
         this(id, value.doubleValue());
+    }
+    
+    public void add(double val) {
+        
+        _value += val;
     }
     
     @Override
