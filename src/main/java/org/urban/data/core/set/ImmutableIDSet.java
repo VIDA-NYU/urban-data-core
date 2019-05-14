@@ -15,11 +15,14 @@
  */
 package org.urban.data.core.set;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import org.urban.data.core.io.FileSystem;
 
 /**
  * Implements the IDSet interface.
@@ -126,6 +129,26 @@ public class ImmutableIDSet extends IDSetImpl implements IDSet {
     public ImmutableIDSet(int value) {
         
         _values = new Integer[]{value};
+    }
+    
+    public ImmutableIDSet(File file) throws java.io.IOException {
+        
+        HashIDSet values = new HashIDSet();
+        
+        try (BufferedReader in = FileSystem.openReader(file)) {
+            String line;
+            while ((line = in.readLine()) != null) {
+                line = line.trim();
+                if (!line.equals("")) {
+                    for (String token : line.split(",")) {
+                        values.add(Integer.parseInt(token));
+                    }
+                }
+            }
+        }
+        Integer[] arr = new Integer[values.length()];
+        _values = values.toList().toArray(arr);
+        Arrays.sort(_values);
     }
     
     public ImmutableIDSet() {
