@@ -28,6 +28,15 @@ public abstract class ThresholdConstraint {
     public static final String GEQ = "GEQ";
     public static final String GT = "GT";
     
+    /**
+     * Get same threshold constraint with constraint value decreased by the
+     * given value.
+     * 
+     * @param value
+     * @return 
+     */
+    public abstract ThresholdConstraint decreaseBy(BigDecimal value);
+    
     public static ThresholdConstraint getConstraint(String spec) {
     
         try {

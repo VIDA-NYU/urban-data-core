@@ -32,6 +32,12 @@ public class GreaterOrEqualConstraint extends ThresholdConstraint {
         
         _threshold = threshold;
     }
+
+    @Override
+    public ThresholdConstraint decreaseBy(BigDecimal value) {
+
+        return new GreaterOrEqualConstraint(_threshold.subtract(value));
+    }
     
     @Override
     public boolean isSatisfied(BigDecimal value) {

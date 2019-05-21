@@ -25,6 +25,11 @@ import java.math.BigDecimal;
 public class EqualsOneConstraint extends ThresholdConstraint {
 
     @Override
+    public ThresholdConstraint decreaseBy(BigDecimal value) {
+        throw new UnsupportedOperationException("Cannot decrease equals ONE constraint.");
+    }
+
+    @Override
     public boolean isSatisfied(BigDecimal value) {
 
         return (value.compareTo(BigDecimal.ONE) == 0);

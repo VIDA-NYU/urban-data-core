@@ -130,6 +130,6 @@ public class MaxDropThresholdFinder <T extends IdentifiableDouble> extends Candi
             }
         }
 
-	return Math.min(maxIndex, maxThresholdIndex);
+	return Math.max(maxIndex, maxThresholdIndex);
     }
 }

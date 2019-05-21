@@ -69,7 +69,7 @@ public class MaxDropThresholdFinderTest {
 
 	assertEquals(2, new MaxDropFinder<>(0.5, true, true).getPruneIndex(elements));
 	assertEquals(elements.size(), new MaxDropFinder<>(0.5, true, false).getPruneIndex(elements));
-	assertEquals(2, new MaxDropThresholdFinder<>(0.5, true, true).getPruneIndex(elements));
+	assertEquals(5, new MaxDropThresholdFinder<>(0.5, true, true).getPruneIndex(elements));
 	assertEquals(elements.size(), new MaxDropFinder<>(0.5, true, false).getPruneIndex(elements));
 	
 	elements = new ArrayList<>();
@@ -88,6 +88,6 @@ public class MaxDropThresholdFinderTest {
 	elements.add(new IdentifiableDouble(12, 0.28));
 
     	assertEquals(10, new MaxDropFinder<>(0.5, true, true).getPruneIndex(elements));
-	assertEquals(7, new MaxDropThresholdFinder<>(0.5, true, true).getPruneIndex(elements));
+	assertEquals(10, new MaxDropThresholdFinder<>(0.5, true, true).getPruneIndex(elements));
 }
 }
