@@ -15,7 +15,7 @@
  */
 package org.urban.data.core.value;
 
-import org.urban.data.core.constraint.ThresholdConstraint;
+import org.urban.data.core.constraint.Threshold;
 
 /**
  * Accepts a set of values if at least one value is shorter or equal in length
@@ -29,12 +29,12 @@ import org.urban.data.core.constraint.ThresholdConstraint;
 public class ShortValueSetFilter implements ValueSetFilter {
 
     private final ValueSetFilter _filter;
-    private final ThresholdConstraint _fractionThreshold;
+    private final Threshold _fractionThreshold;
     private final int _maxValueLength;
     
     public ShortValueSetFilter(
             int maxValueLength,
-            ThresholdConstraint fractionThreshold,
+            Threshold fractionThreshold,
             ValueSetFilter filter
     ) {
         _maxValueLength = maxValueLength;
@@ -44,7 +44,7 @@ public class ShortValueSetFilter implements ValueSetFilter {
 
     public ShortValueSetFilter(
             int maxValueLength,
-            ThresholdConstraint fractionThreshold
+            Threshold fractionThreshold
     ) {
         this(maxValueLength, fractionThreshold, null);
     }
@@ -54,9 +54,8 @@ public class ShortValueSetFilter implements ValueSetFilter {
             double fractionThreshold,
             ValueSetFilter filter
     ) {
-        this(
-                maxValueLength,
-                ThresholdConstraint.getGreaterConstraint(fractionThreshold),
+        this(maxValueLength,
+                Threshold.getGreaterConstraint(fractionThreshold),
                 filter
         );
     }
@@ -65,9 +64,8 @@ public class ShortValueSetFilter implements ValueSetFilter {
             int maxValueLength,
             double fractionThreshold
     ) {
-        this(
-                maxValueLength,
-                ThresholdConstraint.getGreaterConstraint(fractionThreshold),
+        this(maxValueLength,
+                Threshold.getGreaterConstraint(fractionThreshold),
                 null
         );
     }

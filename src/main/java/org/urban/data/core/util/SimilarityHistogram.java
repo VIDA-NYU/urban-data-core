@@ -56,7 +56,7 @@ public class SimilarityHistogram {
         this(2);
     }
     
-    public void add(BigDecimal val) {
+    public void add(BigDecimal val, int count) {
         
         String key = val
                 .setScale(8, RoundingMode.CEILING)
@@ -72,10 +72,45 @@ public class SimilarityHistogram {
             _totalSize++;
         }
     }
+
+    public void add(BigDecimal val) {
+        
+        this.add(val, 1);
+    }
+    
+    public void add(double val, int count) {
+        
+        this.add(new BigDecimal(val), count);
+    }
     
     public void add(double val) {
         
         this.add(new BigDecimal(val));
+    }
+    
+    public List<Bin> bins() {
+
+        ArrayList<Bin> bins = new ArrayList<>();
+        
+        for (int iBucket = 0; iBucket < Math.pow(10, _scale) + 1; iBucket++) {
+            String key = String.format("%0" + _scale + "d", iBucket);
+            if (key.length() == _scale) {
+                key = "0." + key;
+            }
+            long val = this.get(key);
+            bins.add(
+                            new Bin(
+                            (double)(iBucket) / Math.pow(10, _scale),
+                            (double)(iBucket + 1) / Math.pow(10, _scale),
+                            new BigDecimal(val)
+                                    .divide(new BigDecimal(_totalSize), MathContext.DECIMAL64)
+                                    .doubleValue(),
+                            val
+                    )
+            );
+        }
+        
+        return bins;
     }
     
     public HashMap<String, LongCounter> buckets() {

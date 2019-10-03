@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 New York University.
+ * Copyright 2019 New York University.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,33 +15,40 @@
  */
 package org.urban.data.core.util;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
+import java.io.File;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import org.urban.data.core.io.FileSystem;
 
 /**
- * Formated average.
- * 
+ *
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class Avg extends FormatedBigDecimal {
+public class Printer extends PrintWriter {
     
-    public Avg(int sum, int count) {
-        
-        super((double)sum / (double)count, 6);
+    public Printer(File file) throws java.io.IOException {
+
+        super(new OutputStreamWriter(FileSystem.openOutputFile(file)));
     }
-    
-    public Avg(long sum, long count) {
-        
-        super((double)sum / (double)count, 6);
+
+    @Override
+    public void flush() {
+
+        super.flush();
+        System.out.flush();
     }
-    
-    public Avg(long sum, long count, int scale) {
-        
-        super((double)sum / (double)count, scale);
+
+    @Override
+    public void println(String line) {
+
+        super.println(line);
+        System.out.println(line);
     }
-    
-    public Avg(BigDecimal sum, int count) {
-        
-        super(sum.divide(new BigDecimal(count), MathContext.DECIMAL64), 6);
+
+    @Override
+    public void println() {
+
+        super.println();
+        System.out.println();
     }
 }

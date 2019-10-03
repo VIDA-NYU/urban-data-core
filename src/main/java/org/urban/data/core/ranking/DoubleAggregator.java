@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.util.aggr;
+package org.urban.data.core.ranking;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +27,7 @@ import org.urban.data.core.sort.DoubleValueAscSort;
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class DoubleAggregator implements IdentifiableAggregator<Double> {
+public class DoubleAggregator {
     
     private final HashObjectSet<IdentifiableDouble> _elements;
     
@@ -36,7 +36,6 @@ public class DoubleAggregator implements IdentifiableAggregator<Double> {
          _elements = new HashObjectSet<>();
     }
     
-    @Override
     public void add(int id, Double value) {
 
         if (_elements.contains(id)) {
@@ -51,7 +50,6 @@ public class DoubleAggregator implements IdentifiableAggregator<Double> {
         }
     }
 
-    @Override
     public List<Integer> getRankingAsc() {
 
         List<IdentifiableDouble> sortedList = _elements.toList();

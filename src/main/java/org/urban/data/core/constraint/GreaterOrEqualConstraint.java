@@ -17,6 +17,7 @@ package org.urban.data.core.constraint;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import org.urban.data.core.util.FormatedBigDecimal;
 
 /**
  * The constraint is satisfied if the given value is greater or equal than a
@@ -24,7 +25,7 @@ import java.math.RoundingMode;
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class GreaterOrEqualConstraint extends ThresholdConstraint {
+public class GreaterOrEqualConstraint extends Threshold {
 
     private final BigDecimal _threshold;
     
@@ -34,7 +35,7 @@ public class GreaterOrEqualConstraint extends ThresholdConstraint {
     }
 
     @Override
-    public ThresholdConstraint decreaseBy(BigDecimal value) {
+    public Threshold decreaseBy(BigDecimal value) {
 
         return new GreaterOrEqualConstraint(_threshold.subtract(value));
     }
@@ -71,5 +72,11 @@ public class GreaterOrEqualConstraint extends ThresholdConstraint {
 		.divide(_threshold.add(BigDecimal.ONE), BigDecimal.ROUND_HALF_DOWN)
 		.setScale(0, RoundingMode.HALF_DOWN)
 		.intValue();
+    }
+    
+    @Override
+    public String toPlainString() {
+        
+        return Threshold.GEQ + new FormatedBigDecimal(_threshold, 2);
     }
 }

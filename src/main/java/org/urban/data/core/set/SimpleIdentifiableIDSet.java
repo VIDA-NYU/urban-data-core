@@ -56,13 +56,13 @@ public class SimpleIdentifiableIDSet extends IdentifiableObjectImpl implements I
     }
 
     @Override
-    public ImmutableIDSet difference(IDSet list) {
+    public IDSet difference(IDSet list) {
 
         return _values.difference(list);
     }
 
     @Override
-    public ImmutableIDSet difference(int id) {
+    public IDSet difference(int id) {
 
         return _values.difference(id);
     }
@@ -74,7 +74,7 @@ public class SimpleIdentifiableIDSet extends IdentifiableObjectImpl implements I
     }
 
     @Override
-    public ImmutableIDSet intersect(IDSet list) {
+    public IDSet intersect(IDSet list) {
 
         return _values.intersect(list);
     }
@@ -182,13 +182,13 @@ public class SimpleIdentifiableIDSet extends IdentifiableObjectImpl implements I
     }
 
     @Override
-    public ImmutableIDSet union(IDSet list) {
+    public IDSet union(IDSet list) {
 
         return _values.union(list);
     }
 
     @Override
-    public ImmutableIDSet union(int id) {
+    public IDSet union(int id) {
 
         return _values.union(id);
     }

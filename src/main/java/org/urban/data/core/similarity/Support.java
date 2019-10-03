@@ -23,16 +23,16 @@ import org.urban.data.core.util.FormatedBigDecimal;
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class Support extends FormatedBigDecimal implements Comparable<Support>, OverlapSimilarityFunction {
+public class Support extends FormatedBigDecimal implements Comparable<Support> {
     
-    public Support(int overlap, int setSize, int scale) {
+    public Support(int support, int setSize, int scale) {
         
-        super(new BigDecimal((double)overlap/(double)setSize), scale);
+        super(new BigDecimal((double)support/(double)setSize), scale);
     }
     
-    public Support(int overlap, int setSize) {
+    public Support(int support, int setSize) {
         
-        super(new BigDecimal((double)overlap/(double)setSize));
+        super(new BigDecimal((double)support/(double)setSize));
     }
     
     public Support() {
@@ -44,11 +44,5 @@ public class Support extends FormatedBigDecimal implements Comparable<Support>, 
     public int compareTo(Support r) {
 
         return this.value().compareTo(r.value());
-    }
-
-    @Override
-    public double sim(int size1, int size2, int overlap) {
-
-        return ((double)overlap/(double)size1);
     }
 }

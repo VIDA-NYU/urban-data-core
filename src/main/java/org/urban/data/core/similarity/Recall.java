@@ -23,7 +23,7 @@ import org.urban.data.core.util.FormatedBigDecimal;
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class Recall extends FormatedBigDecimal implements Comparable<Recall>, OverlapSimilarityFunction {
+public class Recall extends FormatedBigDecimal implements Comparable<Recall> {
     
     public Recall(int overlap, int setSize, int scale) {
         
@@ -44,11 +44,5 @@ public class Recall extends FormatedBigDecimal implements Comparable<Recall>, Ov
     public int compareTo(Recall r) {
 
         return this.value().compareTo(r.value());
-    }
-
-    @Override
-    public double sim(int size1, int size2, int overlap) {
-
-        return ((double)overlap/(double)size1);
     }
 }

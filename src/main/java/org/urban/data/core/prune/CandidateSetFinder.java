@@ -17,7 +17,7 @@ package org.urban.data.core.prune;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.urban.data.core.constraint.ThresholdConstraint;
+import org.urban.data.core.constraint.Threshold;
 import org.urban.data.core.object.IdentifiableDouble;
 import org.urban.data.core.set.IDSet;
 import org.urban.data.core.set.ImmutableIDSet;
@@ -79,7 +79,7 @@ public abstract class CandidateSetFinder <T extends IdentifiableDouble> {
             if (name.equalsIgnoreCase(MAX_DIFF)) {
                 if (tokens.length == 4) {
                     return new MaxDropFinder(
-                            ThresholdConstraint.getConstraint(tokens[1]),
+                            Threshold.getConstraint(tokens[1]),
                             Boolean.parseBoolean(tokens[2]),
                             Boolean.parseBoolean(tokens[3])
                     );
@@ -87,7 +87,7 @@ public abstract class CandidateSetFinder <T extends IdentifiableDouble> {
             } else if (name.equalsIgnoreCase(MAX_DIFF_THRESHOLD)) {
                 if (tokens.length == 4) {
                     return new MaxDropThresholdFinder(
-                            ThresholdConstraint.getConstraint(tokens[1]),
+                            Threshold.getConstraint(tokens[1]),
                             Boolean.parseBoolean(tokens[2]),
                             Boolean.parseBoolean(tokens[3])
                     );
@@ -95,7 +95,7 @@ public abstract class CandidateSetFinder <T extends IdentifiableDouble> {
             } else if (name.equalsIgnoreCase(THRESHOLD)) {
                 if (tokens.length == 2) {
                     return new ThresholdFinder(
-                            ThresholdConstraint.getConstraint(tokens[1])
+                            Threshold.getConstraint(tokens[1])
                     );
                 }
             } else {
@@ -164,18 +164,18 @@ public abstract class CandidateSetFinder <T extends IdentifiableDouble> {
         String name = tokens[0];
         if (name.equalsIgnoreCase(MAX_DIFF)) {
             if (tokens.length == 4) {
-                ThresholdConstraint.validateSpecification(tokens[1]);
+                Threshold.validateSpecification(tokens[1]);
             } else {
                 throw new java.lang.IllegalArgumentException(message);
             }
         } else if (name.equalsIgnoreCase(MAX_DIFF_THRESHOLD)) {
             if (tokens.length == 4) {
-                ThresholdConstraint.validateSpecification(tokens[1]);
+                Threshold.validateSpecification(tokens[1]);
             } else {
                 throw new java.lang.IllegalArgumentException(message);
             }
         } else if (name.equalsIgnoreCase(THRESHOLD)) {
-            ThresholdConstraint
+            Threshold
                     .validateSpecification(StringHelper.joinStrings(tokens, 1, ":"));
         } else {
             throw new java.lang.IllegalArgumentException("Unknown drop finder name: " + name);

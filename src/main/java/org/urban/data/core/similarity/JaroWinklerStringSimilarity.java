@@ -17,7 +17,7 @@ package org.urban.data.core.similarity;
 
 import java.math.BigDecimal;
 import org.apache.commons.text.similarity.JaroWinklerDistance;
-import org.urban.data.core.constraint.ThresholdConstraint;
+import org.urban.data.core.constraint.Threshold;
 
 /**
  * Compute string similarity as Jaro-Winkler distance between the given terms.
@@ -29,9 +29,9 @@ import org.urban.data.core.constraint.ThresholdConstraint;
  */
 public class JaroWinklerStringSimilarity implements StringSimilarityComputer {
 
-    private final ThresholdConstraint _threshold;
+    private final Threshold _threshold;
     
-    public JaroWinklerStringSimilarity(ThresholdConstraint threshold) {
+    public JaroWinklerStringSimilarity(Threshold threshold) {
         
         _threshold = threshold;
     }

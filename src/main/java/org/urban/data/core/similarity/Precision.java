@@ -23,7 +23,7 @@ import org.urban.data.core.util.FormatedBigDecimal;
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class Precision extends FormatedBigDecimal implements Comparable<Precision>, OverlapSimilarityFunction {
+public class Precision extends FormatedBigDecimal implements Comparable<Precision> {
     
     public Precision(int overlap, int setSize, int scale) {
         
@@ -44,11 +44,5 @@ public class Precision extends FormatedBigDecimal implements Comparable<Precisio
     public int compareTo(Precision p) {
 
         return this.value().compareTo(p.value());
-    }
-
-    @Override
-    public double sim(int size1, int size2, int overlap) {
-
-        return ((double)overlap/(double)size1);
     }
 }

@@ -16,7 +16,7 @@
 package org.urban.data.core.prune;
 
 import java.util.List;
-import org.urban.data.core.constraint.ThresholdConstraint;
+import org.urban.data.core.constraint.Threshold;
 import org.urban.data.core.object.IdentifiableDouble;
 
 /**
@@ -27,9 +27,9 @@ import org.urban.data.core.object.IdentifiableDouble;
  */
 public class ThresholdFinder <T extends IdentifiableDouble> extends CandidateSetFinder<T> {
  
-    private final ThresholdConstraint _constraint;
+    private final Threshold _constraint;
 
-    public ThresholdFinder(ThresholdConstraint constraint) {
+    public ThresholdFinder(Threshold constraint) {
         
         _constraint = constraint;
     }

@@ -61,13 +61,9 @@ public class JsonPrimitiveEmitter implements JsonDocumentHandler {
 		JsonElement entry = array.get(iElement);
 		if (entry.isJsonObject()) {
 		    this.traverse(elementPath, entry.getAsJsonObject());
-		} else if (entry.isJsonArray()) {
-		    this.emit(elementPath, Integer.toString(iElement), entry);
-		} else {
-		    _consumer.consume(elementPath.substring(1), element.getAsJsonPrimitive());
 		}
 	    }
-	} else {
+	} else if (element.isJsonPrimitive()) {
 	    _consumer.consume(elementPath.substring(1), element.getAsJsonPrimitive());
 	}
     }

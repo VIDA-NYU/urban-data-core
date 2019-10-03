@@ -28,14 +28,6 @@ import org.urban.data.core.graph.build.GraphBuilder;
 public interface ConnectedComponentGenerator extends GraphBuilder {
     
     /**
-     * Return all connected components with at least size elements.
-     * 
-     * @param size
-     * @return 
-     */
-    public IdentifiableObjectSet<IdentifiableIDSet> componentsOfSizeOrGreater(int size);
-
-    /**
      * Connected component result.
      * 
      * @return 

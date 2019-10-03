@@ -15,7 +15,7 @@
  */
 package org.urban.data.core.value;
 
-import org.urban.data.core.constraint.ThresholdConstraint;
+import org.urban.data.core.constraint.Threshold;
 import org.urban.data.core.value.profiling.types.DefaultDataTypeAnnotator;
 
 /**
@@ -28,16 +28,16 @@ import org.urban.data.core.value.profiling.types.DefaultDataTypeAnnotator;
  */
 public class TextValueSetFilter implements ValueSetFilter {
 
-    private final ThresholdConstraint _threshold;
+    private final Threshold _threshold;
     
-    public TextValueSetFilter(ThresholdConstraint threshold) {
+    public TextValueSetFilter(Threshold threshold) {
         
         _threshold = threshold;
     }
     
     public TextValueSetFilter(double threshold) {
         
-        this(ThresholdConstraint.getGreaterConstraint(threshold));
+        this(Threshold.getGreaterConstraint(threshold));
     }
     
     @Override

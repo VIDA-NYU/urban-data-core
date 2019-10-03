@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import org.urban.data.core.io.FileSystem;
@@ -131,6 +132,14 @@ public class ImmutableIDSet extends IDSetImpl implements IDSet {
         _values = new Integer[]{value};
     }
     
+    public ImmutableIDSet(int minId, int maxId) {
+    
+        _values = new Integer[maxId - minId];
+        for (int iValue = 0; iValue < _values.length; iValue++) {
+            _values[iValue] = minId + iValue;
+        }
+    }
+    
     public ImmutableIDSet(File file) throws java.io.IOException {
         
         HashIDSet values = new HashIDSet();
@@ -210,54 +219,64 @@ public class ImmutableIDSet extends IDSetImpl implements IDSet {
         return false;
     }
 
+    public int sortedOverlap(ImmutableIDSet nodes, HashMap<Integer, Integer> nodesSize) {
+
+        int indexI = 0;
+        int indexJ = 0;
+
+        final int len = nodes.length();
+	
+        int ovp = 0;
+        while ((indexI < _values.length) && (indexJ < len)) {
+            final int nodeId = _values[indexI];
+            final int comp = Integer.compare(nodeId, nodes.get(indexJ));
+            if (comp < 0) {
+                indexI++;
+            } else if (comp > 0) {
+                indexJ++;
+            } else {
+                indexI++;
+                indexJ++;
+                if (nodesSize != null) {
+                    ovp += nodesSize.get(nodeId);
+                } else {
+                    ovp++;
+                }
+            }
+        }
+        return ovp;
+    }
+
     public int sortedOverlap(ImmutableIDSet nodes) {
 
-	int indexI = 0;
-	int indexJ = 0;
-	
-	final int nodesSize = nodes.length();
-	
-	int ovp = 0;
-	while ((indexI < _values.length) && (indexJ < nodesSize)) {
-	    final int comp = Integer.compare(_values[indexI], nodes.get(indexJ));
-	    if (comp < 0) {
-		indexI++;
-	    } else if (comp > 0) {
-		indexJ++;
-	    } else {
-		indexI++;
-		indexJ++;
-		ovp++;
-	    }
-	}
-	return ovp;
+        return this.sortedOverlap(nodes, null);
     }
     
     public ImmutableIDSet trim(ImmutableIDSet nodes) {
 
-	final int ovp = this.sortedOverlap(nodes);
-	if (ovp == 0) {
-	    return new ImmutableIDSet();
-	} else {
-	    Integer[] values = new Integer[ovp];
-	    int indexI = 0;
-	    int indexJ = 0;
-	    int index = 0;
-	    while (index < ovp) {
-		final int val = _values[indexI];
-		final int comp = Integer.compare(val, nodes.get(indexJ));
-		if (comp < 0) {
-		    indexI++;
-		} else if (comp > 0) {
-		    indexJ++;
-		} else {
-		    indexI++;
-		    indexJ++;
-		    values[index++] = val;
-		}
-	    }
-	    return new ImmutableIDSet(values, true);
-	}
+        final int ovp = this.sortedOverlap(nodes);
+        if (ovp == 0) {
+            return new ImmutableIDSet();
+        } else {
+            Integer[] values = new Integer[ovp];
+            int indexI = 0;
+            int indexJ = 0;
+            int index = 0;
+            while (index < ovp) {
+                final int val = _values[indexI];
+                final int comp = Integer.compare(val, nodes.get(indexJ));
+                if (comp < 0) {
+                    indexI++;
+                } else if (comp > 0) {
+                    indexJ++;
+                } else {
+                    indexI++;
+                    indexJ++;
+                    values[index++] = val;
+                }
+            }
+            return new ImmutableIDSet(values, true);
+        }
     }
     
     @Override

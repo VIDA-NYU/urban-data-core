@@ -15,7 +15,6 @@
  */
 package org.urban.data.core.graph.components;
 
-import org.urban.data.core.set.HashObjectSet;
 import org.urban.data.core.set.IdentifiableIDSet;
 import org.urban.data.core.set.IdentifiableObjectSet;
 import org.urban.data.core.graph.DynamicGraph;
@@ -34,21 +33,6 @@ public class DirectedConnectedComponents implements ConnectedComponentGenerator 
     public DirectedConnectedComponents(DynamicGraph graph) {
 	
 	_graph = graph;
-    }
-
-    @Override
-    public synchronized IdentifiableObjectSet<IdentifiableIDSet> componentsOfSizeOrGreater(int size) {
-
-	HashObjectSet result = new HashObjectSet();
-	
-        IdentifiableObjectSet<IdentifiableIDSet> components = this.getComponents();
-	for (IdentifiableIDSet comp : components) {
-            if (comp.length() >= size) {
-                result.add(comp);
-            }
-	}
-	
-        return result;
     }
     
     @Override

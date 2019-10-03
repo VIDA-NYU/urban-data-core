@@ -78,14 +78,17 @@ public final class FileSystem {
      * Throws an exception if the file exists but is not a directory.
      * 
      * @param file 
+     * @return  
      */
-    public static void createFolder(File file) {
+    public static File createFolder(File file) {
 
         if (!file.exists()) {
             file.mkdirs();
         } else if (!file.isDirectory()) {
             throw new java.lang.IllegalArgumentException("Not a directory: " + file.getAbsolutePath());
         }
+        
+        return file;
     }
 
     public synchronized static void createParentFolder(File file) {
@@ -123,6 +126,33 @@ public final class FileSystem {
     }
     
     /**
+     * Formatting byte size to human readable format.
+     * 
+     * Source:
+     * https://programming.guide/java/formatting-byte-size-to-human-readable-format.html
+     * 
+     * @param bytes
+     * @param si
+     * @return 
+     */
+    public static String humanReadableByteCount(long bytes, boolean si) {
+        
+        int unit = si ? 1000 : 1024;
+        if (bytes < unit) {
+            return bytes + " B";
+        }
+    
+        int exp = (int) (Math.log(bytes) / Math.log(unit));
+        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + (si ? "" : "i");
+        return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
+    }
+
+    public static String humanReadableByteCount(long bytes) {
+        
+        return FileSystem.humanReadableByteCount(bytes, false);
+    }
+    
+    /**
      * Create new file in the given directory with filename.
      * 
      * @param dir
@@ -131,7 +161,32 @@ public final class FileSystem {
      */
     public static File joinPath(File dir, String filename) {
 	
-	return new File(dir.getAbsolutePath() + File.separator + filename);
+        if (dir != null) {
+            return new File(dir.getAbsolutePath() + File.separator + filename);
+        } else {
+            return new File(filename);
+        }
+    }
+    
+    /**
+     * Create new file with relative path to the given directory.
+     * 
+     * @param dir
+     * @param path
+     * @return 
+     */
+    public static File joinPath(File dir, String[] path) {
+	
+        File file;
+        if (dir != null) {
+            file = dir;
+        } else {
+            file = new File(".");
+        }
+        for (String filename : path) {
+            file = new File(file.getAbsolutePath() + File.separator + filename);
+        }
+        return file;
     }
     
     /**

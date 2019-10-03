@@ -23,7 +23,7 @@ import org.urban.data.core.set.IDSet;
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public abstract class ThresholdConstraint {
+public abstract class Threshold {
 
     public static final String GEQ = "GEQ";
     public static final String GT = "GT";
@@ -35,9 +35,9 @@ public abstract class ThresholdConstraint {
      * @param value
      * @return 
      */
-    public abstract ThresholdConstraint decreaseBy(BigDecimal value);
+    public abstract Threshold decreaseBy(BigDecimal value);
     
-    public static ThresholdConstraint getConstraint(String spec) {
+    public static Threshold getConstraint(String spec) {
     
         try {
             if (spec.toUpperCase().startsWith(GEQ)) {
@@ -56,7 +56,7 @@ public abstract class ThresholdConstraint {
         }
     }
     
-    public static ThresholdConstraint getGreaterConstraint(BigDecimal threshold) {
+    public static Threshold getGreaterConstraint(BigDecimal threshold) {
         
         if (threshold.compareTo(BigDecimal.ONE) == 0) {
             return new EqualsOneConstraint();
@@ -65,7 +65,7 @@ public abstract class ThresholdConstraint {
         }
     }
 
-    public static ThresholdConstraint getGreaterConstraint(double threshold) {
+    public static Threshold getGreaterConstraint(double threshold) {
         
         return getGreaterConstraint(new BigDecimal(threshold));
     }
@@ -90,6 +90,8 @@ public abstract class ThresholdConstraint {
     }
     
     public abstract boolean isSatisfied(BigDecimal value);
+    
+    public abstract String toPlainString();
     
     /**
      * Validate the given specification.

@@ -16,6 +16,7 @@
 package org.urban.data.core.graph.components;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import org.urban.data.core.set.HashIDSet;
 import org.urban.data.core.set.HashObjectSet;
 import org.urban.data.core.set.IDSet;
@@ -23,8 +24,6 @@ import org.urban.data.core.set.IdentifiableIDSet;
 import org.urban.data.core.set.IdentifiableObjectSet;
 import org.urban.data.core.set.ImmutableIDSet;
 import org.urban.data.core.set.ImmutableIdentifiableIDSet;
-import org.urban.data.core.set.MutableIDSet;
-import org.urban.data.core.util.count.Counter;
 
 /**
  * Default connected component generator. Use  for nodes that are unstructured
@@ -34,48 +33,21 @@ import org.urban.data.core.util.count.Counter;
  */
 public class UndirectedConnectedComponents implements ConnectedComponentGenerator {
 
-    private final Counter _componentCounter;
-    private final HashMap<Integer, MutableIDSet> _components;
+    private final HashMap<Integer, HashSet<Integer>> _components;
     private final HashMap<Integer, Integer> _componentMap;
+    private final IDSet _nodes;
     
     public UndirectedConnectedComponents(IDSet nodes) {
 	
-	_componentCounter = new Counter(0);
-	_components = new HashMap<>();
-	_componentMap = new HashMap<>();
-
-	for (int nodeId : nodes) {
-	    int componentId = _componentCounter.inc();
-	    HashIDSet component = new HashIDSet();
-	    component.add(nodeId);
-	    _components.put(componentId, component);
-	    _componentMap.put(nodeId, componentId);
-	}
+        _nodes = nodes;
+        
+        _components = new HashMap<>();
+        _componentMap = new HashMap<>();
     }
     
     public int componentCount() {
         
         return _components.size();
-    }
-
-    @Override
-    public synchronized IdentifiableObjectSet<IdentifiableIDSet> componentsOfSizeOrGreater(int size) {
-
-	HashObjectSet result = new HashObjectSet();
-	
-	for (int compId : _components.keySet()) {
-            IDSet comp = _components.get(compId);
-            if (comp.length() >= size) {
-                result.add(
-                        new ImmutableIdentifiableIDSet(
-                                compId,
-                                new ImmutableIDSet(comp.toSortedList(), true)
-                        )
-                );
-            }
-	}
-	
-        return result;
     }
 
     /**
@@ -87,36 +59,54 @@ public class UndirectedConnectedComponents implements ConnectedComponentGenerato
      */
     private int getComponentForNode(int nodeId) {
 	
+        //if (!_nodes.contains(nodeId)) {
+        //    throw new RuntimeException("Unknown node identifier: " + nodeId);
+        //}
+        
+        // If the nodeId is not contained in the component map then the node
+        // is in the component that has the same identifier as the nodeId
         if (_componentMap.containsKey(nodeId)) {
             return _componentMap.get(nodeId);
         } else {
-            HashIDSet component = new HashIDSet();
-            component.add(nodeId);
-            int componentId = _componentCounter.inc();
-            _components.put(componentId, component);
-            _componentMap.put(nodeId, componentId);
-            return componentId;
+            return nodeId;
         }
     }
     
     @Override
     public synchronized void edge(int sourceId, int targetId) {	
         
-        int targetComponent = this.getComponentForNode(sourceId);
-        int sourceComponent = this.getComponentForNode(targetId);
+        int sourceCompId = this.getComponentForNode(sourceId);
+        int targetCompId = this.getComponentForNode(targetId);
 
-        if (targetComponent != sourceComponent) {
-            MutableIDSet target = _components.get(targetComponent);
-            MutableIDSet source = _components.get(sourceComponent);
-            if (source.length() > target.length()) {
-                target = source;
-                int c = targetComponent;
-                targetComponent = sourceComponent;
-                sourceComponent = c;
-            }
-            for (int nodeId : _components.remove(sourceComponent)) {
-                target.add(nodeId);
-            _componentMap.put(nodeId, targetComponent);
+        if (sourceCompId != targetCompId) {
+            // The respective components may not have been instantiated yet.
+            boolean sourceExists = _components.containsKey(sourceCompId);
+            boolean targetExists = _components.containsKey(targetCompId);
+            if ((sourceExists) && (targetExists)) {
+                // Merge the two components. We add the values from the smaller
+                // component to the larger one
+                HashSet<Integer> source = _components.get(sourceCompId);
+                HashSet<Integer> target = _components.get(targetCompId);
+                if (source.size() > target.size()) {
+                    this.merge(source, sourceCompId, target, targetCompId);
+                } else {
+                    this.merge(target, targetCompId, source, sourceCompId);
+                }
+            } else if ((sourceExists) && (!targetExists)) {
+                // Add targetId to source component
+                _components.get(sourceCompId).add(targetId);
+                _componentMap.put(targetId, sourceCompId);
+            } else if ((!sourceExists) && (targetExists)) {
+                // Add sourceId to target component
+                _components.get(targetCompId).add(sourceId);
+                _componentMap.put(sourceId, targetCompId);
+            } else {
+                // Create component for source and add target
+                HashSet<Integer> comp = new HashSet();
+                comp.add(sourceId);
+                comp.add(targetId);
+                _components.put(sourceCompId, comp);
+                _componentMap.put(targetId, sourceCompId);
             }
         }
     }
@@ -124,19 +114,28 @@ public class UndirectedConnectedComponents implements ConnectedComponentGenerato
     @Override
     public synchronized IdentifiableObjectSet<IdentifiableIDSet> getComponents() {
 
-	HashObjectSet result = new HashObjectSet();
+        HashObjectSet result = new HashObjectSet();
 	
-	for (int compId : _components.keySet()) {
-	    result.add(
-                    new ImmutableIdentifiableIDSet(
-                            compId,
-                            new ImmutableIDSet(
-                                    _components.get(compId).toSortedList(),
-                                    true
-                            )
-                    )
-            );
+        HashIDSet clusteredNodes = new HashIDSet();
+        
+        for (int compId : _components.keySet()) {
+            HashSet<Integer> comp = _components.get(compId);
+            ImmutableIDSet cluster = new ImmutableIDSet(comp);
+            result.add(new ImmutableIdentifiableIDSet(compId, cluster));
+            clusteredNodes.add(cluster);
 	}
+        
+        // Add single node components for all unclustered nodes
+        for (int nodeId : _nodes) {
+            if (!clusteredNodes.contains(nodeId)) {
+                result.add(
+                        new ImmutableIdentifiableIDSet(
+                                nodeId,
+                                new ImmutableIDSet(nodeId)
+                        )
+                );
+            }
+        }
 	
         return result;
     }
@@ -147,6 +146,21 @@ public class UndirectedConnectedComponents implements ConnectedComponentGenerato
         return false;
     }
     
+    private void merge(
+            HashSet<Integer> target,
+            int targetCompId,
+            HashSet<Integer> source,
+            int sourceCompId
+    ) {
+        
+        for (int nodeId : source) {
+            target.add(nodeId);
+            _componentMap.put(nodeId, targetCompId);
+        }
+        
+        _components.remove(sourceCompId);
+    }
+
     public synchronized boolean nodesAreInSameComponent(int node1, int node2) {
         
         int comp1 = this.getComponentForNode(node1);

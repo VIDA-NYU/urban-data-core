@@ -35,10 +35,10 @@ public abstract class IDSetImpl extends ObjectSetImpl<Integer> implements IDSet 
      * @param values
      * @return 
      */
-    public abstract ImmutableIDSet create(Collection<Integer> values);
+    public abstract IDSet create(Collection<Integer> values);
     
     @Override
-    public ImmutableIDSet difference(IDSet list) {
+    public IDSet difference(IDSet list) {
 
         HashSet<Integer> values = new HashSet<>();
         for (int id : this) {
@@ -50,7 +50,7 @@ public abstract class IDSetImpl extends ObjectSetImpl<Integer> implements IDSet 
     }
     
     @Override
-    public ImmutableIDSet difference(int value) {
+    public IDSet difference(int value) {
 
         HashSet<Integer> values = new HashSet<>();
         for (int id : this) {
@@ -91,7 +91,7 @@ public abstract class IDSetImpl extends ObjectSetImpl<Integer> implements IDSet 
     }
 
     @Override
-    public ImmutableIDSet intersect(IDSet list) {
+    public IDSet intersect(IDSet list) {
 
 	IDSet innerList;
 	IDSet outerList;
@@ -217,7 +217,7 @@ public abstract class IDSetImpl extends ObjectSetImpl<Integer> implements IDSet 
     }    
 
     @Override
-    public ImmutableIDSet union(IDSet list) {
+    public IDSet union(IDSet list) {
         
         HashSet<Integer> values = new HashSet<>(this.toList());
         for (int value : list) {
@@ -227,7 +227,7 @@ public abstract class IDSetImpl extends ObjectSetImpl<Integer> implements IDSet 
     }    
     
     @Override
-    public ImmutableIDSet union(int nodeId) {
+    public IDSet union(int nodeId) {
 
         HashSet<Integer> values = new HashSet<>(this.toList());
         values.add(nodeId);

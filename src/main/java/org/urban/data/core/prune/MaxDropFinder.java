@@ -17,7 +17,7 @@ package org.urban.data.core.prune;
 
 import java.util.List;
 import org.urban.data.core.constraint.GreaterThanConstraint;
-import org.urban.data.core.constraint.ThresholdConstraint;
+import org.urban.data.core.constraint.Threshold;
 import org.urban.data.core.object.IdentifiableDouble;
 
 /**
@@ -28,12 +28,12 @@ import org.urban.data.core.object.IdentifiableDouble;
  */
 public class MaxDropFinder <T extends IdentifiableDouble> extends CandidateSetFinder<T> {
         
-    private final ThresholdConstraint _nonEmptySignatureThreshold;
+    private final Threshold _nonEmptySignatureThreshold;
     private final boolean _ignoreLastDrop;
     private final boolean _fullSignatureConstraint;
     
     public MaxDropFinder(
-            ThresholdConstraint nonEmptySignatureThreshold,
+            Threshold nonEmptySignatureThreshold,
             boolean fullSignatureConstraint,
             boolean ignoreLastDrop
     ) {
@@ -98,20 +98,20 @@ public class MaxDropFinder <T extends IdentifiableDouble> extends CandidateSetFi
         // size of the array
         final double last = elements.get(size - 1).value();
         if (_fullSignatureConstraint) {
-            if ((first - last) <= last) {
+            if ((elements.get(start).value() - last) <= last) {
                 return size;
-            }
+             }
         }
         
         // The initial value for maxDiff depends on whether we ignore the last
         // drop or not. In the latter case, maxDiff is the value of the last
         // drop. In the former case it is zero.
         double maxDiff;
-	if (!_ignoreLastDrop) {
-	    maxDiff = last;
-	} else {
-	    maxDiff = 0f;
-	}
+        if (!_ignoreLastDrop) {
+            maxDiff = last;
+        } else {
+            maxDiff = 0f;
+        }
         
         int maxIndex = elements.size();
         

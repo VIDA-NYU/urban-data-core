@@ -15,10 +15,14 @@
  */
 package org.urban.data.core.graph;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.urban.data.core.set.IDSet;
+import org.urban.data.core.util.ArrayHelper;
+import org.urban.data.core.util.StringHelper;
 
 /**
  *
@@ -54,6 +58,37 @@ public class SignatureGraph extends AdjacencyGraph {
         _reversed = true;
         _nodeToIndexMap = nodeToIndexMap;
         _indexToNodeMap = indexToNodeMap;
+    }
+    
+    public SignatureGraph(IDSet nodes, BufferedReader in) throws java.io.IOException {
+        
+        super(nodes);
+        
+        // Read index to node map
+        _indexToNodeMap = new ArrayList<>();
+        for (int nodeId : ArrayHelper.arrayFromString(in.readLine())) {
+            _indexToNodeMap.add(nodeId);
+        }
+        
+        // Read node to index map next
+        _nodeToIndexMap = new HashMap<>();
+        for (int iNode = 0; iNode < _indexToNodeMap.size(); iNode++) {
+            String[] tokens = in.readLine().split("\t");
+            _nodeToIndexMap.put(
+                    Integer.parseInt(tokens[0]),
+                    Integer.parseInt(tokens[1])
+            );
+        }
+        
+        // Read the boolean array
+        _edges = new boolean[nodes.length()][nodes.length()];
+        for (int iNode = 0; iNode < nodes.length(); iNode++) {
+            String line = in.readLine();
+            for (int jNode = 0; jNode < nodes.length(); jNode++) {
+                _edges[iNode][jNode] = (line.charAt(jNode) == '1');
+            }
+        }
+        _reversed = false;
     }
     
     @Override
@@ -104,5 +139,33 @@ public class SignatureGraph extends AdjacencyGraph {
             _nodeToIndexMap,
             _indexToNodeMap
         );
-    }    
+    }
+    
+    public void write(PrintWriter out) {
+        
+        if (_reversed) {
+            throw new RuntimeException("Cannot write reversed graph");
+        }
+
+        // Write index to node map as single line
+        out.println(StringHelper.joinIntegers(_indexToNodeMap));
+        
+        // For each entry in the node to index map write one key value line
+        for (int key : _nodeToIndexMap.keySet()) {
+            out.println(key + "\t" + _nodeToIndexMap.get(key));
+        }
+        
+        // Single string for each row in the matrix. '1' represents true and
+        // '0' represents false
+        for (int iNode = 0; iNode < this.nodes().length(); iNode++) {
+            for (int jNode = 0; jNode < this.nodes().length(); jNode++) {
+                if (_edges[iNode][jNode]) {
+                    out.print("1");
+                } else {
+                    out.print("0");
+                }
+            }
+            out.println();
+        }
+    }
 }

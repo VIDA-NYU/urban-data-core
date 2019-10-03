@@ -17,6 +17,7 @@ package org.urban.data.core.constraint;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import org.urban.data.core.util.FormatedBigDecimal;
 
 /**
  * The constraint is satisfied if the given value is greater than a defined
@@ -24,7 +25,7 @@ import java.math.RoundingMode;
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class GreaterThanConstraint extends ThresholdConstraint {
+public class GreaterThanConstraint extends Threshold {
 
     private final BigDecimal _threshold;
     
@@ -39,7 +40,7 @@ public class GreaterThanConstraint extends ThresholdConstraint {
     }
 
     @Override
-    public ThresholdConstraint decreaseBy(BigDecimal value) {
+    public Threshold decreaseBy(BigDecimal value) {
 
         return new GreaterThanConstraint(_threshold.subtract(value));
     }
@@ -77,16 +78,22 @@ public class GreaterThanConstraint extends ThresholdConstraint {
             return 1;
         }
         
-	BigDecimal count = _threshold
-		.multiply(new BigDecimal(2 * Math.min(size2, size2)))
-		.divide(_threshold.add(BigDecimal.ONE), BigDecimal.ROUND_HALF_DOWN);
-	int floor = count.setScale(0, RoundingMode.FLOOR).intValueExact();
-	int ceiling = count.setScale(0, RoundingMode.CEILING).intValueExact();
-	
-	if (floor == ceiling) {
-	    return ceiling + 1;
-	} else {
-	    return ceiling;
-	}
+        BigDecimal count = _threshold
+            .multiply(new BigDecimal(2 * Math.min(size2, size2)))
+            .divide(_threshold.add(BigDecimal.ONE), BigDecimal.ROUND_HALF_DOWN);
+        int floor = count.setScale(0, RoundingMode.FLOOR).intValueExact();
+        int ceiling = count.setScale(0, RoundingMode.CEILING).intValueExact();
+
+        if (floor == ceiling) {
+            return ceiling + 1;
+        } else {
+            return ceiling;
+        }
+    }
+    
+    @Override
+    public String toPlainString() {
+        
+        return Threshold.GT + new FormatedBigDecimal(_threshold, 2);
     }
 }

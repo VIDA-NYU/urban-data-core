@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 New York University.
+ * Copyright 2019 New York University.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,33 +15,44 @@
  */
 package org.urban.data.core.util;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-
 /**
- * Formated average.
+ * Bin in a histogram. Contains the start and end bounds of the bin and the
+ * distribution probability.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class Avg extends FormatedBigDecimal {
+public class Bin {
+
+    private final long _count;
+    private final double _end;
+    private final double _probability;
+    private final double _start;
     
-    public Avg(int sum, int count) {
+    public Bin(double start, double end, double probability, long count) {
         
-        super((double)sum / (double)count, 6);
+        _start = start;
+        _end = end;
+        _probability = probability;
+        _count = count;
     }
     
-    public Avg(long sum, long count) {
+    public long count() {
         
-        super((double)sum / (double)count, 6);
+        return _count;
     }
     
-    public Avg(long sum, long count, int scale) {
+    public double end() {
         
-        super((double)sum / (double)count, scale);
+        return _end;
     }
     
-    public Avg(BigDecimal sum, int count) {
+    public double probability() {
         
-        super(sum.divide(new BigDecimal(count), MathContext.DECIMAL64), 6);
+        return _probability;
+    }
+    
+    public double start() {
+        
+        return _start;
     }
 }

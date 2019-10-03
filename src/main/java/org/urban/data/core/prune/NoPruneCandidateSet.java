@@ -13,35 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.util;
+package org.urban.data.core.prune;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
+import java.util.List;
+import org.urban.data.core.object.IdentifiableDouble;
 
 /**
- * Formated average.
+ * The "NO Pruning" candidate set finder returns all elements in a given list
+ * without any pruning.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
+ * @param <T>
  */
-public class Avg extends FormatedBigDecimal {
-    
-    public Avg(int sum, int count) {
-        
-        super((double)sum / (double)count, 6);
-    }
-    
-    public Avg(long sum, long count) {
-        
-        super((double)sum / (double)count, 6);
-    }
-    
-    public Avg(long sum, long count, int scale) {
-        
-        super((double)sum / (double)count, scale);
-    }
-    
-    public Avg(BigDecimal sum, int count) {
-        
-        super(sum.divide(new BigDecimal(count), MathContext.DECIMAL64), 6);
+public class NoPruneCandidateSet <T extends IdentifiableDouble> extends CandidateSetFinder<T> {
+ 
+    @Override
+    public int getPruneIndex(List<T> elements, int start) {
+
+        return elements.size();
     }
 }

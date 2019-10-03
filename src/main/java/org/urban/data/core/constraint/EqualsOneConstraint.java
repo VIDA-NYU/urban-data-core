@@ -22,10 +22,10 @@ import java.math.BigDecimal;
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class EqualsOneConstraint extends ThresholdConstraint {
+public class EqualsOneConstraint extends Threshold {
 
     @Override
-    public ThresholdConstraint decreaseBy(BigDecimal value) {
+    public Threshold decreaseBy(BigDecimal value) {
         throw new UnsupportedOperationException("Cannot decrease equals ONE constraint.");
     }
 
@@ -37,11 +37,18 @@ public class EqualsOneConstraint extends ThresholdConstraint {
 
     @Override
     public int getJIOverlap(int size1, int size2) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public int getMinJIOverlap(int size1, int size2) {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    @Override
+    public String toPlainString() {
+        
+        return "EQ0";
     }
 }

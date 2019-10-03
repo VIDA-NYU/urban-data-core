@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 New York University.
+ * Copyright 2019 New York University.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,31 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.util.aggr;
-
-import java.util.List;
+package org.urban.data.core.prune;
 
 /**
- * Aggregator for identifiable values.
+ * Function to get a size value for objects in a set of identifiable objects.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
- * @param <T>
  */
-public interface IdentifiableAggregator <T> {
+public interface SizeFunction {
     
     /**
-     * Add value to aggregate for identified object.
+     * Get function value for the object with the given identifier.
      * 
      * @param id
-     * @param value 
-     */
-    public void add(int id, T value);
-    
-    /**
-     * Get list of identifier sorted by ascending value of their associated 
-     * aggregate.
-     * 
      * @return 
      */
-    public List<Integer> getRankingAsc();
+    public int getSize(int id);
 }

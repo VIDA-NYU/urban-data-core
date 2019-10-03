@@ -17,7 +17,7 @@ package org.urban.data.core.prune;
 
 import java.util.List;
 import org.urban.data.core.constraint.GreaterThanConstraint;
-import org.urban.data.core.constraint.ThresholdConstraint;
+import org.urban.data.core.constraint.Threshold;
 import org.urban.data.core.object.IdentifiableDouble;
 
 /**
@@ -31,12 +31,12 @@ import org.urban.data.core.object.IdentifiableDouble;
  */
 public class MaxDropThresholdFinder <T extends IdentifiableDouble> extends CandidateSetFinder<T> {
         
-    private final ThresholdConstraint _nonEmptySignatureThreshold;
+    private final Threshold _nonEmptySignatureThreshold;
     private final boolean _ignoreLastDrop;
     private final boolean _fullSignatureConstraint;
     
     public MaxDropThresholdFinder(
-            ThresholdConstraint nonEmptySignatureThreshold,
+            Threshold nonEmptySignatureThreshold,
             boolean fullSignatureConstraint,
             boolean ignoreLastDrop
     ) {

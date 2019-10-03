@@ -20,7 +20,6 @@ import java.util.Comparator;
 import java.util.List;
 import org.urban.data.core.object.IdentifiableObject;
 import org.urban.data.core.set.IdentifiableObjectSet;
-import org.urban.data.core.util.aggr.DoubleAggregator;
 
 /**
  * Rank aggregator using Borda's method.

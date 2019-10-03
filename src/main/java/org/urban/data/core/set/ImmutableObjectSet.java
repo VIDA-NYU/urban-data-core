@@ -15,7 +15,6 @@
  */
 package org.urban.data.core.set;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -31,6 +30,7 @@ import org.urban.data.core.sort.IdentifiableObjectSort;
 public class ImmutableObjectSet <T extends IdentifiableObject> extends IdentifiableObjectSetImpl<T>  implements IdentifiableObjectSet<T> {
 
     private final T[] _elements;
+    private HashIDSet _keys = null;
     
     public ImmutableObjectSet(T[] elements, boolean sorted) {
         
@@ -110,11 +110,13 @@ public class ImmutableObjectSet <T extends IdentifiableObject> extends Identifia
     @Override
     public IDSet keys() {
 
-        List<Integer> keys = new ArrayList<>();
-        for (T obj : _elements) {
-            keys.add(obj.id());
+        if (_keys == null) {
+            _keys = new HashIDSet();
+            for (T obj : _elements) {
+                _keys.add(obj.id());
+            }
         }
-        return new ImmutableIDSet(keys, true);
+        return _keys;
     }
 
     @Override

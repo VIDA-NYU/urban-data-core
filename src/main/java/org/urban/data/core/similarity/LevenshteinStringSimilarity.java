@@ -17,7 +17,7 @@ package org.urban.data.core.similarity;
 
 import java.math.BigDecimal;
 import org.apache.commons.text.similarity.LevenshteinDistance;
-import org.urban.data.core.constraint.ThresholdConstraint;
+import org.urban.data.core.constraint.Threshold;
 
 /**
  * Compute string similarity as inverse of Levenshtein distance between the
@@ -30,9 +30,9 @@ import org.urban.data.core.constraint.ThresholdConstraint;
  */
 public class LevenshteinStringSimilarity implements StringSimilarityComputer {
 
-    private final ThresholdConstraint _threshold;
+    private final Threshold _threshold;
     
-    public LevenshteinStringSimilarity(ThresholdConstraint threshold) {
+    public LevenshteinStringSimilarity(Threshold threshold) {
         
         _threshold = threshold;
     }

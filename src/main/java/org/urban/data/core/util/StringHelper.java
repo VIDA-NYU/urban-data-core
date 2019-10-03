@@ -142,6 +142,36 @@ public final class StringHelper {
 	}
     }
     
+    public static Long parseByteSize(String value) {
+        
+        final String units = "KMGTPE";
+        
+        String val = value.toUpperCase();
+        if (val.endsWith("B")) {
+            val = val.substring(0, val.length() - 1);
+        }
+        if (val.length() == 0) {
+            return null;
+        }
+        
+        int index = units.indexOf(val.charAt(val.length() - 1));
+        
+        if (index != -1) {
+            long number = Long.parseLong(val.substring(0, val.length() - 1));
+            for (int i = 0; i <= index; i++) {
+                number = number * 1024;
+            }
+            return number;
+        } else {
+            Long bSize = Long.parseLong(val);
+            if (bSize < 0) {
+                return null;
+            } else {
+                return bSize;
+            }
+        }
+    }
+    
     public static String repeat(String c, int count) {
     
         String result = "";

@@ -139,6 +139,12 @@ public class HashIDSet extends IDSetImpl implements MutableIDSet {
     
         return _values.contains(nodeId);
     }
+
+    @Override
+    public HashIDSet create(Collection<Integer> values) {
+
+        return new HashIDSet(values);
+    }
     
     @Override
     public int first() {

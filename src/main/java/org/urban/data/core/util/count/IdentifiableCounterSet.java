@@ -17,11 +17,11 @@ package org.urban.data.core.util.count;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import org.urban.data.core.set.IDSet;
+import org.urban.data.core.set.ImmutableIDSet;
 
 /**
  * Set of identifiable counter objects.
@@ -89,9 +89,9 @@ public class IdentifiableCounterSet implements Iterable<IdentifiableCount> {
         return this.toList().iterator();
     }
     
-    public final Set<Integer> keys() {
+    public final IDSet keys() {
         
-        return _elements.keySet();
+        return new ImmutableIDSet(_elements.keySet());
     }
     
     public int size() {
@@ -111,12 +111,11 @@ public class IdentifiableCounterSet implements Iterable<IdentifiableCount> {
     public List<IdentifiableCount> toSortedList(boolean reverse) {
         
         List<IdentifiableCount> result = this.toList();
-        Collections.sort(result, new Comparator<IdentifiableCount>() {
-            @Override
-            public int compare(IdentifiableCount c1, IdentifiableCount c2) {
-                return Integer.compare(c1.count(), c2.count());
-            }
-        });
+        Collections.sort(
+                result,
+                (IdentifiableCount c1, IdentifiableCount c2) -> 
+                        Integer.compare(c1.count(), c2.count())
+        );
         if (reverse) {
             Collections.reverse(result);
         }
