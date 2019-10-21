@@ -20,9 +20,17 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import java.io.File;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.urban.data.core.io.FileSystem;
 
 /**
@@ -37,25 +45,46 @@ public class JsonQuery {
     public JsonQuery(File database, String targetPath) {
         
         _database = database;
-        _targetPath = targetPath;
+        if (targetPath.startsWith("/")) {
+            _targetPath = targetPath.substring(1);
+        } else {
+            _targetPath = targetPath;
+        }
     }
 
     public JsonQuery(File database) {
         
-        this(database, "/");
+        this(database, "");
     }
     
+    private void addPath(
+            Entry<String, JsonElement> entry,
+            String prefix,
+            HashSet<String> schema
+    ) {
+
+        String path = prefix + "/" + entry.getKey();
+        if (!schema.contains(path)) {
+            schema.add(path);
+        }
+        
+        JsonElement el = entry.getValue();
+        if (el.isJsonObject()) {
+            for (Entry<String, JsonElement> child : el.getAsJsonObject().entrySet()) {
+                this.addPath(child, path, schema);
+            }
+        }
+    }
+
     public List<ResultTuple> executeQuery(
             SelectClause select,
             boolean noNullValues
     ) throws java.io.IOException {
 
-        ArrayList<String[]> result = new ArrayList<>();
-               
         try (JsonReader reader = new JsonReader(
             new InputStreamReader(FileSystem.openFile(_database)))
         ) {
-            if (_targetPath.equals("/")) {
+            if (_targetPath.equals("")) {
                 return this.filter(reader, select, noNullValues);
             } else {
                 reader.beginObject();
@@ -108,5 +137,73 @@ public class JsonQuery {
         reader.endArray();
         
         return result;
+    }
+    
+    public void schema(PrintWriter out) throws java.io.IOException {
+        
+        JsonParser parser = new JsonParser();
+                
+        try (InputStream is = FileSystem.openFile(_database)) {
+            JsonReader reader = new JsonReader(new InputStreamReader(is));
+            reader.beginObject();
+            while (reader.hasNext()) {
+                String root = reader.nextName();
+                out.println("/" + root);
+                HashSet<String> schema = new HashSet();
+                reader.beginArray();
+                while (reader.hasNext()) {
+                    JsonObject doc = parser.parse(reader).getAsJsonObject();
+                    for (Map.Entry<String, JsonElement> entry : doc.entrySet()) {
+                        this.addPath(entry, "", schema);
+                    }
+                }
+                reader.endArray();
+                List<String> paths = new ArrayList<>(schema);
+                Collections.sort(paths);
+                for (String path : paths) {
+                    out.println("\t" + path);
+                }
+            }
+            reader.endObject();
+        }
+    }
+    
+    private static final String COMMAND = 
+            "Usage:\n" +
+            "  <database-file>" +
+            "  [-s | <target-path> <path-1>, ...]";
+    
+    private static final Logger LOGGER = Logger
+            .getLogger(JsonQuery.class.getName());
+    
+    public static void main(String[] args) {
+        
+        if (args.length < 2) {
+            System.out.println(COMMAND);
+            System.exit(-1);
+        }
+        
+        File databaseFile = new File(args[0]);
+        
+        try (PrintWriter out = new PrintWriter(System.out)) {
+            if ((args.length == 2) && (args[1].equals("-s"))) {
+                new JsonQuery(databaseFile).schema(out);
+            } else if (args.length > 2) {
+                JsonQuery db = new JsonQuery(databaseFile, args[1]);
+                SelectClause select = new SelectClause();
+                for (int iArg = 2; iArg < args.length; iArg++) {
+                    select.add(args[iArg], new JQuery(args[iArg]));
+                }
+                for (ResultTuple tuple : db.executeQuery(select)) {
+                    out.println(tuple.join("\t"));
+                }
+            } else {
+                System.out.println(COMMAND);
+                System.exit(-1);
+            }
+        } catch (java.io.IOException ex) {
+            LOGGER.log(Level.SEVERE, "RUN", ex);
+            System.exit(-1);
+        }
     }
 }

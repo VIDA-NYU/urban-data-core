@@ -76,7 +76,7 @@
                    <archive>
                       <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>org.urban.data.core.stats.ColumnTypeSummaryPrinter</mainClass>
+                            <mainClass>org.urban.data.core.query.json.JsonQuery</mainClass>
                       </manifest>
                    </archive>
                 </configuration>
