@@ -15,10 +15,8 @@
  */
 package org.urban.data.core.stats;
 
-import org.urban.data.core.value.profiling.types.DataTypeLabel;
-import org.urban.data.core.value.profiling.types.IntegerType;
-import org.urban.data.core.value.profiling.types.LongType;
-import org.urban.data.core.value.profiling.types.SimpleDBTypeAnnotator;
+import org.urban.data.core.profiling.datatype.label.DataType;
+import org.urban.data.core.profiling.datatype.SimpleDBTypeAnnotator;
 
 /**
  * Collect statistics about the data types of values in a database column.
@@ -48,13 +46,13 @@ public class ColumnStats {
         } else if (value.equals("")) {
             _hasNull = true;
         } else {
-            DataTypeLabel label = _annotator.getType(value);
+            DataType label = _annotator.getType(value);
             if (label.isNumeric()) {
                 switch (label.id()) {
-                    case IntegerType.IDENTIFIER:
+                    case DataType.INTEGER:
                         _intCount++;
                         break;
-                    case LongType.IDENTIFIER:
+                    case DataType.LONG:
                         _longCount++;
                         break;
                     default:

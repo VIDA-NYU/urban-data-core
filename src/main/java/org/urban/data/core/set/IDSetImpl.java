@@ -187,9 +187,9 @@ public abstract class IDSetImpl extends ObjectSetImpl<Integer> implements IDSet 
     @Override
     public String toIntString() {
 	
-	List<Integer> values = this.toList();
-	Collections.sort(values);
-	return StringHelper.joinIntegers(values);
+        List<Integer> values = this.toList();
+        Collections.sort(values);
+        return StringHelper.joinIntegers(values);
     }
 
     @Override

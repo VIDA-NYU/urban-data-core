@@ -13,16 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.profiling.types;
+package org.urban.data.core.profiling.datatype;
 
+import org.urban.data.core.profiling.datatype.label.DateType;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.urban.data.core.profiling.datatype.label.DataType;
 
 /**
  *
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class SimpleDateFormatChecker extends DataTypeChecker {
+public class SimpleDateFormatChecker implements DataTypeChecker {
 
     private final String _delim;
     private final SimpleDateFormat _df;
@@ -36,18 +38,16 @@ public class SimpleDateFormatChecker extends DataTypeChecker {
      */
     public SimpleDateFormatChecker(String pattern) {
 	
-	this(pattern, null, null);
+        this(pattern, null, null);
     }
  
     public SimpleDateFormatChecker(String pattern, String delim, int[] minLength) {
 	
-	super(new DateType());
-	
-	_pattern = pattern;
-	_delim = delim;
-	_minLength = minLength;
-	_df = new SimpleDateFormat("'^'" + pattern + "'$'");
-	_df.setLenient(false);
+        _pattern = pattern;
+        _delim = delim;
+        _minLength = minLength;
+        _df = new SimpleDateFormat("'^'" + pattern + "'$'");
+        _df.setLenient(false);
     }
 
     /**
@@ -59,34 +59,40 @@ public class SimpleDateFormatChecker extends DataTypeChecker {
      */
     public String format(Date date) {
 	
-	if (date != null) {
-	    return new SimpleDateFormat(_pattern).format(date);
-	} else {
-	    return "";
-	}
+        if (date != null) {
+            return new SimpleDateFormat(_pattern).format(date);
+        } else {
+            return "";
+        }
     }
     
     @Override
     public boolean isMatch(String value) {
 
-	try {
-	    _df.parse("^" + value + "$");
-	    if (_delim != null) {
-		String[] tokens = value.split(_delim);
-		if (tokens.length <= _minLength.length) {
-		    for (int iToken = 0; iToken < _minLength.length; iToken++) {
-			if (tokens[iToken].length() < _minLength[iToken]) {
-			    return false;
-			}
-		    }
-		} else {
-		    return false;
-		}
-	    }
-	    return true;
-	} catch (java.text.ParseException ex) {
-	    return false;
-	}
+        try {
+            _df.parse("^" + value + "$");
+            if (_delim != null) {
+                String[] tokens = value.split(_delim);
+                if (tokens.length <= _minLength.length) {
+                    for (int iToken = 0; iToken < _minLength.length; iToken++) {
+                        if (tokens[iToken].length() < _minLength[iToken]) {
+                            return false;
+                        }
+                    }
+                } else {
+                    return false;
+                }
+            }
+            return true;
+        } catch (java.text.ParseException ex) {
+            return false;
+        }
+    }
+
+    @Override
+    public DataType label() {
+
+        return new DateType();
     }
     
     /**
@@ -96,6 +102,6 @@ public class SimpleDateFormatChecker extends DataTypeChecker {
      */
     public String toPattern() {
 	
-	return _pattern;
+        return _pattern;
     }
 }

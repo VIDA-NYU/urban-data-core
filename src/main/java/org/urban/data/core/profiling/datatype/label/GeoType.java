@@ -13,26 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.profiling.types;
-
-import java.math.BigDecimal;
+package org.urban.data.core.profiling.datatype.label;
 
 /**
- * Slightly advanced implementation for a decimal checker. Tries to create a
- * BigDecimal from a given string after removing all ','.
+ * String data type class label.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class AdvancedDecimalChecker extends DecimalChecker {
-
-    @Override
-    public boolean isMatch(String value) {
-	
-	try {
-	    this.matchedValue(new BigDecimal(value.replaceAll(",", "")).doubleValue());
-	    return true;
-	} catch (java.lang.NumberFormatException ex) {
-	    return false;
-	}
+public class GeoType extends DataType {
+    
+    public GeoType() {
+        
+        super(GEO, "Geo");
     }
 }

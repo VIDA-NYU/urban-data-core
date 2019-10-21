@@ -13,37 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.profiling.types;
+package org.urban.data.core.profiling.datatype;
+
+import org.urban.data.core.profiling.datatype.label.DataType;
+import org.urban.data.core.profiling.datatype.label.LongType;
 
 /**
- * Long data type class label.
+ * Type checker for Long values.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class LongType extends DataTypeLabel {
-    
-    public static final int IDENTIFIER = 3;
-
-    public LongType() {
-        
-        super(IDENTIFIER, "Long");
-    }
+public class LongChecker implements DataTypeChecker {
 
     @Override
-    public boolean isDate() {
+    public boolean isMatch(String value) {
 
-        return false;
-   }
+        try {
+            Long.parseLong(value);
+            return true;
+        } catch (java.lang.NumberFormatException ex) {
+            return false;
+        }
+    }    
 
     @Override
-    public boolean isNumeric() {
+    public DataType label() {
 
-        return true;
-    }
-
-    @Override
-    public boolean isText() {
-
-        return false;
+        return new LongType();
     }
 }

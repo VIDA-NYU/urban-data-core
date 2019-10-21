@@ -13,37 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.profiling.types;
+package org.urban.data.core.profiling.datatype;
+
+import org.urban.data.core.profiling.datatype.label.DataType;
 
 /**
- * Integer data type class label.
+ * Interface for data type annotators. Annotators are used to assign standard 
+ * raw data types to given string values.
  * 
- * @author Heiko Mueller <heiko.mueller@nyu.edu>
+ * @author heiko
  */
-public class IntegerType extends DataTypeLabel {
-    
-    public static final int IDENTIFIER = 1;
-
-    public IntegerType() {
-        
-        super(IDENTIFIER, "Integer");
-    }
-
-    @Override
-    public boolean isDate() {
-
-        return false;
-   }
-
-    @Override
-    public boolean isNumeric() {
-
-        return true;
-    }
-
-    @Override
-    public boolean isText() {
-
-        return false;
-    }
+public interface DataTypeAnnotator {
+   
+    /**
+     * Get the matching raw data type for the given character sequence.
+     * 
+     * @param value
+     * @return 
+     */
+    public DataType getType(String value);
 }

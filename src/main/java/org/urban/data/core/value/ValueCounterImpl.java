@@ -44,36 +44,42 @@ public class ValueCounterImpl implements ValueCounter {
      */
     public ValueCounterImpl(String text) {
 	
-	this(text, 0);
+        this(text, 0);
     }
 
     @Override
     public int compareTo(ValueCounter value) {
 
-	return Integer.compare(_count, value.getCount());
+        return Integer.compare(_count, value.getCount());
     }
 
     @Override
     public int getCount() {
 	
-	return _count;
+        return _count;
     }
 
     @Override
     public String getText() {
 	
-	return _text;
+        return _text;
     }
     
     @Override
     public int incCount() {
 	
-	return ++_count;
+        return ++_count;
     }
     
     @Override
     public int incCount(int increment) {
 	
-	return (_count += increment);
+        return (_count += increment);
+    }
+    
+    @Override
+    public boolean isEmpty() {
+        
+        return _text.trim().equals("");
     }
 }

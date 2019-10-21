@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 New York University.
+ * Copyright 2019 New York University.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.profiling.types;
+package org.urban.data.core.profiling.datatype;
+
+import java.text.SimpleDateFormat;
 
 /**
- * Default implementation that checks whether values in a column are of type
- * Integer. uses the Java Integer.parseInt() implementation.
- * 
+ *
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class DefaultIntegerChecker extends IntegerChecker {
-
-    @Override
-    public boolean isMatch(String value) {
-
-	try {
-	    this.matchedValue(Integer.parseInt(value));
-	    return true;
-	} catch (java.lang.NumberFormatException ex) {
-	    return false;
-	}
+public class P {
+    public static void main(String[] args) {
+        String value = "03/26/2014 10:08:12 PM";
+        System.out.println(new DefaultDataTypeAnnotator().getType(value).name());
     }
 }

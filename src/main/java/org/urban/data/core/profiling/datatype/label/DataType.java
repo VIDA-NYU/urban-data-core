@@ -13,19 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.profiling.types;
+package org.urban.data.core.profiling.datatype.label;
 
 import org.urban.data.core.object.Entity;
 
 /**
- * Sub-class of labels that are used to classify data types of values and
+ * Abstract of labels that are used to classify data types of values and
  * columns in a dataset.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public abstract class DataTypeLabel extends Entity {
+public abstract class DataType extends Entity {
     
-    public DataTypeLabel(int identifier, String name) {
+    public static final int DATE = 10;
+    public static final int DECIMAL = 20;
+    public static final int GEO = 30;
+    public static final int INTEGER = 40;
+    public static final int LONG = 50;
+    public static final int TEXT = 60;
+    
+    public DataType(int identifier, String name) {
         
         super(identifier, name);
     }
@@ -35,19 +42,44 @@ public abstract class DataTypeLabel extends Entity {
      * 
      * @return 
      */
-    public abstract boolean isDate();
+    public boolean isDate() {
+        
+        return (this.id() == DATE);
+    }
+    
+    /**
+     * True, if the data type is used to specify spatial locations.
+     * 
+     * @return 
+     */
+    public boolean isGeoLocation() {
+        
+        return (this.id() == GEO);
+    }
     
     /**
      * True, if the label is one of the numeric types.
      * 
      * @return 
      */
-    public abstract boolean isNumeric();
+    public boolean isNumeric() {
+        
+        switch (this.id()) {
+            case DECIMAL:
+            case INTEGER:
+            case LONG:
+                return true;
+        }
+        return false;
+    }
     
     /**
      * true, if label is TEXT.
      * 
      * @return 
      */
-    public abstract boolean isText();
+    public boolean isText() {
+        
+        return (this.id() == TEXT);
+    }
 }

@@ -51,4 +51,6 @@ public interface ValueCounter extends Comparable<ValueCounter> {
      * @return	Count after increment
      */
     public int incCount(int increment);
+    
+    public boolean isEmpty();
 }

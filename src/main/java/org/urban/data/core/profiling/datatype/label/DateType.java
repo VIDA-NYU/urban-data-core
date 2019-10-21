@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 New York University.
+ * Copyright 2019 New York University.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,37 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.profiling.types;
+package org.urban.data.core.profiling.datatype.label;
 
 /**
- * String data type class label.
+ * Date data type class label.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class TextType extends DataTypeLabel {
+public class DateType extends DataType {
     
-    public static final int IDENTIFIER = 5;
-
-    public TextType() {
+     public DateType() {
         
-        super(IDENTIFIER, "Text");
-    }
-
-    @Override
-    public boolean isDate() {
-
-        return false;
-    }
-
-    @Override
-    public boolean isNumeric() {
-
-        return false;
-    }
-
-    @Override
-    public boolean isText() {
-
-        return true;
+        super(DATE, "Date");
     }
 }

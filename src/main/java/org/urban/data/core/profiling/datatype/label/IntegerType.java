@@ -13,37 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.profiling.types;
+package org.urban.data.core.profiling.datatype.label;
 
 /**
- * Decimal data type class label.
+ * Integer data type class label.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class DecimalType extends DataTypeLabel {
-   
-    public static final int IDENTIFIER = 2;
+public class IntegerType extends DataType {
     
-    public DecimalType() {
+    public IntegerType() {
         
-        super(IDENTIFIER, "Decimal");
-    }
-
-    @Override
-    public boolean isDate() {
-
-        return false;
-   }
-
-    @Override
-    public boolean isNumeric() {
-
-        return true;
-    }
-
-    @Override
-    public boolean isText() {
-
-        return false;
+        super(INTEGER, "Integer");
     }
 }

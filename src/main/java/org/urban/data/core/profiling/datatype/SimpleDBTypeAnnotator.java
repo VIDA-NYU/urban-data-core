@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.profiling.types;
+package org.urban.data.core.profiling.datatype;
+
+import org.urban.data.core.profiling.datatype.label.TextType;
+import org.urban.data.core.profiling.datatype.label.DataType;
 
 /**
  * Simple type annotator that only distinguishes between integer, long, decimal,
@@ -31,29 +34,19 @@ public class SimpleDBTypeAnnotator implements DataTypeAnnotator {
      */
     public SimpleDBTypeAnnotator() {
         
-	_typeCheckers = new DataTypeChecker[]{
-	    new DefaultIntegerChecker(),
-	    new LongChecker(),
-	    new DefaultDecimalChecker()
-	};
-    }
-    
-    private DataTypeLabel matchValue(String value, DataTypeChecker[] typeCheckers) {
-	
-	for (DataTypeChecker tChecker : typeCheckers) {
-	    if (tChecker.isMatch(value)) {
-		return tChecker.getRawType();
-	    }
-	}
-        return null;
+        _typeCheckers = new DataTypeChecker[]{
+            new DefaultIntegerChecker(),
+            new LongChecker(),
+            new DefaultDecimalChecker()
+        };
     }
     
     @Override
-    public DataTypeLabel getType(String value) {
+    public DataType getType(String value) {
 
 	for (DataTypeChecker tChecker : _typeCheckers) {
 	    if (tChecker.isMatch(value)) {
-		return tChecker.getRawType();
+		return tChecker.label();
 	    }
 	}
         return new TextType();

@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.profiling.types;
+package org.urban.data.core.profiling.datatype.label;
 
 /**
- * Interface for different methods to test whether a string value is numeric.
+ * Long data type class label.
  * 
- * @author Heiko Mueller
+ * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public interface NumericValueTest {
-
-    /**
-     * Returns true if the given value is numeric according to the
-     * implementation.
-     * 
-     * @param value
-     * @return 
-     */
-    public boolean isNumeric(String value);
+public class LongType extends DataType {
+    
+    public LongType() {
+        
+        super(LONG, "Long");
+    }
 }

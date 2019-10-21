@@ -23,7 +23,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.urban.data.core.set.StringSet;
-import org.urban.data.core.value.ngram.NGramGenerator;
+import org.urban.data.core.ngram.NGramGenerator;
 
 /**
  *

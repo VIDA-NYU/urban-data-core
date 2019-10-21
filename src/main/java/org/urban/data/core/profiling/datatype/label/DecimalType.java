@@ -13,26 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.profiling.types;
-
-import java.math.BigDecimal;
+package org.urban.data.core.profiling.datatype.label;
 
 /**
- * The default numeric type test tries to instantiate a BigDecimal from a
- * given string. Returns true on success and false otherwise.
+ * Decimal data type class label.
  * 
- * @author Heiko Mueller
+ * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class DefaultNumericValueTest implements NumericValueTest {
-
-    @Override
-    public boolean isNumeric(String value) {
-
-	try {
-	    new BigDecimal(value.replaceAll(",", ""));
-	    return true;
-	} catch (java.lang.NumberFormatException nfe) {
-	    return false;
-	}
+public class DecimalType extends DataType {
+   
+    public DecimalType() {
+        
+        super(DECIMAL, "Decimal");
     }
 }

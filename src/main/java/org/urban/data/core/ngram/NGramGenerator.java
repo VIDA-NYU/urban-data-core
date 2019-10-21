@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.ngram;
+package org.urban.data.core.ngram;
 
 import org.apache.commons.lang3.StringUtils;
 import org.urban.data.core.set.StringSet;

@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.profiling.types;
+package org.urban.data.core.profiling.datatype;
+
+import org.urban.data.core.profiling.datatype.label.DataType;
+import org.urban.data.core.profiling.datatype.label.IntegerType;
 
 /**
  * Slightly advanced implementation that checks whether values in a column are
@@ -22,16 +25,22 @@ package org.urban.data.core.value.profiling.types;
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class AdvancedIntegerChecker extends IntegerChecker {
+public class AdvancedIntegerChecker implements DataTypeChecker {
 
     @Override
     public boolean isMatch(String value) {
 
-	try {
-	    this.matchedValue(Integer.parseInt(value.replaceAll(",", "")));
-	    return true;
-	} catch (java.lang.NumberFormatException ex) {
-	    return false;
-	}
+        try {
+            Integer.parseInt(value.replaceAll(",", ""));
+            return true;
+        } catch (java.lang.NumberFormatException ex) {
+            return false;
+        }
+    }
+
+    @Override
+    public DataType label() {
+
+        return new IntegerType();
     }
 }

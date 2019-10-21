@@ -13,8 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.profiling.types;
+package org.urban.data.core.profiling.datatype;
 
+import org.urban.data.core.profiling.datatype.label.DecimalType;
+import org.urban.data.core.profiling.datatype.label.IntegerType;
+import org.urban.data.core.profiling.datatype.label.TextType;
+import org.urban.data.core.profiling.datatype.label.DateType;
+import org.urban.data.core.profiling.datatype.label.LongType;
+import org.urban.data.core.profiling.datatype.label.DataType;
 import org.urban.data.core.set.HashObjectSet;
 
 /**
@@ -22,7 +28,7 @@ import org.urban.data.core.set.HashObjectSet;
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class ValueTypeFactory extends HashObjectSet<DataTypeLabel> {
+public class ValueTypeFactory extends HashObjectSet<DataType> {
    
     public ValueTypeFactory() {
         

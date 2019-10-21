@@ -13,37 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.profiling.types;
+package org.urban.data.core.profiling.datatype;
+
+import org.urban.data.core.profiling.datatype.label.DataType;
+import org.urban.data.core.profiling.datatype.label.IntegerType;
 
 /**
- * Date data type class label.
+ * Default implementation that checks whether values in a column are of type
+ * Integer. uses the Java Integer.parseInt() implementation.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class DateType extends DataTypeLabel {
-    
-    public static final int IDENTIFIER = 4;
+public class DefaultIntegerChecker implements DataTypeChecker {
 
-     public DateType() {
-        
-        super(IDENTIFIER, "Date");
+    @Override
+    public boolean isMatch(String value) {
+
+        try {
+            Integer.parseInt(value);
+            return true;
+        } catch (java.lang.NumberFormatException ex) {
+            return false;
+        }
     }
 
     @Override
-    public boolean isDate() {
+    public DataType label() {
 
-        return true;
-    }
-
-    @Override
-    public boolean isNumeric() {
-
-        return false;
-    }
-
-    @Override
-    public boolean isText() {
-
-        return false;
+        return new IntegerType();
     }
 }

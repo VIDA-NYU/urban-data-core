@@ -13,29 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.profiling.types;
+package org.urban.data.core.profiling.datatype;
+
+import java.math.BigDecimal;
+import org.urban.data.core.profiling.datatype.label.DataType;
+import org.urban.data.core.profiling.datatype.label.DecimalType;
 
 /**
- * Type checker for Long values.
+ * Default implementation for a decimal checker. Tries to create a BigDecimal
+ * from a given string.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class LongChecker extends DataTypeChecker {
+public class DefaultDecimalChecker implements DataTypeChecker {
 
-    public LongChecker() {
-	
-	super(new LongType());
-    }
-    
     @Override
     public boolean isMatch(String value) {
-
-	try {
-	    Long.parseLong(value);
-	    return true;
-	} catch (java.lang.NumberFormatException ex) {
-	    return false;
-	}
+	
+        try {
+            new BigDecimal(value);
+            return true;
+        } catch (java.lang.NumberFormatException ex) {
+            return false;
+        }
     }
-    
+
+    @Override
+    public DataType label() {
+
+        return new DecimalType();
+    }
 }

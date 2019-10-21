@@ -16,7 +16,7 @@
 package org.urban.data.core.value;
 
 import org.urban.data.core.constraint.Threshold;
-import org.urban.data.core.value.profiling.types.DefaultDataTypeAnnotator;
+import org.urban.data.core.profiling.datatype.DefaultDataTypeAnnotator;
 
 /**
  * Value set filter for text sets.

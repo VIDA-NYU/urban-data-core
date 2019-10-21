@@ -13,37 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.profiling.types;
+package org.urban.data.core.profiling.datatype;
+
+import java.math.BigDecimal;
+import org.urban.data.core.profiling.datatype.label.DataType;
+import org.urban.data.core.profiling.datatype.label.DecimalType;
 
 /**
- * Mixed (or undefined) data type class label.
+ * Slightly advanced implementation for a decimal checker. Tries to create a
+ * BigDecimal from a given string after removing all ','.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class MixedType extends DataTypeLabel {
-   
-    public static final int IDENTIFIER = 6;
+public class AdvancedDecimalChecker implements DataTypeChecker {
 
-    public MixedType() {
-        
-        super(IDENTIFIER, "Mixed Type");
+    @Override
+    public boolean isMatch(String value) {
+	
+        try {
+            new BigDecimal(value.replaceAll(",", ""));
+            return true;
+        } catch (java.lang.NumberFormatException ex) {
+            return false;
+        }
     }
 
     @Override
-    public boolean isDate() {
+    public DataType label() {
 
-        return false;
-    }
-
-    @Override
-    public boolean isNumeric() {
-
-        return false;
-    }
-
-    @Override
-    public boolean isText() {
-
-        return false;
+        return new DecimalType();
     }
 }

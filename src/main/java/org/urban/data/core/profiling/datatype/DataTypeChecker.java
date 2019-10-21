@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.urban.data.core.value.profiling.types;
+package org.urban.data.core.profiling.datatype;
+
+import org.urban.data.core.profiling.datatype.label.DataType;
 
 /**
  * Abstract class for type checkers that try to determine the data type of
@@ -23,41 +25,8 @@ package org.urban.data.core.value.profiling.types;
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public abstract class DataTypeChecker extends MatchCounter {
+public interface DataTypeChecker {
 
-    private final DataTypeLabel _type;
-    
-    /**
-     * Set the raw data type that a sub-class is representing.
-     * 
-     * @param type 
-     */
-    public DataTypeChecker(DataTypeLabel type) {
-	
-	_type = type;
-    }
-    
-    /**
-     * String representation of the evaluation type.
-     * 
-     * @return 
-     */
-    public String getEvaluationType() {
-	
-	return this.getClass().getSimpleName();
-    }
-    
-    /**
-     * String representation of the raw data type that is represented by a
-     * checker.
-     * 
-     * @return 
-     */
-    public DataTypeLabel getRawType() {
-	
-	return _type;
-    }
-    
     /**
      * Type-dependent implementation of the type test. Returns true if the given
      * value is of the data type represented by this checker.
@@ -65,5 +34,12 @@ public abstract class DataTypeChecker extends MatchCounter {
      * @param value
      * @return 
      */
-    public abstract boolean isMatch(String value);
+    public boolean isMatch(String value);
+    
+    /**
+     * Get label for the checked data type.
+     * 
+     * @return 
+     */
+    public DataType label();
 }
