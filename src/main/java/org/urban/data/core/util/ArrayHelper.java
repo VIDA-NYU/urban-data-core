@@ -124,9 +124,9 @@ public final class ArrayHelper {
             } else if (comp > 0) {
                 idx2++;
             } else {
+                overlap += size[list1[idx1]];
                 idx1++;
                 idx2++;
-                overlap += size[list1[idx1]];
             }
         }
         return overlap;
