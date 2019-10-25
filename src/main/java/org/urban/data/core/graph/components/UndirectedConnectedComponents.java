@@ -50,6 +50,11 @@ public class UndirectedConnectedComponents implements ConnectedComponentGenerato
         return _components.size();
     }
 
+    public boolean contains(int nodeId) {
+    
+        return _nodes.contains(nodeId);
+    }
+    
     /**
      * Get the connected component that contains the node with the given
      * identifier.
