@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 New York University.
+ * Copyright 2019 New York University.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,26 +18,27 @@ package org.urban.data.core.constraint;
 import java.math.BigDecimal;
 
 /**
- * The constraint is satisfied if the given value equals one.
+ * Threshold for zero values. Will be satisfied by any value.
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class EqualsOneConstraint extends Threshold {
+public class ZeroThreshold extends Threshold {
 
     @Override
     public Threshold decreaseBy(BigDecimal value) {
-        throw new UnsupportedOperationException("Cannot decrease equals ONE constraint.");
+
+        return this;
     }
 
     @Override
     public boolean isSatisfied(BigDecimal value) {
 
-        return (value.compareTo(BigDecimal.ONE) == 0);
-    }    
-    
+        return true;
+    }
+
     @Override
     public String toPlainString() {
-        
-        return "EQ0";
-    }
+
+        return "GEQ0.0";
+    }    
 }

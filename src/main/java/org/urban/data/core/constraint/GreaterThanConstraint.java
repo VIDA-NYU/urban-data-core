@@ -16,7 +16,6 @@
 package org.urban.data.core.constraint;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import org.urban.data.core.util.FormatedBigDecimal;
 
 /**
@@ -51,46 +50,6 @@ public class GreaterThanConstraint extends Threshold {
         return (value.compareTo(_threshold) > 0);
     }
 
-    @Override
-    public int getJIOverlap(int size1, int size2) {
-
-        if (_threshold.compareTo(BigDecimal.ZERO) == 0) {
-            return 1;
-        }
-        
-	BigDecimal count = _threshold
-		.multiply(new BigDecimal(size1 + size2))
-		.divide(_threshold.add(BigDecimal.ONE), BigDecimal.ROUND_HALF_DOWN);
-	int floor = count.setScale(0, RoundingMode.FLOOR).intValueExact();
-	int ceiling = count.setScale(0, RoundingMode.CEILING).intValueExact();
-	
-	if (floor == ceiling) {
-	    return ceiling + 1;
-	} else {
-	    return ceiling;
-	}
-    }
-
-    @Override
-    public int getMinJIOverlap(int size1, int size2) {
-
-        if (_threshold.compareTo(BigDecimal.ZERO) == 0) {
-            return 1;
-        }
-        
-        BigDecimal count = _threshold
-            .multiply(new BigDecimal(2 * Math.min(size2, size2)))
-            .divide(_threshold.add(BigDecimal.ONE), BigDecimal.ROUND_HALF_DOWN);
-        int floor = count.setScale(0, RoundingMode.FLOOR).intValueExact();
-        int ceiling = count.setScale(0, RoundingMode.CEILING).intValueExact();
-
-        if (floor == ceiling) {
-            return ceiling + 1;
-        } else {
-            return ceiling;
-        }
-    }
-    
     @Override
     public String toPlainString() {
         
