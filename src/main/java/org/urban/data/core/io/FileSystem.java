@@ -190,6 +190,27 @@ public final class FileSystem {
     }
     
     /**
+     * Traverse the directory and all of its sub-directories.Adds all files to
+ the given output list.
+     * 
+     * @param dir
+     * @param files 
+     * @return  
+     */
+    public static List<File> listFilesRecursive(File dir, List<File> files) {
+        
+        for (File file : dir.listFiles()) {
+            if (file.isDirectory()) {
+                FileSystem.listFilesRecursive(file, files);
+            } else {
+                files.add(file);
+            }
+        }
+        
+        return files;
+    }
+    
+    /**
      * Returns an input stream for the given file.
      * 
      * @param file
@@ -198,12 +219,12 @@ public final class FileSystem {
      */
     public static InputStream openFile(File file) throws java.io.IOException {
 	
-	InputStream is = new FileInputStream(file);
-	if (file.getName().endsWith(".gz")) {
-	    is = new GZIPInputStream(is);
-	}
-	
-	return is;
+        InputStream is = new FileInputStream(file);
+        if (file.getName().endsWith(".gz")) {
+            is = new GZIPInputStream(is);
+        }
+
+        return is;
     }
     
     public static BufferedReader openReader(File file) throws java.io.IOException {
@@ -220,7 +241,7 @@ public final class FileSystem {
      */
     public static OutputStream openOutputFile(File file) throws java.io.IOException {
 	
-	return openOutputFile(file, false);
+        return openOutputFile(file, false);
     }
     
     /**
@@ -234,12 +255,12 @@ public final class FileSystem {
      */
     public static OutputStream openOutputFile(File file, boolean append) throws java.io.IOException {
 	
-	OutputStream os = new FileOutputStream(file, append);
-	if (file.getName().endsWith(".gz")) {
-	    os = new GZIPOutputStream(os);
-	}
-	
-	return os;
+        OutputStream os = new FileOutputStream(file, append);
+        if (file.getName().endsWith(".gz")) {
+            os = new GZIPOutputStream(os);
+        }
+
+        return os;
     }
     
     public static PrintWriter openPrintWriter(File file, boolean append) throws java.io.IOException {
