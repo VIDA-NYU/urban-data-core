@@ -26,7 +26,11 @@ public class JaccardIndex implements OverlapSimilarityFunction {
 
     public static BigDecimal ji(int size1, int size2, int overlap) {
 
-        return new BigDecimal(new JaccardIndex().sim(size1, size2, overlap));
+        if (overlap == 0) {
+            return BigDecimal.ZERO;
+        } else {
+            return new BigDecimal(new JaccardIndex().sim(size1, size2, overlap));
+        }
     }
 
     public static BigDecimal minJi(int size1, int size2, int overlap) {

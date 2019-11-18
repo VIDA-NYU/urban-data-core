@@ -15,9 +15,11 @@
  */
 package org.urban.data.core.set;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.List;
 import org.urban.data.core.object.IdentifiableObjectImpl;
+import org.urban.data.core.similarity.JaccardIndex;
 
 /**
  * Implementation for identifiable identifier set that contains a immutable set
@@ -101,6 +103,12 @@ public class SimpleIdentifiableIDSet extends IdentifiableObjectImpl implements I
     public Iterator<Integer> iterator() {
 
         return _values.iterator();
+    }
+    
+    @Override
+    public BigDecimal ji(IDSet list) {
+    
+        return JaccardIndex.ji(this.length(), list.length(), this.overlap(list));
     }
 
     @Override

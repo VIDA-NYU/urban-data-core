@@ -15,11 +15,13 @@
  */
 package org.urban.data.core.set;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import org.urban.data.core.similarity.JaccardIndex;
 import org.urban.data.core.util.StringHelper;
 
 /**
@@ -61,6 +63,12 @@ public abstract class IDSetImpl extends ObjectSetImpl<Integer> implements IDSet 
         return this.create(values);
     }
 
+    @Override
+    public BigDecimal ji(IDSet list) {
+    
+        return JaccardIndex.ji(this.length(), list.length(), this.overlap(list));
+    }
+    
     @Override
     public int maxId() {
 

@@ -15,6 +15,7 @@
  */
 package org.urban.data.core.set;
 
+import java.math.BigDecimal;
 import java.util.List;
 import org.urban.data.core.object.filter.ObjectFilter;
 
@@ -30,6 +31,7 @@ public interface IDSet extends ObjectSet<Integer>, ObjectFilter<Integer> {
     public int first();
     public IDSet intersect(IDSet list);
     public boolean isTrueSubsetOf(IDSet list);
+    public BigDecimal ji(IDSet list);
     public int maxId();
     public int minId();
     public boolean overlaps(IDSet set, int threshold);
