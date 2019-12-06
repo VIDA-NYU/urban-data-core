@@ -34,7 +34,7 @@ import org.urban.data.core.set.ImmutableIdentifiableIDSet;
 public class UndirectedConnectedComponents implements ConnectedComponentGenerator {
 
     private final HashMap<Integer, HashSet<Integer>> _components;
-    private final HashMap<Integer, Integer> _componentMap;
+    private final Integer[] _componentMap;
     private final IDSet _nodes;
     
     public UndirectedConnectedComponents(IDSet nodes) {
@@ -42,7 +42,12 @@ public class UndirectedConnectedComponents implements ConnectedComponentGenerato
         _nodes = nodes;
         
         _components = new HashMap<>();
-        _componentMap = new HashMap<>();
+        
+        int maxId = nodes.maxId();
+        _componentMap = new Integer[maxId + 1];
+        for (int nodeId : nodes) {
+            _componentMap[nodeId] = nodeId;
+        }
     }
     
     public int componentCount() {
@@ -52,7 +57,12 @@ public class UndirectedConnectedComponents implements ConnectedComponentGenerato
 
     public boolean contains(int nodeId) {
     
-        return _nodes.contains(nodeId);
+        //return _nodes.contains(nodeId);
+        if (nodeId < _componentMap.length) {
+            return (_componentMap[nodeId] != null);
+        } else {
+            return false;
+        }
     }
     
     /**
@@ -70,15 +80,16 @@ public class UndirectedConnectedComponents implements ConnectedComponentGenerato
         
         // If the nodeId is not contained in the component map then the node
         // is in the component that has the same identifier as the nodeId
-        if (_componentMap.containsKey(nodeId)) {
-            return _componentMap.get(nodeId);
-        } else {
-            return nodeId;
-        }
+        //if (_componentMap.containsKey(nodeId)) {
+        //    return _componentMap.get(nodeId);
+        //} else {
+        //    return nodeId;
+        //}
+        return _componentMap[nodeId];
     }
     
     @Override
-    public synchronized void edge(int sourceId, int targetId) {	
+    public void edge(int sourceId, int targetId) {	
         
         int sourceCompId = this.getComponentForNode(sourceId);
         int targetCompId = this.getComponentForNode(targetId);
@@ -100,18 +111,18 @@ public class UndirectedConnectedComponents implements ConnectedComponentGenerato
             } else if ((sourceExists) && (!targetExists)) {
                 // Add targetId to source component
                 _components.get(sourceCompId).add(targetId);
-                _componentMap.put(targetId, sourceCompId);
+                _componentMap[targetId] = sourceCompId;
             } else if ((!sourceExists) && (targetExists)) {
                 // Add sourceId to target component
                 _components.get(targetCompId).add(sourceId);
-                _componentMap.put(sourceId, targetCompId);
+                _componentMap[sourceId] = targetCompId;
             } else {
                 // Create component for source and add target
                 HashSet<Integer> comp = new HashSet();
                 comp.add(sourceId);
                 comp.add(targetId);
                 _components.put(sourceCompId, comp);
-                _componentMap.put(targetId, sourceCompId);
+                _componentMap[targetId] = sourceCompId;
             }
         }
     }
@@ -160,7 +171,7 @@ public class UndirectedConnectedComponents implements ConnectedComponentGenerato
         
         for (int nodeId : source) {
             target.add(nodeId);
-            _componentMap.put(nodeId, targetCompId);
+            _componentMap[nodeId] = targetCompId;
         }
         
         _components.remove(sourceCompId);
