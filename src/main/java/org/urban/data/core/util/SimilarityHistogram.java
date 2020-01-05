@@ -22,6 +22,8 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import org.urban.data.core.object.IdentifiableObject;
+import org.urban.data.core.similarity.ObjectSimilarityConsumer;
 import org.urban.data.core.util.count.LongCounter;
 
 /**
@@ -29,7 +31,7 @@ import org.urban.data.core.util.count.LongCounter;
  * 
  * @author Heiko Mueller <heiko.mueller@nyu.edu>
  */
-public class SimilarityHistogram {
+public class SimilarityHistogram implements ObjectSimilarityConsumer {
     
     private final HashMap<String, LongCounter> _histogram;
     private final int _scale;
@@ -116,6 +118,12 @@ public class SimilarityHistogram {
     public HashMap<String, LongCounter> buckets() {
         
         return _histogram;
+    }
+
+    @Override
+    public void consume(IdentifiableObject obj1, IdentifiableObject id2, BigDecimal sim) {
+
+        this.add(sim);
     }
     
     public long get(String key) {
