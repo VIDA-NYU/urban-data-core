@@ -171,7 +171,7 @@ public class JsonQuery {
     private static final String COMMAND = 
             "Usage:\n" +
             "  <database-file>" +
-            "  [-s | <target-path> <path-1>, ...]";
+            "  [-s | {-t <target-path>} <path-1>, ...]";
     
     private static final Logger LOGGER = Logger
             .getLogger(JsonQuery.class.getName());
@@ -188,10 +188,22 @@ public class JsonQuery {
         try (PrintWriter out = new PrintWriter(System.out)) {
             if ((args.length == 2) && (args[1].equals("-s"))) {
                 new JsonQuery(databaseFile).schema(out);
-            } else if (args.length > 2) {
-                JsonQuery db = new JsonQuery(databaseFile, args[1]);
+            } else if (args.length >= 2) {
+                int offset;
+                JsonQuery db;
+                if (args[1].equals("-t")) {
+                    if (args.length <= 3) {
+                        System.out.println(COMMAND);
+                        System.exit(-1);
+                    }
+                    db = new JsonQuery(databaseFile, args[2]);
+                    offset = 3;
+                } else {
+                    db = new JsonQuery(databaseFile);
+                    offset = 1;
+                }
                 SelectClause select = new SelectClause();
-                for (int iArg = 2; iArg < args.length; iArg++) {
+                for (int iArg = offset; iArg < args.length; iArg++) {
                     select.add(args[iArg], new JQuery(args[iArg]));
                 }
                 for (ResultTuple tuple : db.executeQuery(select)) {
