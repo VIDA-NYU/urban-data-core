@@ -20,7 +20,6 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.urban.data.core.io.FileSystem;
-import org.urban.data.core.profiling.datatype.DefaultDataTypeAnnotator;
 
 /**
  * Print text values in a given column. Reads distinct column values from a

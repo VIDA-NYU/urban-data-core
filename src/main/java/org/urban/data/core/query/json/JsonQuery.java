@@ -19,6 +19,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -145,9 +146,18 @@ public class JsonQuery {
                 
         try (InputStream is = FileSystem.openFile(_database)) {
             JsonReader reader = new JsonReader(new InputStreamReader(is));
-            reader.beginObject();
+            String root;
+            if (!reader.hasNext()) {
+                return;
+            }
+            JsonToken firstToken = reader.peek();
+            if (JsonToken.BEGIN_OBJECT.equals(firstToken)) {
+                reader.beginObject();
+                root = reader.nextName();
+            } else {
+                root = "";
+            }
             while (reader.hasNext()) {
-                String root = reader.nextName();
                 out.println("/" + root);
                 HashSet<String> schema = new HashSet();
                 reader.beginArray();
@@ -164,7 +174,9 @@ public class JsonQuery {
                     out.println("\t" + path);
                 }
             }
-            reader.endObject();
+            if (JsonToken.BEGIN_OBJECT.equals(firstToken)) {
+                reader.endObject();
+            }
         }
     }
     

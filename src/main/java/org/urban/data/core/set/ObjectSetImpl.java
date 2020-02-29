@@ -46,8 +46,9 @@ public abstract class ObjectSetImpl <T> implements ObjectSet<T> {
 		    return false;
 		}
 	    }
+            return true;
 	}
-	return true;
+        return false;
     }
 
     @Override

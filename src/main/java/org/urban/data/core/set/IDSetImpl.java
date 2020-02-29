@@ -132,8 +132,9 @@ public abstract class IDSetImpl extends ObjectSetImpl<Integer> implements IDSet 
 		    return false;
 		}
 	    }
+            return true;
 	}
-	return true;
+        return false;
     }
     
     @Override
