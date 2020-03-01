@@ -17,6 +17,7 @@ package org.urban.data.core.io;
 
 import com.google.gson.stream.JsonWriter;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -261,6 +262,11 @@ public final class FileSystem {
         }
 
         return os;
+    }
+    
+    public static BufferedWriter openBufferedWriter(File file) throws java.io.IOException {
+        
+        return new BufferedWriter(new OutputStreamWriter(openOutputFile(file)));
     }
     
     public static PrintWriter openPrintWriter(File file, boolean append) throws java.io.IOException {
