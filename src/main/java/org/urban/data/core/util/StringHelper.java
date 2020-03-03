@@ -87,6 +87,15 @@ public final class StringHelper {
         }
         return buf.toString();
     }
+
+    public static String joinStrings(String[] tokens, int start, int end) {
+        
+        StringBuilder buf = new StringBuilder(tokens[start]);
+        for (int iToken = start + 1; iToken < end; iToken++) {
+            buf.append(" ").append(tokens[iToken]);
+        }
+        return buf.toString();
+    }
     
     public static String joinStrings(List<String> tokens) {
         
