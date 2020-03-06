@@ -23,7 +23,7 @@ package org.urban.data.core.value;
 public class ValueCounterImpl implements ValueCounter {
     
     private int _count;
-    private final String _text;
+    private String _text;
     
     /**
      * Initialize text value and value counter.
@@ -81,5 +81,10 @@ public class ValueCounterImpl implements ValueCounter {
     public boolean isEmpty() {
         
         return _text.trim().equals("");
+    }
+    
+    public void toUpper() {
+        
+        _text = _text.toUpperCase();
     }
 }
