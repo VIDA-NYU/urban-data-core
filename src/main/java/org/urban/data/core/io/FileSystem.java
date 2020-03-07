@@ -94,11 +94,11 @@ public final class FileSystem {
 
     public synchronized static void createParentFolder(File file) {
 
-	if (file.getParentFile() != null) {
-	    if (!file.getParentFile().exists()) {
-		file.getParentFile().mkdirs();
-	    }
-	}
+        if (file.getParentFile() != null) {
+            if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdirs();
+            }
+        }
     }
 
     /**
@@ -110,20 +110,20 @@ public final class FileSystem {
      */
     public static List<File> getSortedListOfFiles(File directory) {
 	
-	ArrayList<File> files = new ArrayList<>();
-	files.addAll(Arrays.asList(directory.listFiles()));
-	
-	/*
-	 * Sort files in ascending order of size
-	 */
-	Collections.sort(files, new Comparator<File>(){
-	    @Override
-	    public int compare(File f1, File f2) {
-		return Long.compare(f1.length(), f2.length());
-	    }
-	});
-	
-	return files;
+        ArrayList<File> files = new ArrayList<>();
+        files.addAll(Arrays.asList(directory.listFiles()));
+
+        /*
+         * Sort files in ascending order of size
+         */
+        Collections.sort(files, new Comparator<File>(){
+            @Override
+            public int compare(File f1, File f2) {
+            return Long.compare(f1.length(), f2.length());
+            }
+        });
+
+        return files;
     }
     
     /**
