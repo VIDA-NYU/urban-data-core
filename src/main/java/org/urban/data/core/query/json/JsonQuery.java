@@ -116,18 +116,14 @@ public class JsonQuery {
         reader.beginArray();
         while (reader.hasNext()) {
             JsonObject doc = new JsonParser().parse(reader).getAsJsonObject();
-            String[] tuple = new String[select.size()];
+            JsonElement[] tuple = new JsonElement[select.size()];
             boolean hasNull = false;
             for (int iCol = 0; iCol < select.size(); iCol++) {
                 JsonElement el = select.get(iCol).eval(doc);
                 if (el != null) {
-                    if (el.isJsonPrimitive()) {
-                        tuple[iCol] = el.getAsString();
-                    } else {
-                        tuple[iCol] = el.toString();
-                    }
+                    tuple[iCol] = el;
                 } else {
-                    tuple[iCol] = "";
+                    tuple[iCol] = null;
                     hasNull = true;
                 }
             }
@@ -157,22 +153,19 @@ public class JsonQuery {
             } else {
                 root = "";
             }
+            HashSet<String> schema = new HashSet();
+            reader.beginArray();
             while (reader.hasNext()) {
-                out.println("/" + root);
-                HashSet<String> schema = new HashSet();
-                reader.beginArray();
-                while (reader.hasNext()) {
-                    JsonObject doc = parser.parse(reader).getAsJsonObject();
-                    for (Map.Entry<String, JsonElement> entry : doc.entrySet()) {
-                        this.addPath(entry, "", schema);
-                    }
+                JsonObject doc = parser.parse(reader).getAsJsonObject();
+                for (Map.Entry<String, JsonElement> entry : doc.entrySet()) {
+                    this.addPath(entry, "", schema);
                 }
-                reader.endArray();
-                List<String> paths = new ArrayList<>(schema);
-                Collections.sort(paths);
-                for (String path : paths) {
-                    out.println("\t" + path);
-                }
+            }
+            reader.endArray();
+            List<String> paths = new ArrayList<>(schema);
+            Collections.sort(paths);
+            for (String path : paths) {
+                out.println("\t" + path);
             }
             if (JsonToken.BEGIN_OBJECT.equals(firstToken)) {
                 reader.endObject();

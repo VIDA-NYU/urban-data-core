@@ -15,6 +15,7 @@
  */
 package org.urban.data.core.query.json;
 
+import com.google.gson.JsonElement;
 import java.util.HashMap;
 import org.urban.data.core.util.StringHelper;
 
@@ -27,9 +28,9 @@ import org.urban.data.core.util.StringHelper;
 public class ResultTuple {
     
     private final HashMap<String, Integer> _columns;
-    private final String[] _values;
+    private final JsonElement[] _values;
     
-    public ResultTuple(String[] values, HashMap<String, Integer> columns) {
+    public ResultTuple(JsonElement[] values, HashMap<String, Integer> columns) {
         
         _values = values;
         _columns = columns;
@@ -41,7 +42,7 @@ public class ResultTuple {
      * @param index
      * @return 
      */
-    public String get(int index) {
+    public JsonElement get(int index) {
         
         return _values[index];
     }
@@ -52,9 +53,38 @@ public class ResultTuple {
      * @param column
      * @return 
      */
-    public String get(String column) {
+    public JsonElement get(String column) {
         
         return _values[_columns.get(column)];
+    }
+    
+    /**
+     * Get string representation for value at the given index position.
+     * 
+     * @param index
+     * @return 
+     */
+    public String getAsString(int index) {
+        
+        JsonElement el = _values[index];
+        if (el == null) {
+            return "";
+        } else if (el.isJsonPrimitive()) {
+            return el.getAsString();
+        } else {
+            return el.toString();
+        }
+    }
+    
+    /**
+     * Get string representation for value of the given column.
+     * 
+     * @param column
+     * @return 
+     */
+    public String getAsString(String column) {
+        
+        return this.getAsString(_columns.get(column));
     }
     
     /**
@@ -65,7 +95,11 @@ public class ResultTuple {
      */
     public String join(String delimiter) {
        
-        return StringHelper.joinStrings(_values, delimiter);
+        String[] values = new String[_values.length];
+        for (int iColumn = 0; iColumn < _values.length; iColumn++) {
+            values[iColumn] = this.getAsString(iColumn);
+        }
+        return StringHelper.joinStrings(values, delimiter);
     }
     
     public int size() {
